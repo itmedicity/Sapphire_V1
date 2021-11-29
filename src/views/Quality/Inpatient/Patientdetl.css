@@ -1,0 +1,92 @@
+    h1 {
+    margin: 0;
+    padding: 0;
+  }
+  p {
+    margin: 0.9em 0;
+    padding: 0;
+  }
+  .cards-set {
+    font-size: 0;
+  }
+  .card1 {
+    display: inline-block;
+    margin-top: 60px;
+    margin-left:20px; 
+     width: 380px;
+    min-height: 280px;
+    font-size: 16px;
+    background-color: #ffffff;
+    border-radius: 2px;
+    box-shadow: -2px 2px 15px 7px rgba(0, 0, 0, 0.24);
+  }
+  .card2 {
+    display: inline-block;
+    margin-top: 60px;
+    margin-left: 30px;
+    width: 700px;
+    min-height: 280px;
+    font-size: 16px;
+    background-color: #ffffff;
+    border-radius: 2px;
+    box-shadow: -2px 2px 15px 7px rgba(0, 0, 0, 0.24);
+  }
+  .card2 .heading {
+    position: relative;
+    height: 40px;
+    color: #dbd1d1;
+   
+  }
+  .card1 .heading {
+    position: relative;
+height: 40px;
+    
+  }
+  .card2 .heading h1 {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 24px;
+  }
+  .card1 .heading h1 {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 24px;
+  }
+  .card2 .content {
+    padding: 6px;
+    margin-left:6px ;
+    align-items:right;
+    display: flex;
+justify-content: center;
+ margin-top: 0vh;
+  
+  }
+  .card2 .content2 {
+    padding: 6px;
+    margin-left:6px ;
+    align-items:right;
+    display: flex;
+justify-content: center;
+margin-top: 0vh; 
+  
+  }
+  .card1 .content {
+    padding: 6px;
+    margin-left: 12px;
+    align-items:right;
+      display: flex;
+  justify-content: center;
+   margin-top: 0vh; 
+  
+  }
+  .card1 .content2 {
+    padding: 6px;
+    margin-left: 12px;
+    align-items:right;
+      display: flex;
+  justify-content: center;
+  margin-top: 0vh; 
+  
+  }
