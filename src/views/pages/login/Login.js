@@ -37,7 +37,7 @@ const Login = () => {
     } else if (emp_password === "") {
       infoNofity("Password Feild Is Blank")
     } else {
-
+      console.log(useLoginDetl);
       const result = await axioslogin.post("/user/login", useLoginDetl)
 
         .then((response) => {
