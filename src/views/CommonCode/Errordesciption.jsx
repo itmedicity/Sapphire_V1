@@ -1,21 +1,20 @@
 import React, { Fragment, memo } from 'react'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from '../Axios/SessionCheck'
-import { TextField } from '@mui/material'
+
+import TextInput from '../Component/TextInput'
 
 const Errordesciption = ({ mail }) => {
     return (
         <Fragment>
             <ToastContainer />
             <SessionCheck />
-            <div class="col-md-6">
-                <TextField
-                    label="Error description"
-                    fullWidth
-                    size="small"
-                    autoComplete="off"
-                    variant="outlined"
-                    value={mail}
+            <div className="col-md-6">
+
+                <TextInput
+                    type="text"
+                    className="form-control form-control-sm"
+                    Placeholder="error description"
                 />
             </div>
         </Fragment >
