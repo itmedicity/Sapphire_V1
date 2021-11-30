@@ -2,14 +2,20 @@ import React, { Fragment, useState } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
 import PatientCard from '../Inpatient/PatientCard'
-import { useParams } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 import { InputLabel, Select, TextField, FormControl, MenuItem, Card } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
-import Commonfoot from 'src/views/CommonCode/Commonfoot'
+import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
+// import Commonfoot from 'src/views/CommonCode/Commonfoot'
 const Careplan = () => {
     const { id } = useParams()
     // const [state, changeState] = useState()
     const [toggle, setToggle] = useState(false)
+    const history = useHistory();
+    const RedirectToProfilePage = () => {
+        history.push('/Home/Inpatienlist')
+
+    }
 
     return (
         <Fragment>
@@ -66,7 +72,13 @@ const Careplan = () => {
                                         <div className="col-md-1"></div>
                                     </div>
                                 </Card>
-                                <Commonfoot id={id} />
+                                <div className="card-footer text-muted">
+                                    <FooterClosebtn
+
+                                        redirect={RedirectToProfilePage}
+                                    />
+                                </div>
+                                {/* <Commonfoot id={id} /> */}
                             </div>
                         </div>
                     </div>
