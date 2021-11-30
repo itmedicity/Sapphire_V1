@@ -3,13 +3,21 @@ import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
 import PatientCard from '../Inpatient/PatientCard'
 import { useParams } from 'react-router'
-import { InputLabel, Select, TextField, FormControl, MenuItem, Card } from '@mui/material'
+import {  Select,FormControl, MenuItem, Card } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
 import Commonfoot from 'src/views/CommonCode/Commonfoot'
+import TextInput from 'src/views/Component/TextInput'
 const Careplan = () => {
     const { id } = useParams()
-    // const [state, changeState] = useState()
+  
     const [toggle, setToggle] = useState(false)
+
+    const [careplanData, setcareplanData] = useState(
+        {
+            careplan:'0',
+        }
+    )
+    const {careplan} = careplanData
 
     return (
         <Fragment>
@@ -26,44 +34,43 @@ const Careplan = () => {
                                 <div className="card-header  text-black " style={{
                                     backgroundColor: "#b6b8c3"
                                 }}>
-                                    <h5>Care Plan </h5>
+                                    <h5>
+                                        Nursing Care Plan </h5>
                                 </div>
                                 <Card className="card-body">
-
                                     <div className="row">
-                                        <div className="col-md-1"></div>
-                                        <div className="col-md-10 row">
-
-                                            <div className="col-md-3">
-                                                <FormControl
+                                        <div className="col-md-2 pt-2">
+                                            <FormControl
+                                                margin="dense"
+                                                className="mt-1"
+                                            >
+                                                <Select
+                                                    labelId="test-select-label"
+                                                    name="careplan"
+                                                    value={careplan}
+                                                    size="small"
+                                                    id="demo-simple-select"
+                                                    onChange={(e) => { setToggle(e.target.value) }}
                                                     fullWidth
-                                                    margin="dense"
-                                                    className="mt-1"
+                                                    variant="outlined"
+                                                    style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
 
                                                 >
-                                                    <InputLabel id="test-select-label">Care Plan document</InputLabel>
-                                                    <Select
-                                                        labelId="test-select-label"
-                                                        label={"Care Plan document"}
-                                                        size="small"
-                                                        id="demo-simple-select"
-                                                        onChange={(e) => { setToggle(e.target.value) }}
-                                                    >
-                                                        <MenuItem value='0'>Selected Option</MenuItem>
-                                                        <MenuItem value='1'>Complete</MenuItem>
-                                                        <MenuItem value='2'>Incomplete</MenuItem>
-                                                    </Select>
-                                                </FormControl>
-
-                                            </div>
-                                            {toggle === '2' ? <Actiontaken /> : null
-                                            }
-                                            <div className="col-md-7 pt-1">
-                                                <TextField fullWidth label="Remarks"
-                                                    size="small" />
-                                            </div>
+                                                    <MenuItem value='0'>Selected Option</MenuItem>
+                                                    <MenuItem value='1'>Done</MenuItem>
+                                                    <MenuItem value='2'>Not Done</MenuItem>
+                                                </Select>
+                                            </FormControl>
                                         </div>
-                                        <div className="col-md-1"></div>
+                                        <div className="col-md-10 pt-2">
+                                            {toggle === '2' ? <Actiontaken /> :  <TextInput
+                                                type="text"
+                                                classname="form-control form-control-sm"
+                                                Placeholder="Remarks"
+                                            />
+                                            }
+                                           
+                                        </div>
                                     </div>
                                 </Card>
                                 <Commonfoot id={id} />

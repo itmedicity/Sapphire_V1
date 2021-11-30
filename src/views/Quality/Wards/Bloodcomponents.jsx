@@ -7,6 +7,7 @@ import SessionCheck from 'src/views/Axios/SessionCheck'
 import PatientCard from '../Inpatient/PatientCard'
 import DatetimeField from 'src/views/CommonCode/DatetimeField'
 import Commonfoot from 'src/views/CommonCode/Commonfoot'
+import TextInput from 'src/views/Component/TextInput'
 
 const Bloodcomponents = () => {
     const { id } = useParams()
@@ -34,24 +35,26 @@ const Bloodcomponents = () => {
                                 </div>
                                 <Card className="card-body">
                                     <div className="row">
-                                        <div className="col-md-1"></div>
-                                        <div className="col-md-10">
+                                        <div className="col-md-2"></div>
+                                        <div className="col-md-8">
                                             <div className="row">
 
                                                 <div className="col-md-4 pt-2">
-                                                    <TextField
-                                                        label="Component Name"
-                                                        size="small"
-                                                        font="small"
-                                                        fullWidth
+                                                    <TextInput
+                                                    type="text"
+                                                    className="form-control form-control-sm"
+                                                    Placeholder="Component Name"
+                                                // changeTextValue={}
+                                                // value={data}
+                                                // name=""
                                                     />
                                                 </div>
                                                 <div className="col-md-4 pt-2">
-                                                    <TextField
-                                                        label="No.of Bag Request"
-                                                        size="small"
-                                                        fullWidth
-                                                    />
+                                                 <TextInput
+                                                 type="text"
+                                                 className="form-control form-control-sm"
+                                                 Placeholder="No. Bag Requested"
+                                                 />
                                                 </div>
                                                 <div className="col-md-4 pt-2">
                                                     <DatetimeField
@@ -62,18 +65,17 @@ const Bloodcomponents = () => {
                                             </div>
                                             <div className="row">
                                                 <div className="col-md-4 pt-2">
-                                                    <TextField
-                                                        label="No.of Bag Received"
-                                                        size="small"
-                                                        fullWidth
-                                                    />
+                                                  <TextInput
+                                                  type="text"
+                                                  className="form-control form-control-sm"
+                                                  Placeholder="No. of Bag Received"/>
                                                 </div>
                                                 <div className="col-md-4 pt-2">
-                                                    <TextField
-                                                        label="Product Used"
-                                                        size="small"
-                                                        fullWidth
-                                                    />
+                                                   <TextInput
+                                                   type="text"
+                                                   className="form-control form-control-sm"
+                                                  Placeholder="Product Used"
+                                                  />
                                                 </div>
 
                                                 <div className="col-md-4 pt-2">
@@ -85,29 +87,29 @@ const Bloodcomponents = () => {
                                             </div>
                                             <div className="row">
                                                 <div className="col-md-4 pt-2">
-                                                    <TextField
-                                                        label="Product wasted"
-                                                        size="small"
-                                                        fullWidth
-                                                    />
+                                                   <TextInput
+                                                   type="text"
+                                                   className="form-control form-control-sm"
+                                                  Placeholder="Product Used"
+                                                   />
                                                 </div>
                                                 <div className="col-md-4 pt-2">
-                                                    <TextField
-                                                        label="Reaction occured"
-                                                        size="small"
-                                                        fullWidth
-                                                    />
+                                                   <TextInput
+                                                     type="text"
+                                                     className="form-control form-control-sm"
+                                                    Placeholder="Product Used"
+                                                   />
                                                 </div>
                                                 <div className="col-md-4 pt-2">
-                                                    <TextField 
-                                                        label="Remark"
-                                                        size="small"
-                                                        fullWidth
-                                                    />
+                                                <TextInput
+                                                     type="text"
+                                                     className="form-control form-control-sm"
+                                                    Placeholder="Remark"
+                                                   />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-1"></div>
+                                        <div className="col-md-2"></div>
                                     </div>
                                 </Card>
                                 <Commonfoot />
