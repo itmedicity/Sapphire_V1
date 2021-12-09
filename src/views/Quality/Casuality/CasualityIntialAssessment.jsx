@@ -1,12 +1,10 @@
-import { Card, TextField } from '@mui/material'
+import { Card } from '@mui/material'
 import React, { Fragment } from 'react'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
-import DatetimeField from 'src/views/CommonCode/DatetimeField'
 import { useHistory, useParams } from 'react-router';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Cancel';
-import EditIcon from '@mui/icons-material/Edit';
+import TextInput from 'src/views/Component/TextInput'
+import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 
 const CasualityIntialAssessment = () => {
     const { id } = useParams()
@@ -31,31 +29,49 @@ const CasualityIntialAssessment = () => {
                             </div>
                             <Card className="card-body">
                                 <div className="row">
-                                    <div className="col-md-3 pt-2">
-                                        <DatetimeField
-                                            label="Arrivel Time in Bed"
+                                    <div className="col-md-3 pt-2 pb-2">
+                                        <label htmlFor="test" className="form-label">Arrived Time</label>
+                                        <TextInput
+                                            id="test"
+                                            type="datetime-local"
+                                            classname="form-control form-control-sm"
+                                            Placeholder="Arrived Time"
                                         />
                                     </div>
-                                    <div className="col-md-3 pt-2">
-                                        <DatetimeField
-                                            label="Initial Assessement Start Time"
+                                    <div className="col-md-3 pt-2 pb-2">
+                                        <label htmlFor="test" className="form-label">Initial Assessment start</label>
+                                        <TextInput
+                                            id="test"
+                                            type="datetime-local"
+                                            classname="form-control form-control-sm"
+                                            Placeholder="Initial Assessment start"
                                         />
                                     </div>
-                                    <div className="col-md-3 pt-2">
-                                        <DatetimeField
-                                            label="Initial Assessement End Time"
+                                    <div className="col-md-3 pt-2 pb-2">
+                                        <label htmlFor="test" className="form-label">Initial Assessment End</label>
+                                        <TextInput
+                                            id="test"
+                                            type="datetime-local"
+                                            classname="form-control form-control-sm"
+                                            Placeholder="Initial Assessment End"
                                         />
                                     </div>
-                                    <div className="col-md-3 pt-2">
-                                        <TextField label="Remarks"
-                                            size="small" />
+                                    <div className="col-md-3 pt-2 pb-2">
+                                        <label htmlFor="test" className="form-label">Remark</label>
+                                        <TextInput
+                                            classname="form-control form-control-sm"
+                                            Placeholder="Remark" />
                                     </div>
+
                                 </div>
                             </Card>
-                            <div className="card-footet  text-black" style={{ backgroundColor: "#b6b8c3" }} >
-                                <SaveIcon style={{ color: "#558b2f", float: "left", width: "43", height: "43", paddingLeft: "5px" }} />
-                                <EditIcon style={{ color: "#000000", float: "left", width: "43", height: "43", paddingLeft: "5px" }} />
-                                <CancelIcon style={{ color: "#d50000", float: "left", width: "43", height: "43", paddingLeft: "5px" }} onClick={tocard} />
+                            <div className="card-footer text-muted" style={{
+                                backgroundColor: "#b6b8c3"
+                            }}>
+                                <FooterClosebtn
+
+                                //redirect={RedirectToProfilePage}
+                                />
                             </div>
                         </div>
                     </div>

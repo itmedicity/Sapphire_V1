@@ -61,7 +61,7 @@ const Login = () => {
 
 
         }
-        console.log(loggedDetl);
+
         const loggedCredential = sessionStorage.setItem('userDetl', JSON.stringify(loggedDetl));
         if (loggedCredential !== null) {
           history.push("/home")

@@ -13,7 +13,11 @@ const HandoverComunication = () => {
   const { id } = useParams()
   const classes = useStyles()
 
-  const [toggle, setToggle] = useState(0)
+
+    const [handoverdata, sethandoverdata] = useState({
+        handover: '0',
+    })
+    const { handover } = handoverdata
 
   const history = useHistory()
   const RedirectToProfilePage = () => {

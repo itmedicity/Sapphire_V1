@@ -5,17 +5,16 @@ import { CardContent, CardMedia } from '@material-ui/core'
 import Avatar from '@mui/material/Avatar'
 
 const PatientCard = (id) => {
+
   const [data, setdata] = useState({
-    pt_name: '',
-    pt_no: '',
-    ipd_date: '',
-    doc_name: '',
-    spc_desc: '',
-    bdc_no: '',
-    ptc_sex: '',
-    nsc_desc: '',
-    rcc_desc: '',
-    inpt_flag: '',
+        pt_name: '',
+        pt_no: '',
+        ipd_date: '',
+        doc_name: '',
+        bdc_no: '',
+        ptc_sex: '',
+        nsc_desc: '',
+        inpt_flag: '',
   })
   const {
     pt_name,
@@ -29,12 +28,13 @@ const PatientCard = (id) => {
     ptc_sex,
     inpt_flag,
   } = data
+  
   useEffect(() => {
     const getPatientdetl = async () => {
       const slno = id.id
       const result = await axioslogin.get(`/inpatientlist/getslno/${slno}`)
       const { data } = result.data
-      console.log(data)
+
       const {
         pt_no,
         ptc_ptname,
