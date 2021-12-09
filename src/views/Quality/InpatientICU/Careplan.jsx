@@ -10,14 +10,12 @@ import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 
 import TextInput from 'src/views/Component/TextInput'
 const Careplan = () => {
-    const { id } = useParams()
+  const { id } = useParams()
 
-    const [toggle, setToggle] = useState(false)
-    const history = useHistory();
-    const RedirectToProfilePage = () => {
-        history.push('/Home/Inpatienlist')
-
-    }
+  const history = useHistory()
+  const RedirectToProfilePage = () => {
+    history.push(`/Home/InpatientEdit/${id}`)
+  }
     const [careplanData, setcareplanData] = useState(
         {
             careplan: '0',
@@ -89,10 +87,11 @@ const Careplan = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </Fragment>
-    )
+
+          </div>
+        </div>
+      </div>
+    </Fragment>
+  )
 }
 export default Careplan
