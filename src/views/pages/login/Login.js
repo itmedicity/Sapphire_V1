@@ -37,7 +37,7 @@ const Login = () => {
     } else if (emp_password === "") {
       infoNofity("Password Feild Is Blank")
     } else {
-      console.log(useLoginDetl);
+
       const result = await axioslogin.post("/user/login", useLoginDetl)
 
         .then((response) => {
@@ -48,7 +48,7 @@ const Login = () => {
         });
 
       const data = result.data;
-
+      console.log(result);
       if (data.success === 0) {
         errorNofity("User does not exsit");
       } else {
@@ -57,6 +57,8 @@ const Login = () => {
           token: data.token,
           OU_CODE: data.user.OU_CODE,
           us_code: data.user.us_code,
+          user_slno: data.user.user_slno,
+
 
         }
         console.log(loggedDetl);
