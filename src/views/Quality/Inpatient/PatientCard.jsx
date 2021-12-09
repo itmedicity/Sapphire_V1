@@ -16,8 +16,8 @@ const PatientCard = (id) => {
         inpt_flag: '',
     })
     const {
-        pt_name,
         pt_no,
+        pt_name,
         ipd_date,
         doc_name,
         bdc_no,

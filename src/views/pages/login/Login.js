@@ -37,7 +37,7 @@ const Login = () => {
     } else if (emp_password === "") {
       infoNofity("Password Feild Is Blank")
     } else {
-      console.log(useLoginDetl);
+
       const result = await axioslogin.post("/user/login", useLoginDetl)
 
         .then((response) => {
@@ -59,7 +59,7 @@ const Login = () => {
           us_code: data.user.us_code,
 
         }
-        console.log(loggedDetl);
+
         const loggedCredential = sessionStorage.setItem('userDetl', JSON.stringify(loggedDetl));
         if (loggedCredential !== null) {
           history.push("/home")

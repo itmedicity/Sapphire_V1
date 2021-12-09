@@ -4,8 +4,8 @@ import PatientCard from '../Inpatient/PatientCard'
 import { ToastContainer } from 'react-toastify'
 import { useParams } from 'react-router'
 import { Button, Card } from '@mui/material'
-import Commonfoot from 'src/views/CommonCode/Commonfoot'
 import Bedoccupancycard from './Bedoccupancycard'
+import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 
 const Bedoccupancy = () => {
     const { id } = useParams()
@@ -45,7 +45,14 @@ const Bedoccupancy = () => {
                                         </div>
                                     </div>
                                 </Card>
-                                <Commonfoot />
+                                <div className="card-footer text-muted" style={{
+                                    backgroundColor: "#b6b8c3"
+                                }}>
+                                    <FooterClosebtn
+
+                                    //redirect={RedirectToProfilePage}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

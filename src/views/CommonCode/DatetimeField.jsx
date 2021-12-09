@@ -3,9 +3,11 @@ import { DateTimePicker, LocalizationProvider } from '@mui/lab'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import { Stack, TextField } from '@mui/material'
 import React, { Fragment, memo, useState } from 'react'
+import { useStyles } from 'src/views/CommonCode/MaterialStyle'
 
 
 const DatetimeField = (props) => {
+    const classes = useStyles();
     const [value, setValue] = useState(new Date());
     const handleChange = (newValue) => {
         setValue(newValue);
@@ -20,6 +22,9 @@ const DatetimeField = (props) => {
                         size="small"
                         value={value}
                         onChange={(e) => handleChange(e)}
+                        InputProps={{
+                            className: classes.customInputFeild
+                        }}
                         renderInput={(params) => <TextField {...params} size="small" />}
                     />
                 </Stack>

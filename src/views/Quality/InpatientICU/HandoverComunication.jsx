@@ -3,7 +3,7 @@ import { useParams } from 'react-router'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import PatientCard from '../Inpatient/PatientCard'
-import {  Select, FormControl, MenuItem, Card } from '@mui/material'
+import { Select, FormControl, MenuItem, Card } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
 import Commonfoot from 'src/views/CommonCode/Commonfoot'
 import TextInput from 'src/views/Component/TextInput'
@@ -15,11 +15,11 @@ const HandoverComunication = () => {
     const [toggle, setToggle] = useState(false)
 
     const [handoverdata, sethandoverdata] = useState({
-        handover:'0' ,
-      
+        handover: '0',
+
     })
-   
-    const {handover}=handoverdata
+
+    const { handover } = handoverdata
 
     return (
         <Fragment>
@@ -65,13 +65,13 @@ const HandoverComunication = () => {
                                             </FormControl>
                                         </div>
                                         <div className="col-md-10 pt-2">
-                                            {toggle === '2' ? <Actiontaken /> :  <TextInput
+                                            {toggle === '2' ? <Actiontaken /> : <TextInput
                                                 type="text"
                                                 classname="form-control form-control-sm"
                                                 Placeholder="Remarks"
                                             />
                                             }
-                                           
+
                                         </div>
                                     </div>
                                 </Card>

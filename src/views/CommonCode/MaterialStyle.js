@@ -14,5 +14,10 @@ export const useStyles = makeStyles((theme) => ({
     inputFeild: {
         margin: '2rem',
         padding: '0rem'
+    },
+    customInputFeild: {
+        height: '1.8rem',
+
+        paddingLeft: '0px'
     }
 }));

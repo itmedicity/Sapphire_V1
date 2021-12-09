@@ -3,14 +3,15 @@ import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
 import PatientCard from '../Inpatient/PatientCard'
 import { useParams } from 'react-router'
-import { InputLabel, Select, TextField, FormControl, MenuItem, Card } from '@mui/material'
+import { Select, FormControl, MenuItem, Card } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
-import Commonfoot from 'src/views/CommonCode/Commonfoot'
-
+import TextInput from 'src/views/Component/TextInput'
+import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 const Nearmissess = () => {
     const { id } = useParams()
     // const [state, changeState] = useState()
-    const [toggle, setToggle] = useState(false)
+    const [toggle, setToggle] = useState(0)
+
 
     return (
         <Fragment>
@@ -27,47 +28,55 @@ const Nearmissess = () => {
                                 <div className="card-header  text-black " style={{
                                     backgroundColor: "#b6b8c3"
                                 }}>
-                                    <h5>Near Misses </h5>
+                                    <h5> Near Misses</h5>
                                 </div>
                                 <Card className="card-body">
-
                                     <div className="row">
-                                        <div className="col-md-1"></div>
-                                        <div className="col-md-10 row">
-
-                                            <div className="col-md-3">
-                                                <FormControl
+                                        <div className="col-md-2 pt-2">
+                                            <FormControl
+                                                margin="dense"
+                                                className="mt-1"
+                                            >
+                                                <Select
+                                                    labelId="test-select-label"
+                                                    name="NearMisses"
+                                                    value={toggle}
+                                                    size="small"
+                                                    id="demo-simple-select"
+                                                    onChange={(e) => {
+                                                        setToggle(e.target.value)
+                                                        // sethandoverdata(e.target.value)
+                                                    }}
                                                     fullWidth
-                                                    margin="dense"
-                                                    className="mt-1"
+                                                    variant="outlined"
+                                                    style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
 
                                                 >
-                                                    <InputLabel id="test-select-label">Near Missess</InputLabel>
-                                                    <Select
-                                                        labelId="test-select-label"
-                                                        label={"Near Missess"}
-                                                        size="small"
-                                                        id="demo-simple-select"
-                                                        onChange={(e) => { setToggle(e.target.value) }}
-                                                    >
-                                                        <MenuItem value='0'>Selected Option</MenuItem>
-                                                        <MenuItem value='1'> Not Reported</MenuItem>
-                                                        <MenuItem value='2'>Reported</MenuItem>
-                                                    </Select>
-                                                </FormControl>
-                                            </div>
-                                            {toggle === '2' ? <Actiontaken /> : null
-                                            }
-                                            <div className="col-md-7 pt-1">
-                                                <TextField fullWidth label="Remarks"
-                                                    size="small" />
-                                            </div>
+                                                    <MenuItem value='0'>Selected Option</MenuItem>
+                                                    <MenuItem value='1'>Reported</MenuItem>
+                                                    <MenuItem value='2'>Not Reported</MenuItem>
+                                                </Select>
+                                            </FormControl>
                                         </div>
-                                        <div className="col-md-1"></div>
-                                    </div>
+                                        <div className="col-md-10 pt-2">
+                                            {toggle === '2' ? <Actiontaken /> : <TextInput
+                                                type="text"
+                                                classname="form-control form-control-sm"
+                                                Placeholder="Remarks"
+                                            />
+                                            }
 
+                                        </div>
+                                    </div>
                                 </Card>
-                                <Commonfoot id={id} />
+                                <div className="card-footer text-muted" style={{
+                                    backgroundColor: "#b6b8c3"
+                                }}>
+                                    <FooterClosebtn
+
+                                    //redirect={RedirectToProfilePage}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

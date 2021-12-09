@@ -2,15 +2,20 @@ import React, { Fragment, useState } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import PatientCard from '../Inpatient/PatientCard'
 import { ToastContainer } from 'react-toastify'
-import { useParams } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 import { Button, Card } from '@mui/material'
 import Nurseratiocard from './Nurseratiocard'
-import Commonfoot from 'src/views/CommonCode/Commonfoot'
+import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 
 const NursePatientratio = () => {
     // using useparam get id to get details of patient
     const { id } = useParams()
     const [toggle, setToggle] = useState(0)
+    // const history = useHistory();
+    // const RedirectToProfilePage = () => {
+    //     history.push(`/Home/Inpatienlist/${id}`)
+
+    // }
 
     return (
         <Fragment>
@@ -38,15 +43,21 @@ const NursePatientratio = () => {
                                             <Button variant="outlined" onClick={() => { setToggle(3) }}>Night</Button>
 
                                         </div>
-                                        <div className="col-md-8 ">
+                                        <div className="col-md-8">
                                             {toggle === 1 ? <Nurseratiocard /> : null}
                                             {toggle === 2 ? <Nurseratiocard /> : null}
                                             {toggle === 3 ? <Nurseratiocard /> : null}
                                         </div>
                                     </div>
                                 </Card>
-                                <Commonfoot />
+                                <div className="card-footer text-muted" style={{
+                                    backgroundColor: "#b6b8c3"
+                                }}>
+                                    <FooterClosebtn
 
+                                    // redirect={RedirectToProfilePage}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

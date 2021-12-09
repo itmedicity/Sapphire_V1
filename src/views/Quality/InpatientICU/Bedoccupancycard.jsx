@@ -1,7 +1,7 @@
 import React, { memo, Fragment } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
-import { TextField } from '@mui/material'
+import TextInput from 'src/views/Component/TextInput'
 
 const Bedoccupancycard = () => {
     return (
@@ -10,19 +10,51 @@ const Bedoccupancycard = () => {
             <ToastContainer />
             <div className="row">
                 <div className="col-md-3 pt-1 pb-1">
-                    <TextField label="Available Bed Number" size="small" /></div>
+                    <TextInput
+                        type="text"
+                        classname="form-control form-control-sm"
+                        Placeholder="Available Bed Number"
+                    />
+
+                </div>
                 <div className="col-md-3 pt-1 pb-1">
-                    <TextField label="No.of bed Occupied" size="small" /></div>
+                    <TextInput
+                        type="text"
+                        classname="form-control form-control-sm"
+                        Placeholder="No.of bed Occupied"
+                    />
+
+                </div>
                 <div className="col-md-3 pt-1 pb-1" >
-                    <TextField label="No.of Nurses" size="small" /></div>
+                    <TextInput
+                        type="text"
+                        classname="form-control form-control-sm"
+                        Placeholder="No.of Nurses"
+                    />
+                </div>
                 <div className="col-md-3 pt-1 pb-1">
-                    <TextField label="No.of Patient" size="small" /></div>
+                    <TextInput
+                        type="text"
+                        classname="form-control form-control-sm"
+                        Placeholder="No.of Patient"
+                    />
+                </div>
             </div>
             <div className="row">
                 <div className="col-md-6 pt-1 pb-1">
-                    <TextField label="No.of ventilated Nurse Patient Ratio" size="small" fullWidth /></div>
+                    <TextInput
+                        type="text"
+                        classname="form-control form-control-sm"
+                        Placeholder="No.of ventilated Nurse Patient Ratio"
+                    />
+                </div>
                 <div className="col-md-6 pt-1 pb-1">
-                    <TextField label="No.of nonventilated Nurse Patient Ratio" size="small" fullWidth />
+                    <TextInput
+                        type="text"
+                        classname="form-control form-control-sm"
+                        Placeholder="No.of nonventilated Nurse Patient Ratio"
+                    />
+
                 </div>
 
             </div>

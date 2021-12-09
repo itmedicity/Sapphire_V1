@@ -3,10 +3,10 @@ import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
 import PatientCard from '../Inpatient/PatientCard'
 import { useHistory, useParams } from 'react-router'
-import { InputLabel, Select, TextField, FormControl, MenuItem, Card } from '@mui/material'
+import { Select, FormControl, MenuItem, Card } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
-// import Commonfoot from 'src/views/CommonCode/Commonfoot'
+
 
 import TextInput from 'src/views/Component/TextInput'
 const Careplan = () => {
@@ -18,7 +18,6 @@ const Careplan = () => {
         history.push('/Home/Inpatienlist')
 
     }
-
     const [careplanData, setcareplanData] = useState(
         {
             careplan: '0',
@@ -80,13 +79,14 @@ const Careplan = () => {
                                         </div>
                                     </div>
                                 </Card>
-                                <div className="card-footer text-muted">
+                                <div className="card-footer text-muted" style={{
+                                    backgroundColor: "#b6b8c3"
+                                }}>
                                     <FooterClosebtn
 
                                         redirect={RedirectToProfilePage}
                                     />
                                 </div>
-                                {/* <Commonfoot id={id} /> */}
                             </div>
                         </div>
                     </div>

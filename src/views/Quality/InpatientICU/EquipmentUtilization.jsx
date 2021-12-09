@@ -4,9 +4,9 @@ import { ToastContainer } from 'react-toastify'
 import PatientCard from '../Inpatient/PatientCard'
 import { useParams } from 'react-router'
 import SessionCheck from 'src/views/Axios/SessionCheck'
-import DatetimeField from 'src/views/CommonCode/DatetimeField'
-import Commonfoot from 'src/views/CommonCode/Commonfoot';
 import EquipmentSelect from 'src/views/CommonCode/EquipmentSelect'
+import TextInput from 'src/views/Component/TextInput'
+import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 
 const EquipmentUtilization = () => {
     const { id } = useParams()
@@ -34,17 +34,25 @@ const EquipmentUtilization = () => {
                                         <div className="col-md-2"></div>
                                         <div className="col-md-8">
                                             <div className="row">
-                                                <div className="col-md-4 pt-2">
+                                                <div className="col-md-4">
                                                     <EquipmentSelect />
                                                 </div>
-                                                <div className="col-md-4 pt-2">
-                                                    <DatetimeField
-                                                        label="Utilization Start Time"
+                                                <div className="col-md-4">
+                                                    <label htmlFor="test" className="form-label">Utilization Start time</label>
+                                                    <TextInput
+                                                        id="test"
+                                                        type="datetime-local"
+                                                        classname="form-control form-control-sm"
+                                                        Placeholder="Utilization"
                                                     />
                                                 </div>
-                                                <div className="col-md-4 pt-2">
-                                                    <DatetimeField
-                                                        label="Utilization End Time"
+                                                <div className="col-md-4">
+                                                    <label htmlFor="test" className="form-label">Utilization End time</label>
+                                                    <TextInput
+                                                        id="test"
+                                                        type="datetime-local"
+                                                        classname="form-control form-control-sm"
+                                                        Placeholder="Utilization"
                                                     />
                                                 </div>
                                             </div>
@@ -52,8 +60,14 @@ const EquipmentUtilization = () => {
                                         <div className="col-md-2"></div>
                                     </div>
                                 </Card>
-                                {/* Load a footer component */}
-                                <Commonfoot id={id} />
+                                <div className="card-footer text-muted" style={{
+                                    backgroundColor: "#b6b8c3"
+                                }}>
+                                    <FooterClosebtn
+
+                                    // redirect={RedirectToProfilePage}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

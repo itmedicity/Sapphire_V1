@@ -2,14 +2,19 @@ import React, { Fragment, useState } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import PatientCard from '../Inpatient/PatientCard'
 import { ToastContainer } from 'react-toastify'
-import { useParams } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 import { Button, Card } from '@mui/material'
-import Commonfoot from 'src/views/CommonCode/Commonfoot'
 import Bedutilizatinwardcard from './Bedutilizatinwardcard'
+import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 
 const Bedutilizatinward = () => {
     const { id } = useParams()
     const [toggle, setToggle] = useState(1)
+    const history = useHistory();
+    const RedirectToProfilePage = () => {
+        history.push('/Home/Inpatienlist')
+
+    }
 
     return (
         <Fragment>
@@ -44,7 +49,14 @@ const Bedutilizatinward = () => {
                                         </div>
                                     </div>
                                 </Card>
-                                <Commonfoot />
+                                <div className="card-footer text-muted" style={{
+                                    backgroundColor: "#b6b8c3"
+                                }}>
+                                    <FooterClosebtn
+
+                                        redirect={RedirectToProfilePage}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
