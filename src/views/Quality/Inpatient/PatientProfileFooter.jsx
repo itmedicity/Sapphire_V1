@@ -1,8 +1,8 @@
 import { CardActions, Fab } from '@mui/material'
 import React, { Fragment } from 'react'
-import HomeSharpIcon from '@mui/icons-material/HomeSharp';
-import ForwardToInboxSharpIcon from '@mui/icons-material/ForwardToInboxSharp';
-import NotificationImportantSharpIcon from '@mui/icons-material/NotificationImportantSharp';
+// import HomeSharpIcon from '@mui/icons-material/HomeSharp';
+// import ForwardToInboxSharpIcon from '@mui/icons-material/ForwardToInboxSharp';
+// import NotificationImportantSharpIcon from '@mui/icons-material/NotificationImportantSharp';
 
 const PatientProfileFooter = () => {
     return (

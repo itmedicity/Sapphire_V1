@@ -30,7 +30,6 @@ const PatientCardNew = () => {
 
   useEffect(() => {
     const getPatientdetl = async () => {
-
       const result = await axioslogin.get(`/inpatientlist/getslno/${id}`)
       const { data } = result.data
       const {
