@@ -7,11 +7,11 @@ import { Card } from '@mui/material'
 import TextInput from 'src/views/Component/TextInput'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import { axioslogin } from 'src/views/Axios/Axios'
+import { userslno } from 'src/views/Constant/Constant'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 
 const InitialassesmentDoctor = () => {
   const { id } = useParams()
-  const [count, setCount] = useState(0)
   const history = useHistory()
   const RedirectToProfilePage = () => {
     history.push(`/Home/InpatientEdit/${id}`)
@@ -34,7 +34,11 @@ const InitialassesmentDoctor = () => {
   }
 
   //   destructing object
-  const { arrived_time, intialassessment_start, intialassessment_end, remark } = intAssmntDoctorData
+  const { arrived_time,
+    intialassessment_start,
+    intialassessment_end,
+    remark,
+  } = intAssmntDoctorData
 
   // getting data from the form
 
@@ -44,20 +48,20 @@ const InitialassesmentDoctor = () => {
   }
   const postData = {
     inpt_slno: id,
-    bldmst_slno: arrived_time,
-    bagrequested: intialassessment_start,
-    bagreq_time: intialassessment_end,
-    bagreceived: remark,
+    pt_received_time: arrived_time,
+    iad_start_time: intialassessment_start,
+    iad_end_time: intialassessment_end,
+    iad_remark: remark,
+    user_slno: userslno(),
   }
+
   //saving form data
   const submitFormData = async (e) => {
     e.preventDefault()
-    const result = await axioslogin.post('/bloodcomponents', postData)
-
+    const result = await axioslogin.post('/initalassessmentDoc', postData)
     const { success, message } = result.data
     if (success === 1) {
       succesNofity(message)
-      setCount(count + 1)
       setintAssmntDoctorData(defaultstate)
     } else if (success === 2) {
       warningNofity(message)
@@ -67,6 +71,7 @@ const InitialassesmentDoctor = () => {
   }
 
   return (
+
     <Fragment>
       <SessionCheck />
       <ToastContainer />
@@ -78,6 +83,7 @@ const InitialassesmentDoctor = () => {
                 {/* passing id to patient card componet */}
                 <PatientCard id={id} />
               </div>
+
               <div className="col-md-9  col-sm-12">
                 <div className="card">
                   <div
