@@ -3,7 +3,7 @@ import React from 'react'
 const TextInput = (props) => {
 
     const { type, Placeholder, classname,
-        changeTextValue, id, value
+        changeTextValue, id, value, name
     } = props;
     return (
         <div>
@@ -13,6 +13,7 @@ const TextInput = (props) => {
                 placeholder={Placeholder}
                 aria-label=".form-control-sm"
                 id={id}
+                name={name}
                 value={value}
                 onChange={changeTextValue}
             />

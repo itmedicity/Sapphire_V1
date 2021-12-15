@@ -10,6 +10,8 @@ const MasterContext = ({ children }) => {
     const [selectEquipment, updateEquipment] = useState(0)
     //BloodGroup selection
     const [selectBloodGroup, updateBloodGroup] = useState(0)
+    //option Selection 
+    const [selectOption, updateOption] = useState(0)
 
     const value = {
         selectDoctor,
@@ -17,7 +19,11 @@ const MasterContext = ({ children }) => {
         selectEquipment,
         updateEquipment,
         selectBloodGroup,
-        updateBloodGroup
+        updateBloodGroup,
+        selectOption,
+        updateOption
+
+
     }
     return <PayrolMasterContext.Provider value={value} >
         {children}

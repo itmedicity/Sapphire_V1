@@ -1,40 +1,13 @@
-import React, { Fragment } from 'react'
-import { useHistory, useParams } from 'react-router'
-import { ToastContainer } from 'react-toastify'
-import SessionCheck from 'src/views/Axios/SessionCheck'
-import PatientCard from '../Inpatient/PatientCard'
 import { Card } from '@mui/material'
+import React, { Fragment } from 'react'
 import TextInput from 'src/views/Component/TextInput'
-import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 
-const IntialassessmentNurse = () => {
-  const { id } = useParams()
-  const history = useHistory()
-  const RedirectToProfilePage = () => {
-    history.push(`/Home/InpatientEdit/${id}`)
-  }
 
-  return (
-    <Fragment>
-      <SessionCheck />
-      <ToastContainer />
-      <div className="card col-md-12" style={{ backgroundColor: '#e8eaf6' }}>
-        <div className="card-body">
-          <div className="row">
-            <div className="col-md-3 col-sm-12">
-              {/* passing id to patient card componet */}
-              <PatientCard id={id} />
-            </div>
-            <div className="col-md-9  col-sm-12">
+const InitialAssesmentNurseNew = () => {
+    return (
+       <Fragment>
+       
               <div className="card">
-                <div
-                  className="card-header  text-black "
-                  style={{
-                    backgroundColor: '#b6b8c3',
-                  }}
-                >
-                  <h5>Initial Assessment Doctor</h5>
-                </div>
                 <Card className="card-body">
                   <div className="row">
                     <div className="col-md-3  pb-1">
@@ -78,22 +51,11 @@ const IntialassessmentNurse = () => {
                     </div>
                   </div>
                 </Card>
-
-                <div
-                  className="card-footer text-muted"
-                  style={{
-                    backgroundColor: '#b6b8c3',
-                  }}
-                >
-                  <FooterClosebtn redirect={RedirectToProfilePage} />
-                </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Fragment>
-  )
+     
+
+       </Fragment>
+    )
 }
 
-export default IntialassessmentNurse
+export default InitialAssesmentNurseNew
