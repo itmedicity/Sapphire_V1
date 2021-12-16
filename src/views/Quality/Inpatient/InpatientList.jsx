@@ -84,7 +84,7 @@ const InpatientList = ({ update }) => {
   const history = useHistory()
   const getablelist = async (data) => {
     const { inpt_slno } = data
-    history.push(`/Home/InpatientEdit/${inpt_slno}`)
+    history.push(`/Home/InpatientEditnew/${inpt_slno}`)
   }
   return (
     <Fragment>

@@ -35,7 +35,6 @@ const IntialassessmentNurse = () => {
     remarkns,
   } = intAssmntNurseData
 
-
   // getting data from the form
   const updateFormData = async (e) => {
     const value = e.target.value
@@ -68,7 +67,7 @@ const IntialassessmentNurse = () => {
     <Fragment>
       <SessionCheck />
       <ToastContainer />
-      <form onSubmit={submitFormData}>
+<form onSubmit={submitFormData}>
         <Card className="card-body">
           <div className="col-md-12">
             <div className="row">

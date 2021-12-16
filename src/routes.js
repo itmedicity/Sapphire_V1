@@ -3,7 +3,7 @@ import React from 'react'
 const HomePage = React.lazy(() => import('./views/Home/Home'))
 const Outpatient = React.lazy(() => import('./views/Quality/Outpatient/Outpatientmast'))
 const Inpatient = React.lazy(() => import('./views/Quality/Inpatient/InpatientList'))
-const InpatientEdit= React.lazy(()=>import('./views/Quality/Inpatient/InpatientEdit'))
+const InpatientEditnew = React.lazy(() => import('./views/Quality/Inpatient/InpatientEditnew'))
 const Initialasssment = React.lazy(() => import('./views/Quality/InitialAssesment/IntialassessmentNurse'))
 const Initialasssmentdoc = React.lazy(() => import('./views/Quality/InitialAssesment/InitialassessmentDoctor'))
 const HandoverComunication = React.lazy(() => import('./views/Quality/InpatientICU/HandoverComunication'))
@@ -26,6 +26,11 @@ const Bedutilizatinward = React.lazy(() => import('./views/Quality/Wards/Bedutil
 const Bedoccupancy = React.lazy(() => import('./views/Quality/InpatientICU/Bedoccupancy'))
 const Casuality = React.lazy(() => import('./views/Quality/Casuality/CasulityPatients'))
 const CasualityEdit = React.lazy(() => import('./views/Quality/Casuality/CasualityEdit'))
+// const InpatientEditnew = React.lazy(() => import('./views/Quality/Inpatient/InpatientEditnew'))
+const InitialAssesmentNursetnew = React.lazy(() => import('./views/Quality/InitialAssesment/InitialAssesmentNurseNew'))
+const Settings = React.lazy(() => import('./Menus/Settings'))
+
+
 
 
 const routes = [
@@ -33,7 +38,7 @@ const routes = [
   { path: '/Home', exact: true, name: 'Home', component: HomePage },
   { path: '/Home/Outpatient', exact: true, name: 'Outpatient', component: Outpatient },
   { path: '/Home/Inpatienlist', exact: true, name: 'Inpatient', component: Inpatient },
-  { path: '/Home/InpatientEdit/:id', exact: true, name: 'InpatientEdit', component: InpatientEdit },
+  { path: '/Home/InpatientEditnew/:id', exact: true, name: 'InpatientEdit', component: InpatientEditnew },
   { path: '/Home/Initialasssment/:id', exact: true, name: 'Initialasssment', component: Initialasssment },
   { path: '/Home/Initialasssmentdoc/:id', exact: true, name: 'Initialasssmentdoc', component: Initialasssmentdoc },
   { path: '/Home/HandoverComunication/:id', exact: true, name: 'HandoverComunication', component: HandoverComunication },
@@ -57,6 +62,9 @@ const routes = [
   { path: '/Home/Nurseratiocard', exact: true, name: 'Nurseratiocard', component: Nurseratiocard },
   { path: '/Home/CasualitypatientList', exact: true, name: 'Casuality', component: Casuality },
   { path: '/Home/CasualityEdit/:id', exact: true, name: 'Casuality Edit ', component: CasualityEdit },
+  // { path: '/Home/InpatientEditnew', exact: true, name: 'InpatientEditnew', component: InpatientEditnew },
+  { path: '/Home/InitialAssesmentNurseNew', exact: true, name: 'initial Assessment Nurse New', component: InitialAssesmentNursetnew },
+  { path: '/Home/Settings', name: 'Settings', component: Settings },
 ]
 
 // const routes = [
