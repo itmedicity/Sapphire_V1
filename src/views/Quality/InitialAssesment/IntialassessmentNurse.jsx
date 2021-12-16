@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { useParams } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import PatientCard from '../Inpatient/PatientCard'
@@ -9,6 +9,10 @@ import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 
 const IntialassessmentNurse = () => {
   const { id } = useParams()
+  const history = useHistory()
+  const RedirectToProfilePage = () => {
+    history.push(`/Home/InpatientEdit/${id}`)
+  }
 
   return (
     <Fragment>
@@ -81,10 +85,7 @@ const IntialassessmentNurse = () => {
                     backgroundColor: '#b6b8c3',
                   }}
                 >
-                  <FooterClosebtn
-
-                  // redirect={RedirectToProfilePage}
-                  />
+                  <FooterClosebtn redirect={RedirectToProfilePage} />
                 </div>
               </div>
             </div>

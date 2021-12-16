@@ -27,7 +27,6 @@ import PatientCard from './PatientCard';
 import ApprovalOutlinedIcon from '@mui/icons-material/ApprovalOutlined';
 import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
 
-
 const InpatientEdit = () => {
     const { id } = useParams()
     const history = useHistory()

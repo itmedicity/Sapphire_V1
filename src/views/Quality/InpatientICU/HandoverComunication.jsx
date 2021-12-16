@@ -12,13 +12,7 @@ import { useStyles } from 'src/views/CommonCode/MaterialStyle'
 const HandoverComunication = () => {
   const { id } = useParams()
   const classes = useStyles()
-
-
-    const [handoverdata, sethandoverdata] = useState({
-        handover: '0',
-    })
-    const { handover } = handoverdata
-
+  const [toggle, setToggle] = useState(0)
   const history = useHistory()
   const RedirectToProfilePage = () => {
     history.push(`/Home/InpatientEdit/${id}`)
