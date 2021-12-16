@@ -1,7 +1,7 @@
 import React, { memo, Fragment } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
-import { TextField } from '@mui/material'
+import TextInput from 'src/views/Component/TextInput'
 
 const Nurseratiocard = () => {
     return (
@@ -10,11 +10,26 @@ const Nurseratiocard = () => {
             <ToastContainer />
             <div className="row">
                 <div className="col-md-4 pt-1 pb-1" >
-                    <TextField label="No.of Nurses" size="small" /></div>
+                    <TextInput
+                        type="text"
+                        classname="form-control form-control-sm"
+                        Placeholder="No.of Nurses"
+                    />
+                </div>
                 <div className="col-md-4 pt-1 pb-1">
-                    <TextField label="No.of Patient" size="small" /></div>
+                    <TextInput
+                        type="text"
+                        classname="form-control form-control-sm"
+                        Placeholder="No.of Patient"
+                    />
+                </div>
                 <div className="col-md-4 pt-1 pb-1">
-                    <TextField label="Nurse Patient ratio" size="small" /></div>
+                    <TextInput
+                        type="text"
+                        classname="form-control form-control-sm"
+                        Placeholder="Nurse Patient ratio"
+                    />
+                </div>
             </div>
         </Fragment>
     )

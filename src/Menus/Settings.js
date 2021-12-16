@@ -14,6 +14,12 @@ const Settings = () => {
                 </div>
                 <div className="card-body">
                     <div className="row" >
+                        <div className="col-4">
+                            <ul className="list-group list-group-flush">
+                                <Link to="/Home/InpatientEditnew" className="list-group-item pt-1 pb-1">Indicator New</Link>
+                                <Link to="/Home/InitialAssesmentNurseNew" className="list-group-item pt-1 pb-1">Initial Assessment Nurse New</Link>
+                            </ul>
+                        </div>
 
                     </div>
                 </div>
