@@ -1,13 +1,12 @@
 import classNames from 'classnames'
 import React, { Fragment, memo, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
-import { axioslogin } from '../Axios/Axios'
 import SessionCheck from '../Axios/SessionCheck'
 import TextInput from '../Component/TextInput'
-import { errorNofity, succesNofity, warningNofity } from './Commonfunc'
 
-const Actiontaken = () => {
-  const [count, setCount] = useState(0)
+
+const Actiontaken = (setfunc) => {
+
   //intial state
   const [actiontakenData, setactiontakenData] = useState({
     errordesc: '',
@@ -15,52 +14,21 @@ const Actiontaken = () => {
     actiontaken: '',
   })
 
-  //default State
-
-  const defaultstate = {
-    errordesc: '',
-    personresponsible: '',
-    actiontaken: '',
-  }
-
-  // destructing object
-
   const { errordesc, personresponsible, actiontaken } = actiontakenData
-
-  // getting data from the form
 
   const updateFormData = async (e) => {
     const value = e.target.value
     setactiontakenData({ ...actiontakenData, [e.target.name]: value })
-  }
-  const postData = {
-    pie_errordesc: errordesc,
-    pie_prsnresponsible: personresponsible,
-    pie_actntkn: actiontaken,
+    setfunc.setfunc({ ...actiontakenData, [e.target.name]: value })
+
   }
 
-  // Saving form data
-
-  const submitFormData = async (e) => {
-    e.preventDefault()
-    const result = await axioslogin.post('/patientIdenticationError', postData)
-    const { success, message } = result.data
-    if (success === 1) {
-      succesNofity(message)
-      setCount(count + 1)
-      setactiontakenData(defaultstate)
-    } else if (success === 2) {
-      warningNofity(message)
-    } else {
-      errorNofity('Error Occured!!!Please Contact EDP')
-    }
-  }
 
   return (
     <Fragment>
       <ToastContainer />
       <SessionCheck />
-      <form className={classNames.root} onSubmit={submitFormData}>
+      <form className={classNames.root}>
         <div className="row">
           <div className="col-md-6">
             <TextInput

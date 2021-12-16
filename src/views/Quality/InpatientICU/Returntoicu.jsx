@@ -1,23 +1,87 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState, useContext } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import PatientCard from '../Inpatient/PatientCard'
-import DatetimeField from 'src/views/CommonCode/DatetimeField'
-import { TextField, Card } from '@mui/material'
 import { ToastContainer } from 'react-toastify'
-import { useParams } from 'react-router'
-import TextareaAutosize from '@mui/material/TextareaAutosize'
-import Commonfoot from 'src/views/CommonCode/Commonfoot'
+import { useParams, useHistory } from 'react-router'
 import DoctornameSelect from 'src/views/CommonCode/DoctornameSelect'
 import TextInput from 'src/views/Component/TextInput'
-
+import { axioslogin } from 'src/views/Axios/Axios'
+import { useStyles } from 'src/views/CommonCode/MaterialStyle'
+import { PayrolMasterContext } from 'src/Context/MasterContext'
+import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
+import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
+import { userslno } from 'src/views/Constant/Constant'
+import { Card } from '@mui/material'
 const Returntoicu = () => {
   const { id } = useParams()
+  const classes = useStyles()
+  const history = useHistory()
+  const RedirectToProfilePage = () => {
+    history.push(`/Home/InpatientEdit/${id}`)
+  }
+  //setting initial state
+  const [returntoicuData, setreturntoicuData] = useState({
+    datetime: '',
+    prsntcomplaint: '',
+    prevcomplaint: '',
+    remark: ''
+  })
+  //defaultb state
+  const defaultstate = {
+    datetime: '',
+    prsntcomplaint: '',
+    prevcomplaint: '',
+    remark: '',
+  }
 
+  //destrutring object
+  const {
+    datetime,
+    prsntcomplaint,
+    prevcomplaint,
+    remark,
+  } = returntoicuData
+
+  //select doctorselect
+  const { selectDoctor, updateDoctor } = useContext(PayrolMasterContext)
+
+  //getting data from the form 
+
+  const updateFormData = async (e) => {
+    const value = e.target.value
+    setreturntoicuData({ ...returntoicuData, [e.target.name]: value })
+  }
+
+  const postData = {
+    inpt_slno: id,
+    user_slno: userslno(),
+    do_code: selectDoctor,
+    rtnicu_datetime: datetime,
+    prsnt_complaint: prsntcomplaint,
+    prvious_complaint: prevcomplaint,
+    remark: remark,
+  }
+  //saving form data
+  const submitFormData = async (e) => {
+    e.preventDefault()
+    const result = await axioslogin.post('/returntoIcu', postData)
+    console.log(result)
+    const { success, message } = result.data
+    if (success === 1) {
+      succesNofity(message)
+      setreturntoicuData(defaultstate)
+      updateDoctor(0)
+    } else if (success === 2) {
+      warningNofity(message)
+    } else {
+      errorNofity('Error Occured!!!Please Contact EDP')
+    }
+  }
   return (
     <Fragment>
       <SessionCheck />
       <ToastContainer />
-      <div className="card col-md-12" style={{ backgroundColor: '#e8eaf6' }}>
+      <form className={classes.root} onSubmit={submitFormData}>
         <div className="card-body">
           <div className="row">
             <div className="col-md-3 col-sm-12">
@@ -59,8 +123,10 @@ const Returntoicu = () => {
                             fullwidth
                             id="test"
                             type="datetime-local"
+                            changeTextValue={(e) => updateFormData(e)}
                             classname="form-control form-control-sm"
-                            Placeholder="ddd"
+                            value={datetime}
+                            name="datetime"
                           />
                         </div>
                       </div>
@@ -71,6 +137,9 @@ const Returntoicu = () => {
                             type="text"
                             classname="form-control form-control-sm"
                             Placeholder="Present Complaints"
+                            value={prsntcomplaint}
+                            name="prsntcomplaint"
+                            changeTextValue={(e) => updateFormData(e)}
                           />
                         </div>
                         <div className="col-md-6 col-sm-12 col-xs-6 pt-2">
@@ -78,6 +147,9 @@ const Returntoicu = () => {
                             type="text"
                             classname="form-control form-control-sm"
                             Placeholder="Previous Complaints"
+                            value={prevcomplaint}
+                            name="prevcomplaint"
+                            changeTextValue={(e) => updateFormData(e)}
                           />
                         </div>
                       </div>
@@ -87,6 +159,9 @@ const Returntoicu = () => {
                             type="text"
                             classname="form-control form-control-sm"
                             Placeholder="Remarkz"
+                            value={remark}
+                            name="remark"
+                            changeTextValue={(e) => updateFormData(e)}
                           />
                         </div>
                       </div>
@@ -94,12 +169,14 @@ const Returntoicu = () => {
                     <div className="col-md-1"></div>
                   </div>
                 </Card>
-                <Commonfoot />
+                <div className="card-footer  text-muted " style={{ backgroundColor: '#b6b8c3' }}>
+                  <FooterClosebtn redirect={RedirectToProfilePage} />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </Fragment>
   )
 }

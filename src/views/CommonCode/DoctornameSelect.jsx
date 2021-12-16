@@ -3,7 +3,7 @@ import React, { Fragment, useContext, useState, memo, useEffect } from 'react'
 import { PayrolMasterContext } from 'src/Context/MasterContext'
 import { axioslogin } from '../Axios/Axios'
 
-const DoctornameSelect = (props) => {
+const DoctornameSelect = (nameselect) => {
   const [doctor, setDoctor] = useState([])
   const { selectDoctor, updateDoctor } = useContext(PayrolMasterContext)
 
@@ -14,7 +14,7 @@ const DoctornameSelect = (props) => {
       setDoctor(data)
     }
     getdoctordata()
-    return updateDoctor(0)
+    //return updateDoctor(0)
   }, [updateDoctor])
 
   return (
@@ -23,12 +23,12 @@ const DoctornameSelect = (props) => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          name="selectdoctor"
           variant="outlined"
           className="ml-0"
           fullWidth
           value={selectDoctor}
-          style={props.style}
+          name="selectDoctor"
+          style={nameselect.style}
           onChange={(e) => updateDoctor(e.target.value)}
         >
           <MenuItem value="0" disabled>
