@@ -2,13 +2,12 @@ import React, { Fragment, useState } from 'react'
 import { useParams, useHistory } from 'react-router'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
-import PatientCard from '../Inpatient/PatientCard'
 import { Card } from '@mui/material'
 import TextInput from 'src/views/Component/TextInput'
-import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
+import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 const IntialassessmentNurse = () => {
   const { id } = useParams()
   const history = useHistory()
@@ -67,7 +66,7 @@ const IntialassessmentNurse = () => {
     <Fragment>
       <SessionCheck />
       <ToastContainer />
-<form onSubmit={submitFormData}>
+      <form onSubmit={submitFormData}>
         <Card className="card-body">
           <div className="col-md-12">
             <div className="row">
@@ -122,10 +121,19 @@ const IntialassessmentNurse = () => {
                   value={remarkns}
                   name="remarkns" />
               </div>
-
             </div>
           </div>
         </Card>
+        <div className="card-footer"
+        // style={{
+        //   backgroundColor: '#b6b8c3',
+        // }}
+        >
+          <div className="col-md-12">
+            <FooterClosebtn />
+          </div>
+        </div>
+
       </form>
     </Fragment>
   )
