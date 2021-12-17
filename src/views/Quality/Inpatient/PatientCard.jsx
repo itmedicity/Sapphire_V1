@@ -65,7 +65,7 @@ const PatientCard = (id) => {
 
   return (
     <Fragment>
-      <Card sx={{ maxWidth: 350, maxHeight: 800 }}>
+      <Card sx={{ maxWidth: 200, maxHeight: 800 }}>
         <CardActionArea>
           <CardMedia>
             <Stack

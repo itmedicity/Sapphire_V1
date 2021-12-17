@@ -79,123 +79,104 @@ const Discharge = () => {
             <SessionCheck />
             <ToastContainer />
             <form onSubmit={submitFormData}>
-                <div className="card col-md-12" style={{ backgroundColor: "#e8eaf6" }} >
-                    <div className="card-body">
-                        <div className="row"  >
-                            <div className="col-md-3 col-sm-12" >
-                                <PatientCard id={id} />
+                <Card className="card-body">
+                    <div className="col-md-12">
+                        <div className="row">
+                            <div className="col-md-3 ">
+                                <label htmlFor="test" className="form-label">Discharge Advice Time</label>
                             </div>
-                            <div className="col-md-9  col-sm-12">
-                                <div className="card"  >
-                                    <div className="card-header  text-black " style={{
-                                        backgroundColor: "#b6b8c3"
-                                    }}>
-                                        <h5>Discharge
-                                        </h5>
-                                    </div>
-                                    <Card className="card-body">
-                                        <div className="row">
-
-                                            <div className="col-md-2 ">
-                                                <label htmlFor="test" className="form-label">Discharge Advice Time</label>
-                                            </div>
-                                            <div className="col-md-3">
-                                                <TextInput
-                                                    id="test"
-                                                    type="datetime-local"
-                                                    classname="form-control form-control-sm"
-                                                    changeTextValue={(e) => updateFormData(e)}
-                                                    value={dis_advice_time}
-                                                    name="dis_advice_time"
-                                                />
-                                            </div>
-                                            <div className="col-md-3">
-                                                <label htmlFor="test" className="form-label">Discharge Summary Received Time</label>
-                                            </div>
-                                            <div className="col-md-3">
-                                                <TextInput
-                                                    id="test"
-                                                    type="datetime-local"
-                                                    classname="form-control form-control-sm"
-                                                    changeTextValue={(e) => updateFormData(e)}
-                                                    value={dis_sumrec_time}
-                                                    name="dis_sumrec_time"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-2">
-                                                <label htmlFor="test" className="form-label">Summary Prepare Time</label>
-                                            </div>
-                                            <div className="col-md-3">
-                                                <TextInput
-                                                    id="test"
-                                                    type="datetime-local"
-                                                    classname="form-control form-control-sm"
-                                                    changeTextValue={(e) => updateFormData(e)}
-                                                    value={summ_prep_time}
-                                                    name="summ_prep_time"
-                                                />
-                                            </div>
-
-                                            <div className="col-md-3">
-                                                <label htmlFor="test" className="form-label">Summary HandOver to Patient</label>
-                                            </div>
-                                            <div className="col-md-3">
-                                                <TextInput
-                                                    id="test"
-                                                    type="datetime-local"
-                                                    classname="form-control form-control-sm"
-                                                    changeTextValue={(e) => updateFormData(e)}
-                                                    value={sumhand_patent}
-                                                    name="sumhand_patent"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-md-2">
-                                                <label htmlFor="test" className="form-label">Date of Discharge</label>
-                                            </div>
-                                            <div className="col-md-3">
-                                                <TextInput
-                                                    id="test"
-                                                    type="datetime-local"
-                                                    classname="form-control form-control-sm"
-                                                    changeTextValue={(e) => updateFormData(e)}
-                                                    value={date_dis}
-                                                    name="date_dis"
-                                                />
-                                            </div>
-
-                                            <div className="col-md-3">
-                                                <label htmlFor="test" className="form-label">Patient leaving from the unit</label>
-                                            </div>
-                                            <div className="col-md-3">
-                                                <TextInput
-                                                    id="test"
-                                                    type="datetime-local"
-                                                    classname="form-control form-control-sm"
-                                                    changeTextValue={(e) => updateFormData(e)}
-                                                    value={patent_from_unit}
-                                                    name="patent_from_unit"
-                                                />
-                                            </div>
-                                        </div>
-
-                                    </Card>
-                                    <div className="card-footer text-muted" style={{
-                                        backgroundColor: "#b6b8c3"
-                                    }}>
-                                        <FooterClosebtn
-                                            redirect={RedirectToProfilePage}
-                                        />
-                                    </div>
-                                </div>
+                            <div className="col-md-3">
+                                <TextInput
+                                    id="test"
+                                    type="datetime-local"
+                                    classname="form-control form-control-sm"
+                                    changeTextValue={(e) => updateFormData(e)}
+                                    value={dis_advice_time}
+                                    name="dis_advice_time"
+                                />
                             </div>
-
+                            <div className="col-md-3">
+                                <label htmlFor="test" className="form-label">Discharge Summary Received Time</label>
+                            </div>
+                            <div className="col-md-3">
+                                <TextInput
+                                    id="test"
+                                    type="datetime-local"
+                                    classname="form-control form-control-sm"
+                                    changeTextValue={(e) => updateFormData(e)}
+                                    value={dis_sumrec_time}
+                                    name="dis_sumrec_time"
+                                />
+                            </div>
                         </div>
-                    </div >
-                </div >
+                        <div className="row">
+                            <div className="col-md-3">
+                                <label htmlFor="test" className="form-label">Summary Prepare Time</label>
+                            </div>
+                            <div className="col-md-3">
+                                <TextInput
+                                    id="test"
+                                    type="datetime-local"
+                                    classname="form-control form-control-sm"
+                                    changeTextValue={(e) => updateFormData(e)}
+                                    value={summ_prep_time}
+                                    name="summ_prep_time"
+                                />
+                            </div>
+
+                            <div className="col-md-3">
+                                <label htmlFor="test" className="form-label">Summary HandOver to Patient</label>
+                            </div>
+                            <div className="col-md-3">
+                                <TextInput
+                                    id="test"
+                                    type="datetime-local"
+                                    classname="form-control form-control-sm"
+                                    changeTextValue={(e) => updateFormData(e)}
+                                    value={sumhand_patent}
+                                    name="sumhand_patent"
+                                />
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-3">
+                                <label htmlFor="test" className="form-label">Date of Discharge</label>
+                            </div>
+                            <div className="col-md-3">
+                                <TextInput
+                                    id="test"
+                                    type="datetime-local"
+                                    classname="form-control form-control-sm"
+                                    changeTextValue={(e) => updateFormData(e)}
+                                    value={date_dis}
+                                    name="date_dis"
+                                />
+                            </div>
+                            <div className="col-md-3">
+                                <label htmlFor="test" className="form-label">Patient leaving from the unit</label>
+                            </div>
+                            <div className="col-md-3">
+                                <TextInput
+                                    id="test"
+                                    type="datetime-local"
+                                    classname="form-control form-control-sm"
+                                    changeTextValue={(e) => updateFormData(e)}
+                                    value={patent_from_unit}
+                                    name="patent_from_unit"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+                <div className="card-footer"
+                // style={{
+                //   backgroundColor: '#b6b8c3',
+                // }}
+                >
+                    <div className="col-md-12">
+                        <FooterClosebtn />
+                    </div>
+                </div>
             </form>
         </Fragment >
     )

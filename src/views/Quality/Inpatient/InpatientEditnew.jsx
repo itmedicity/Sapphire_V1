@@ -19,6 +19,20 @@ import ReportIcon from '@mui/icons-material/Report';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 import Bloodcomponents from '../Wards/Bloodcomponents';
 import SaveIcon from '@mui/icons-material/Save';
+import IntialassessmentNurse from '../InitialAssesment/IntialassessmentNurse';
+import InitialassesmentDoctor from '../InitialAssesment/InitialassessmentDoctor';
+import EquipmentUtilization from '../InpatientICU/EquipmentUtilization';
+import Discharge from '../Wards/Discharge';
+import HandoverComunication from '../InpatientICU/HandoverComunication';
+import Nearmissess from '../Wards/Nearmissess';
+import Patientidentfctnerror from '../Wards/Patientidentfctnerror';
+import Sentinalevent from '../Wards/Sentinalevent';
+import Incidence from '../Wards/Incidence';
+import Careplan from '../InpatientICU/Careplan';
+import Bedutilizatinward from '../Wards/Bedutilizatinward';
+import NursePatientratio from '../Wards/NursePatientratio';
+import Dietitian from '../Wards/Dietitian';
+import NutritionalScreening from '../InpatientICU/NutritionalScreening';
 
 const InpatientEditnew = () => {
   return (
@@ -71,7 +85,7 @@ const InpatientEditnew = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography component={'span'} variant={'body2'}>
-                        <InitialAssesmentNurseNew />
+                        <IntialassessmentNurse />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
@@ -88,7 +102,7 @@ const InpatientEditnew = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography component={'span'} variant={'body2'}>
-                        <InitialAssesmentNurseNew />
+                        <InitialassesmentDoctor />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
@@ -123,6 +137,7 @@ const InpatientEditnew = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography>
+                        <Careplan />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
@@ -139,6 +154,7 @@ const InpatientEditnew = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography>
+                        <EquipmentUtilization />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
@@ -155,6 +171,7 @@ const InpatientEditnew = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography >
+                        <HandoverComunication />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
@@ -171,6 +188,7 @@ const InpatientEditnew = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography>
+                        <NutritionalScreening />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
@@ -187,6 +205,7 @@ const InpatientEditnew = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography>
+                        <Dietitian />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
@@ -203,6 +222,7 @@ const InpatientEditnew = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography>
+                        <Nearmissess />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
@@ -219,6 +239,7 @@ const InpatientEditnew = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography>
+                        <NursePatientratio />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
@@ -235,6 +256,7 @@ const InpatientEditnew = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography>
+                        <Patientidentfctnerror />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
@@ -248,6 +270,106 @@ const InpatientEditnew = () => {
                       id="panel2a-header"
                     >
                       <Typography display="block" fontSize={18}>Sentinal Event</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>
+                        <Sentinalevent />
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion>
+                    <AccordionSummary
+                      style={{
+                        backgroundColor: '#f9fbe7'
+                      }}
+                      expandIcon={<EventBusyIcon />}
+                      aria-controls="panel2a-content"
+                      id="panel2a-header"
+                    >
+                      <Typography display="block" fontSize={18}>Discharge</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>
+                        <Discharge />
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion>
+                    <AccordionSummary
+                      style={{
+                        backgroundColor: '#f9fbe7'
+                      }}
+                      expandIcon={<EventBusyIcon />}
+                      aria-controls="panel2a-content"
+                      id="panel2a-header"
+                    >
+                      <Typography display="block" fontSize={18}>Bed Utilization Ward</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>
+                        {/* <Bedutilizatinward /> */}
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion>
+                    <AccordionSummary
+                      style={{
+                        backgroundColor: '#f9fbe7'
+                      }}
+                      expandIcon={<EventBusyIcon />}
+                      aria-controls="panel2a-content"
+                      id="panel2a-header"
+                    >
+                      <Typography display="block" fontSize={18}>Bed Occupancy ICU</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion>
+                    <AccordionSummary
+                      style={{
+                        backgroundColor: '#f9fbe7'
+                      }}
+                      expandIcon={<EventBusyIcon />}
+                      aria-controls="panel2a-content"
+                      id="panel2a-header"
+                    >
+                      <Typography display="block" fontSize={18}>Return to ICU</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion>
+                    <AccordionSummary
+                      style={{
+                        backgroundColor: '#f9fbe7'
+                      }}
+                      expandIcon={<EventBusyIcon />}
+                      aria-controls="panel2a-content"
+                      id="panel2a-header"
+                    >
+                      <Typography display="block" fontSize={18}>Incidence of Fall</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>
+                        <Incidence />
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion>
+                    <AccordionSummary
+                      style={{
+                        backgroundColor: '#f9fbe7'
+                      }}
+                      expandIcon={<EventBusyIcon />}
+                      aria-controls="panel2a-content"
+                      id="panel2a-header"
+                    >
+                      <Typography display="block" fontSize={18}>ReIntubation Rate</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography>

@@ -47,5 +47,4 @@ const DoctornameSelect = (nameselect) => {
     </Fragment>
   )
 }
-
 export default memo(DoctornameSelect)

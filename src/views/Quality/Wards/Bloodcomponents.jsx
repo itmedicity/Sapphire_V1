@@ -11,6 +11,7 @@ import { userslno } from 'src/views/Constant/Constant'
 import { Card, Chip, IconButton } from '@mui/material'
 import OptionSelection from 'src/views/CommonCode/OptionSelection'
 import { MdOutlineAddTask } from 'react-icons/md'
+import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 
 const Bloodcomponents = () => {
   const { id } = useParams()
@@ -124,7 +125,7 @@ const Bloodcomponents = () => {
                   Requested Date/Time
                 </label>
               </div>
-              <div className="col-md-2 pt-2 ">
+              <div className="col-md-2 pt-2 pl-0">
                 <TextInput
                   type="datetime-local"
                   classname="form-control form-control-sm"
@@ -132,17 +133,6 @@ const Bloodcomponents = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={requesteddatetime}
                   name="requesteddatetime"
-                />
-              </div>
-              <div className="col-md-1">
-                <Chip
-                  icon={
-                    <IconButton type="submit" className="p-1">
-                      <MdOutlineAddTask className="text-info p-0" size={22} />
-                    </IconButton>
-                  }
-                  label="Save"
-                  style={{ cursor: 'pointer' }}
                 />
               </div>
             </div>
@@ -185,7 +175,7 @@ const Bloodcomponents = () => {
               </div>
             </div>
             <div className="row">
-              <div className="col-md-3 pt-2">
+              <div className="col-md-3 pt-2 pr-0">
                 <TextInput
                   type="text"
                   classname="form-control form-control-sm"
@@ -218,6 +208,15 @@ const Bloodcomponents = () => {
             </div>
           </div>
         </Card>
+        <div className="card-footer"
+        // style={{
+        //   backgroundColor: '#b6b8c3',
+        // }}
+        >
+          <div className="col-md-12">
+            <FooterClosebtn />
+          </div>
+        </div>
       </form>
     </Fragment>
   )
