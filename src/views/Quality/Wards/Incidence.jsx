@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import PatientCard from '../Inpatient/PatientCard'
 import { useHistory, useParams } from 'react-router'
 import { Select, FormControl, MenuItem, Card } from '@mui/material'
@@ -17,6 +17,29 @@ const Incidence = () => {
     const classes = useStyles()
     const [toggle, setToggle] = useState(0)
     const history = useHistory()
+    const [distrue, setdistrue] = useState(false)
+
+
+    useEffect(() => {
+        const incidence = async () => {
+            const result = await axioslogin.get(`nutritionalScreening/${id}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                setdistrue(true)
+                const { ns_ysno, ns_remark, ns_personresponsible, ns_errordesc, ns_actntkn } = data[0]
+                setToggle(ns_ysno)
+                const frmData = {
+                    nutritionalScreening: ns_ysno,
+                    errordesc: ns_errordesc,
+                    personresponsible: ns_personresponsible,
+                    actiontaken: ns_actntkn,
+                    remarks: ns_remark
+                }
+                setincidencedata(frmData)
+            }
+        }
+        incidence()
+    }, [id])
     const [incidencedata, setincidencedata] = useState({
         incidence: '',
         errordesc: '',
@@ -96,6 +119,7 @@ const Incidence = () => {
                                             setToggle(e.target.value)
                                             // sethandoverdata(e.target.value)
                                         }}
+                                        disabled={distrue}
                                         fullWidth
                                         variant="outlined"
                                         style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
@@ -108,7 +132,7 @@ const Incidence = () => {
                                 </FormControl>
                             </div>
                             <div className="col-md-10 pt-2">
-                                {toggle === '2' ? <Actiontaken setfunc={setincidencedata} /> : <TextInput
+                                {toggle === '2' ? <Actiontaken setfunc={setincidencedata} handover={incidencedata} distrue={distrue} /> : <TextInput
                                     type="text"
                                     classname="form-control form-control-sm"
                                     Placeholder="Remarks"

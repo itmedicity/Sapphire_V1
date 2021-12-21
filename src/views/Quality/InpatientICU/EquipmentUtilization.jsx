@@ -1,9 +1,8 @@
 import { Card } from '@mui/material'
-import React, { Fragment, useState, useContext } from 'react'
+import React, { Fragment, useState, useContext, useEffect } from 'react'
+import { useParams } from 'react-router'
 import { ToastContainer } from 'react-toastify'
-import { useHistory, useParams } from 'react-router'
 import SessionCheck from 'src/views/Axios/SessionCheck'
-import { useStyles } from 'src/views/CommonCode/MaterialStyle'
 import EquipmentSelect from 'src/views/CommonCode/EquipmentSelect'
 import TextInput from 'src/views/Component/TextInput'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -11,11 +10,35 @@ import { PayrolMasterContext } from 'src/Context/MasterContext'
 import { userslno } from 'src/views/Constant/Constant'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
-
+import moment from 'moment'
 
 const EquipmentUtilization = () => {
     const { id } = useParams()
+    const [distrue, setdistrue] = useState(false)
+    const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
 
+    useEffect(() => {
+        const equipmentutilzation = async () => {
+            const result = await axioslogin.get(`equipmentUtilization/${id}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                setdistrue(true)
+                const { euipment_slno,
+                    eu_starttime,
+                    eu_endtime } = data[0]
+
+                updateEquipment(euipment_slno)
+                const frmData = {
+                    start_utilization: moment(eu_starttime).format("YYYY-MM-DD[T]HH:mm:ss"),
+                    end_utilization: moment(eu_endtime).format("YYYY-MM-DD[T]HH:mm:ss")
+                }
+                setequipmentData(frmData)
+
+
+            }
+        }
+        equipmentutilzation()
+    }, [id])
 
     //setting initial state
     const [equipmentutiliztinData, setequipmentData] = useState({
@@ -60,8 +83,7 @@ const EquipmentUtilization = () => {
         const { success, message } = result.data
         if (success === 1) {
             succesNofity(message)
-            setequipmentData(defaultstate)
-            updateEquipment(0)
+            setdistrue(true)
         } else if (success === 2) {
             warningNofity(message)
         } else {
@@ -77,7 +99,7 @@ const EquipmentUtilization = () => {
                 <Card className="card-body">
                     <div className="col-md-12">
                         <div className="row">
-                            <div className="col-md-4 pt-4">
+                            <div className="col-md-4 pt-2">
                                 <EquipmentSelect
                                     style={{
                                         minHeight: 10,
@@ -97,9 +119,10 @@ const EquipmentUtilization = () => {
                                     changeTextValue={(e) => updateFormData(e)}
                                     value={start_utilization}
                                     name="start_utilization"
+                                    disabled={distrue}
                                 />
                             </div>
-                            <div className="col-md-4">
+                            <div className="col-md-4 ">
                                 <label htmlFor="test" className="form-label">Utilization End time</label>
                                 <TextInput
                                     id="test"
@@ -108,6 +131,7 @@ const EquipmentUtilization = () => {
                                     changeTextValue={(e) => updateFormData(e)}
                                     value={end_utilization}
                                     name="end_utilization"
+                                    disabled={distrue}
                                 />
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { useHistory, useParams } from 'react-router'
@@ -20,6 +20,31 @@ const NutritionalScreening = () => {
     }
     const classes = useStyles()
     const [toggle, setToggle] = useState(0)
+    const [distrue, setdistrue] = useState(false)
+
+
+    useEffect(() => {
+        const nutriscreening = async () => {
+            const result = await axioslogin.get(`nutritionalScreening/${id}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                setdistrue(true)
+                const { ns_ysno, ns_remark, ns_personresponsible, ns_errordesc, ns_actntkn } = data[0]
+                setToggle(ns_ysno)
+                const frmData = {
+                    nutritionalScreening: ns_ysno,
+                    errordesc: ns_errordesc,
+                    personresponsible: ns_personresponsible,
+                    actiontaken: ns_actntkn,
+                    remarks: ns_remark
+                }
+                setnutritionalScreeningdata(frmData)
+            }
+        }
+        nutriscreening()
+    }, [id])
+
+
     const [nutritionalScreeningdata, setnutritionalScreeningdata] = useState(
         {
             nutritionalScreening: '',
@@ -48,7 +73,7 @@ const NutritionalScreening = () => {
 
     //getting data from the form 
 
-    const updateFormData = async (e) => {
+    const updateFormData = (e) => {
         const value = e.target.value
         setnutritionalScreeningdata({ ...nutritionalScreeningdata, [e.target.name]: value })
     }
@@ -67,7 +92,7 @@ const NutritionalScreening = () => {
         const { success, message } = result.data
         if (success === 1) {
             succesNofity(message)
-            setnutritionalScreeningdata(defaultstate)
+            setdistrue(true)
         } else if (success === 2) {
             warningNofity(message)
         } else {
@@ -94,6 +119,7 @@ const NutritionalScreening = () => {
                                         size="small"
                                         id="demo-simple-select"
                                         onChange={(e) => { setToggle(e.target.value) }}
+                                        disabled={distrue}
                                         fullWidth
                                         variant="outlined"
                                         style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
@@ -106,13 +132,14 @@ const NutritionalScreening = () => {
                                 </FormControl>
                             </div>
                             <div className="col-md-10 pt-2">
-                                {toggle === '2' ? <Actiontaken setfunc={setnutritionalScreeningdata} /> : <TextInput
+                                {toggle === '2' ? <Actiontaken setfunc={setnutritionalScreeningdata} handover={nutritionalScreeningdata} distrue={distrue} /> : <TextInput
                                     type="text"
                                     classname="form-control form-control-sm"
                                     Placeholder="Remarks"
                                     value={remarks}
                                     name="remarks"
                                     changeTextValue={(e) => updateFormData(e)}
+                                    disabled={distrue}
                                 />
                                 }
 

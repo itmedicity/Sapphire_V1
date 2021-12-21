@@ -41,7 +41,7 @@ const Bedutilizatinward = () => {
 
 
   const [eveningdata, seteveningdata] = useState({
-    inpt_slno: id,
+    inpt_slno: 6,
     user_slno: userslno(),
     bow_flag: 'E',
     availableBedNumber: '',
@@ -60,7 +60,7 @@ const Bedutilizatinward = () => {
   //destrutring object
 
   const [nightdata, setnightdata] = useState({
-    inpt_slno: id,
+    inpt_slno: 6,
     user_slno: userslno(),
     bow_flag: 'N',
     availableBedNumber: '',
@@ -78,25 +78,39 @@ const Bedutilizatinward = () => {
   }
 
   const postDatamorning = {
-    inpt_slno: 6,
-    user_slno: userslno(),
-    bow_flag: 'M',
-    availableBedNumber: '',
-    numberofbedOccupied: '',
-    noofNurses: '',
-    noofPatient: '',
-    nursePatientratio: '',
+    bow_availbed: mornindta.availableBedNumber,
+    bow_noofbedoccup: mornindta.numberofbedOccupied,
+    bow_noofnurse: mornindta.noofNurses,
+    bow_bednurseratio: mornindta.nursePatientratio,
+    bow_noofpatient: mornindta.noofPatient,
+    bow_flag: mornindta.bow_flag,
+    inpt_slno: mornindta.inpt_slno,
+    user_slno: mornindta.user_slno,
   }
+
   const postDataevenging = {
-    eveningdata
+    bow_availbed: eveningdata.availableBedNumber,
+    bow_noofbedoccup: eveningdata.numberofbedOccupied,
+    bow_noofnurse: eveningdata.noofNurses,
+    bow_bednurseratio: eveningdata.nursePatientratio,
+    bow_noofpatient: eveningdata.noofPatient,
+    bow_flag: eveningdata.bow_flag,
+    inpt_slno: eveningdata.inpt_slno,
+    user_slno: eveningdata.user_slno,
   }
   const postDatanight = {
-    nightdata
+    bow_availbed: nightdata.availableBedNumber,
+    bow_noofbedoccup: nightdata.numberofbedOccupied,
+    bow_noofnurse: nightdata.noofNurses,
+    bow_bednurseratio: nightdata.nursePatientratio,
+    bow_noofpatient: nightdata.noofPatient,
+    bow_flag: nightdata.bow_flag,
+    inpt_slno: nightdata.inpt_slno,
+    user_slno: nightdata.user_slno,
   }
   const submitFormData = async (e) => {
     e.preventDefault()
     if (toggle === 1) {
-      console.log(mornindta)
       const result = await axioslogin.post('/bedoccupancyWard', postDatamorning)
       const { success, message } = result.data
       if (success === 1) {
@@ -109,6 +123,7 @@ const Bedutilizatinward = () => {
       }
     }
     else if (toggle === 2) {
+
       const result = await axioslogin.post('/bedoccupancyWard', postDataevenging)
       const { success, message } = result.data
       if (success === 1) {
@@ -124,6 +139,7 @@ const Bedutilizatinward = () => {
       const result = await axioslogin.post('/bedoccupancyWard', postDatanight)
       const { success, message } = result.data
       if (success === 1) {
+
         succesNofity(message)
         setnightdata(nightdefaultstate)
       } else if (success === 2) {
@@ -169,8 +185,8 @@ const Bedutilizatinward = () => {
               </div>
               <div className="col-md-8 pt-1 ">
                 {toggle === 1 ? <Bedutilizatinwardcard morningdata={setmornindta} flagsln={'M'} id={6} /> : null}
-                {toggle === 2 ? <Bedutilizatinwardcard morningdata={seteveningdata} flagsln={'E'} id={id} /> : null}
-                {toggle === 3 ? <Bedutilizatinwardcard morningdata={setnightdata} flagsln={'N'} id={id} /> : null}
+                {toggle === 2 ? <Bedutilizatinwardcard morningdata={seteveningdata} flagsln={'E'} id={6} /> : null}
+                {toggle === 3 ? <Bedutilizatinwardcard morningdata={setnightdata} flagsln={'N'} id={6} /> : null}
 
               </div>
             </div>

@@ -1,7 +1,6 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
-import PatientCard from '../Inpatient/PatientCard'
 import { useHistory, useParams } from 'react-router'
 import { Select, FormControl, MenuItem, Card } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
@@ -20,6 +19,27 @@ const Careplan = () => {
     const RedirectToProfilePage = () => {
         history.push(`/Home/InpatientEdit/${id}`)
     }
+    const [distrue, setdistrue] = useState(false)
+    useEffect(() => {
+        const nutriscreening = async () => {
+            const result = await axioslogin.get(`careplan/${id}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                setdistrue(true)
+                const { nc_ysno, nc_remark, nc_errordesc, nc_prsnresponsible, nc_actntkn } = data[0]
+                setToggle(nc_ysno)
+                const frmData = {
+                    careplan: nc_ysno,
+                    errordesc: nc_errordesc,
+                    personresponsible: nc_prsnresponsible,
+                    actiontaken: nc_actntkn,
+                    remarks: nc_remark
+                }
+                setcareplandata(frmData)
+            }
+        }
+        nutriscreening()
+    }, [id])
     const [careplandata, setcareplandata] = useState({
         careplan: '',
         errordesc: '',
@@ -47,7 +67,7 @@ const Careplan = () => {
 
     //getting data from the form 
 
-    const updateFormData = async (e) => {
+    const updateFormData = (e) => {
         const value = e.target.value
         setcareplandata({ ...careplandata, [e.target.name]: value })
     }
@@ -69,7 +89,8 @@ const Careplan = () => {
         const { success, message } = result.data
         if (success === 1) {
             succesNofity(message)
-            setcareplandata(defaultstate)
+            setdistrue(true)
+
         } else if (success === 2) {
             warningNofity(message)
         } else {
@@ -98,6 +119,7 @@ const Careplan = () => {
                                         id="demo-simple-select"
                                         onChange={(e) => { setToggle(e.target.value) }}
                                         fullWidth
+                                        disabled={distrue}
                                         variant="outlined"
                                         style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
 
@@ -109,12 +131,13 @@ const Careplan = () => {
                                 </FormControl>
                             </div>
                             <div className="col-md-10 pt-2">
-                                {toggle === '2' ? <Actiontaken setfunc={setcareplandata} /> : <TextInput
+                                {toggle === '2' ? <Actiontaken setfunc={setcareplandata} handover={careplandata} distrue={distrue} /> : <TextInput
                                     type="text"
                                     classname="form-control form-control-sm"
                                     Placeholder="Remarks"
                                     value={remarks}
                                     name="remarks"
+                                    disabled={distrue}
                                     changeTextValue={(e) => updateFormData(e)}
                                 />
                                 }

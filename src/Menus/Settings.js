@@ -18,8 +18,8 @@ const Settings = () => {
                             <ul className="list-group list-group-flush">
                                 <Link to="/Home/InpatientEditnew" className="list-group-item pt-1 pb-1">Indicator New</Link>
                                 <Link to="/Home/InitialAssesmentNurseNew" className="list-group-item pt-1 pb-1">Initial Assessment Nurse New</Link>
-                                <Link to="/Home/Bedutilizatinward" className="list-group-item pt-1 pb-1">Bedutilizatinward</Link>
-                                <Link to="/Home/Bedoccupancy" className="list-group-item pt-1 pb-1">Bedutilizatinoccupcy</Link>
+                                {/* <Link to="/Home/Bedutilizatinward" className="list-group-item pt-1 pb-1">Bedutilizatinward</Link> */}
+                                {/* <Link to="/Home/Bedoccupancy" className="list-group-item pt-1 pb-1">Bedutilizatinoccupcy</Link> */}
                             </ul>
                         </div>
 

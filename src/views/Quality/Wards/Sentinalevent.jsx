@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
 import PatientCard from '../Inpatient/PatientCard'
@@ -17,9 +17,30 @@ const Sentinalevent = () => {
     const classes = useStyles()
     const [toggle, setToggle] = useState(0)
     const history = useHistory()
+    const [distrue, setdistrue] = useState(false)
     const RedirectToProfilePage = () => {
         history.push(`/Home/InpatientEdit/${id}`)
     }
+    useEffect(() => {
+        const sentient = async () => {
+            const result = await axioslogin.get(`sentinelevent/${id}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                setdistrue(true)
+                const { ser_ysno, ser_remark, ser_errordesc, ser_personresponsible, ser_actntkn } = data[0]
+                setToggle(ser_ysno)
+                const frmData = {
+                    nearmisses: ser_ysno,
+                    errordesc: ser_errordesc,
+                    personresponsible: ser_personresponsible,
+                    actiontaken: ser_actntkn,
+                    remarks: ser_remark
+                }
+                setsentinentdata(frmData)
+            }
+        }
+        sentient()
+    }, [id])
     const [sentinentdata, setsentinentdata] = useState({
         sentinent: '',
         errordesc: '',
@@ -44,7 +65,7 @@ const Sentinalevent = () => {
         actiontaken,
         remarks
     } = sentinentdata
-    const updateFormData = async (e) => {
+    const updateFormData = (e) => {
         const value = e.target.value
         setsentinentdata({ ...sentinentdata, [e.target.name]: value })
     }
@@ -63,6 +84,7 @@ const Sentinalevent = () => {
         const { success, message } = result.data
         if (success === 1) {
             succesNofity(message)
+            setdistrue(true)
             setsentinentdata(defaultstate)
         } else if (success === 2) {
             warningNofity(message)
@@ -93,6 +115,7 @@ const Sentinalevent = () => {
                                             setToggle(e.target.value)
                                         }}
                                         fullWidth
+                                        disabled={distrue}
                                         variant="outlined"
                                         style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
 
@@ -104,12 +127,13 @@ const Sentinalevent = () => {
                                 </FormControl>
                             </div>
                             <div className="col-md-10 pt-2">
-                                {toggle === '2' ? <Actiontaken setfunc={setsentinentdata} /> : <TextInput
+                                {toggle === '2' ? <Actiontaken setfunc={setsentinentdata} handover={sentinentdata} distrue={distrue} /> : <TextInput
                                     type="text"
                                     classname="form-control form-control-sm"
                                     value={remarks}
                                     name="remarks"
                                     changeTextValue={(e) => updateFormData(e)}
+                                    disabled={distrue}
                                 />
                                 }
                             </div>
