@@ -1,21 +1,25 @@
-import React, { Fragment, memo, useEffect, useMemo, useState } from 'react'
-import { axioslogin } from 'src/views/Axios/Axios';
-import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc';
-import OutPatientTableList from './OutPatientTableList';
-import OutpatientTableNew from './OutpatientTableNew';
-import PatientDetails from './PatientDetails';
+import React, { Fragment, useEffect, useState } from 'react'
+import { axioslogin } from 'src/views/Axios/Axios'
+import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 
-const Outpatientmast = () => {
+import PatientDetails from './PatientDetails'
+
+const OutPatientList = () => {
     const [patientList, setPatientList] = useState([])
     useEffect(() => {
         const getPatientList = async () => {
-            const id = 'P001'
-            const result = await axioslogin.get(`/op_indicator/${id}`);
+            const result = await axioslogin.get(`/op_indicator/${'P001'}`);
+            console.log(result);
             const { success, data } = result.data
-            if (success === 2) {
+            if (success === 1) {
                 setPatientList(data)
-            }
-            else {
+
+                succesNofity(message)
+
+
+            } else if (success === 2) {
+                warningNofity(message)
+            } else {
                 errorNofity('Error Occured!!!Please Contact EDP')
             }
         }
@@ -35,13 +39,11 @@ const Outpatientmast = () => {
                         })
 
                     }
-                    {/* </OutpatientTableNew> */}
+
                 </div>
             </div>
         </Fragment>
     )
 }
-export default memo(Outpatientmast)
 
-
-
+export default OutPatientList

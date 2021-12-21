@@ -16,22 +16,22 @@ const CasulityPatients = ({ update }) => {
             title: 'Sl_no', field: 'inpt_slno', cellStyle: { minWidth: 5, maxWidth: 7 }
         },
         {
-            title: 'Date', field: 'ipd_date', cellStyle: { minWidth: 250, maxWidth: 300 }
+            title: 'Date', field: 'ipd_date', cellStyle: { minWidth: 250, maxWidth: 250 }
         },
         {
-            title: 'MRD No', field: 'pt_no', cellStyle: { minWidth: 130, maxWidth: 150 }
+            title: 'MRD No', field: 'pt_no', cellStyle: { minWidth: 150, maxWidth: 170 }
         },
         {
-            title: 'Patient Name', field: 'ptc_ptname', cellStyle: { minWidth: 250, maxWidth: 300 }
+            title: 'Patient Name', field: 'ptc_ptname', cellStyle: { minWidth: 230, maxWidth: 300 }
         },
         {
-            title: 'Gender', field: 'ptc_sex', cellStyle: { minWidth: 120, maxWidth: 150 }
+            title: 'Gender', field: 'ptc_sex', cellStyle: { minWidth: 100, maxWidth: 150 }
         },
         {
             title: 'Room', field: 'bdc_no', cellStyle: { minWidth: 120, maxWidth: 150 }
         },
         {
-            title: 'Doctor', field: 'doc_name', cellStyle: { minWidth: 250, maxWidth: 300 }
+            title: 'Doctor', field: 'doc_name', cellStyle: { minWidth: 300, maxWidth: 300 }
         },
         {
             title: 'Specilaity', field: 'spc_desc', cellStyle: { minWidth: 250, maxWidth: 300 }
