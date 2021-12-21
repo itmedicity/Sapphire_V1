@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { Chip, IconButton } from '@mui/material'
 import WrongLocationOutlinedIcon from '@mui/icons-material/WrongLocationOutlined';
 import { MdOutlineAddTask } from 'react-icons/md'
+// BiEditAlt
 
 const FooterClosebtn = () => {
   return (
@@ -18,6 +19,17 @@ const FooterClosebtn = () => {
           // disabled={props.disable}
           // clickable={true}
           />
+          {/* <Chip
+            icon={
+              <IconButton type="submit" >
+                <BiEditAlt className="text-info p-0" size={22} />
+              </IconButton>
+            }
+            BiEditAlt
+            label="Save"
+          // disabled={props.disable}
+          // clickable={true}
+          /> */}
         </div>
 
       </div>

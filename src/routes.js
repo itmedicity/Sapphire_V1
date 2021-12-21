@@ -29,6 +29,7 @@ const CasualityEdit = React.lazy(() => import('./views/Quality/Casuality/Casuali
 // const InpatientEditnew = React.lazy(() => import('./views/Quality/Inpatient/InpatientEditnew'))
 const InitialAssesmentNursetnew = React.lazy(() => import('./views/Quality/InitialAssesment/InitialAssesmentNurseNew'))
 const Settings = React.lazy(() => import('./Menus/Settings'))
+//const OutpatientNew = React.lazy(() => import('./views/Quality/Outpatient/OutpatientTableNew'))
 
 
 
@@ -65,6 +66,7 @@ const routes = [
   // { path: '/Home/InpatientEditnew', exact: true, name: 'InpatientEditnew', component: InpatientEditnew },
   { path: '/Home/InitialAssesmentNurseNew', exact: true, name: 'initial Assessment Nurse New', component: InitialAssesmentNursetnew },
   { path: '/Home/Settings', name: 'Settings', component: Settings },
+  //{ path: '/Home/OutpatientNew', exact: true, name: 'Outpatient New', component: OutpatientNew },
 ]
 
 // const routes = [
