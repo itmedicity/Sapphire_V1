@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
@@ -7,11 +7,12 @@ import TextInput from 'src/views/Component/TextInput'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
+import moment from 'moment'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 const IntialassessmentNurse = () => {
   const { id } = useParams()
-  const history = useHistory()
-
+  const [distrue, setdistrue] = useState(false)
+  const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
   //   setting intial state
   const [intAssmntNurseData, setintAssmntNurseData] = useState({
     arrived_time_ns: '',
@@ -55,13 +56,32 @@ const IntialassessmentNurse = () => {
     const { success, message } = result.data
     if (success === 1) {
       succesNofity(message)
-      setintAssmntNurseData(defaultstate)
+      setdistrue(true)
     } else if (success === 2) {
       warningNofity(message)
     } else {
       errorNofity('Error Occured!!!Please Contact EDP')
     }
   }
+  useEffect(() => {
+    const getinitailassessnurse = async () => {
+      const result = await axioslogin.get(`assesmentnurse/${id}`)
+      const { success, data } = result.data
+      if (success === 1) {
+        setdistrue(true)
+        const { pt_receivetime, ia_startnstime, ia_endnstime, ian_remark } = data[0]
+        const frmData = {
+          arrived_time_ns: moment(pt_receivetime).format("YYYY-MM-DD[T]HH:mm:ss"),
+          initialassemnt_startns: moment(ia_startnstime).format("YYYY-MM-DD[T]HH:mm:ss"),
+          initialassemnt_endns: moment(ia_endnstime).format("YYYY-MM-DD[T]HH:mm:ss"),
+          remarkns: ian_remark
+        }
+        setintAssmntNurseData(frmData)
+      }
+    }
+    getinitailassessnurse()
+  }, [id])
+
   return (
     <Fragment>
       <SessionCheck />
@@ -82,6 +102,7 @@ const IntialassessmentNurse = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={arrived_time_ns}
                   name="arrived_time_ns"
+                  disabled={distrue}
                 />
               </div>
               <div className="col-md-3  pb-1">
@@ -96,6 +117,7 @@ const IntialassessmentNurse = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={initialassemnt_startns}
                   name="initialassemnt_startns"
+                  disabled={distrue}
                 />
               </div>
               <div className="col-md-3  pb-1">
@@ -110,6 +132,7 @@ const IntialassessmentNurse = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={initialassemnt_endns}
                   name="initialassemnt_endns"
+                  disabled={distrue}
                 />
               </div>
               <div className="col-md-2  pb-1">
@@ -119,7 +142,8 @@ const IntialassessmentNurse = () => {
                 <TextInput classname="form-control form-control-sm" Placeholder="Remark"
                   changeTextValue={(e) => updateFormData(e)}
                   value={remarkns}
-                  name="remarkns" />
+                  name="remarkns"
+                  disabled={distrue} />
               </div>
             </div>
           </div>

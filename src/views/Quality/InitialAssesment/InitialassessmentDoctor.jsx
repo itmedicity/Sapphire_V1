@@ -1,22 +1,24 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
-import PatientCard from '../Inpatient/PatientCard'
 import { Card } from '@mui/material'
 import TextInput from 'src/views/Component/TextInput'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { userslno } from 'src/views/Constant/Constant'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
+import moment from 'moment'
+
 
 const InitialassesmentDoctor = () => {
   const { id } = useParams()
   const history = useHistory()
+  const [distrue, setdistrue] = useState(false)
+  const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
   const RedirectToProfilePage = () => {
     history.push(`/Home/InpatientEdit/${id}`)
   }
-
   //   setting intial state
   const [intAssmntDoctorData, setintAssmntDoctorData] = useState({
     arrived_time: '',
@@ -24,6 +26,25 @@ const InitialassesmentDoctor = () => {
     intialassessment_end: '',
     remark: '',
   })
+  useEffect(() => {
+    const getinitailassessdoc = async () => {
+      const result = await axioslogin.get(`initalassessmentDoc/${id}`)
+      const { success, data } = result.data
+      if (success === 1) {
+        setdistrue(true)
+        const { iad_start_time, iad_end_time, iad_remark, pt_received_time } = data[0]
+        const frmData = {
+          arrived_time: moment(pt_received_time).format("YYYY-MM-DD[T]HH:mm:ss"),
+          intialassessment_start: moment(iad_start_time).format("YYYY-MM-DD[T]HH:mm:ss"),
+          intialassessment_end: moment(iad_end_time).format("YYYY-MM-DD[T]HH:mm:ss"),
+          remark: iad_remark
+        }
+        setintAssmntDoctorData(frmData)
+      }
+    }
+    getinitailassessdoc()
+  }, [id])
+
 
   //   default state
   const defaultstate = {
@@ -45,6 +66,7 @@ const InitialassesmentDoctor = () => {
   const updateFormData = async (e) => {
     const value = e.target.value
     setintAssmntDoctorData({ ...intAssmntDoctorData, [e.target.name]: value })
+
   }
   const postData = {
     inpt_slno: id,
@@ -62,7 +84,8 @@ const InitialassesmentDoctor = () => {
     const { success, message } = result.data
     if (success === 1) {
       succesNofity(message)
-      setintAssmntDoctorData(defaultstate)
+      setdistrue(true)
+
     } else if (success === 2) {
       warningNofity(message)
     } else {
@@ -91,6 +114,7 @@ const InitialassesmentDoctor = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={arrived_time}
                   name="arrived_time"
+                  disabled={distrue}
                 />
               </div>
               <div className="col-md-3 pb-1">
@@ -105,6 +129,7 @@ const InitialassesmentDoctor = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={intialassessment_start}
                   name="intialassessment_start"
+                  disabled={distrue}
                 />
               </div>
               <div className="col-md-3  pb-1">
@@ -119,6 +144,7 @@ const InitialassesmentDoctor = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={intialassessment_end}
                   name="intialassessment_end"
+                  disabled={distrue}
                 />
               </div>
               <div className="col-md-3  pb-1">
@@ -131,6 +157,7 @@ const InitialassesmentDoctor = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={remark}
                   name="remark"
+                  disabled={distrue}
                 />
               </div>
             </div>

@@ -1,7 +1,6 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
-import PatientCard from '../Inpatient/PatientCard'
 import { useParams, useHistory } from 'react-router'
 import { Select, FormControl, MenuItem, Card } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
@@ -17,6 +16,7 @@ const Nearmissess = () => {
     const classes = useStyles()
     const [toggle, setToggle] = useState(0)
     const history = useHistory()
+    const [distrue, setdistrue] = useState(false)
     const RedirectToProfilePage = () => {
         history.push(`/Home/InpatientEdit/${id}`)
     }
@@ -27,6 +27,26 @@ const Nearmissess = () => {
         actiontaken: '',
         remarks: ''
     })
+    useEffect(() => {
+        const nearmisses = async () => {
+            const result = await axioslogin.get(`nearMisses/${id}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                setdistrue(true)
+                const { nm_ysno, nm_remark, nm_personresponsible, nm_errordesc, nm_actntkn } = data[0]
+                setToggle(nm_ysno)
+                const frmData = {
+                    nearmisses: nm_ysno,
+                    errordesc: nm_errordesc,
+                    personresponsible: nm_personresponsible,
+                    actiontaken: nm_actntkn,
+                    remarks: nm_remark
+                }
+                setnearmissdata(frmData)
+            }
+        }
+        nearmisses()
+    }, [id])
     //default state
     const defaultstate = {
         nearmisses: '',
@@ -43,7 +63,6 @@ const Nearmissess = () => {
         actiontaken,
         remarks
     } = nearmissdata
-
     //getting data from the form 
 
     const updateFormData = async (e) => {
@@ -65,7 +84,9 @@ const Nearmissess = () => {
         const { success, message } = result.data
         if (success === 1) {
             succesNofity(message)
-            setnearmissdata(defaultstate)
+            setdistrue(true)
+            //setnearmissdata(defaultstate)
+
         } else if (success === 2) {
             warningNofity(message)
         } else {
@@ -95,6 +116,7 @@ const Nearmissess = () => {
                                             setToggle(e.target.value)
                                             // sethandoverdata(e.target.value)
                                         }}
+                                        disabled={distrue}
                                         fullWidth
                                         variant="outlined"
                                         style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
@@ -106,12 +128,13 @@ const Nearmissess = () => {
                                 </FormControl>
                             </div>
                             <div className="col-md-10 pt-2">
-                                {toggle === '2' ? <Actiontaken setfunc={setnearmissdata} /> : <TextInput
+                                {toggle === '2' ? <Actiontaken setfunc={setnearmissdata} handover={nearmissdata} distrue={distrue} /> : <TextInput
                                     type="text"
                                     classname="form-control form-control-sm"
                                     Placeholder="Remarks"
                                     value={remarks}
                                     name="remarks"
+                                    disabled={distrue}
                                     changeTextValue={(e) => updateFormData(e)}
                                 />
                                 }

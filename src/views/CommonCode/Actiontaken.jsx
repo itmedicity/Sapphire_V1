@@ -1,28 +1,31 @@
 import classNames from 'classnames'
-import React, { Fragment, memo, useState } from 'react'
+import React, { Fragment, memo, useEffect, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from '../Axios/SessionCheck'
 import TextInput from '../Component/TextInput'
 
 
-const Actiontaken = (setfunc) => {
+const Actiontaken = ({ setfunc, handover, distrue }) => {
 
   //intial state
   const [actiontakenData, setactiontakenData] = useState({
     errordesc: '',
     personresponsible: '',
     actiontaken: '',
+    remarks: ''
   })
 
   const { errordesc, personresponsible, actiontaken } = actiontakenData
+  useEffect(() => {
+    setactiontakenData(handover)
+    setactiontakenData(handover)
 
+  }, [handover])
   const updateFormData = async (e) => {
     const value = e.target.value
     setactiontakenData({ ...actiontakenData, [e.target.name]: value })
-    setfunc.setfunc({ ...actiontakenData, [e.target.name]: value })
-
+    setfunc({ ...actiontakenData, [e.target.name]: value })
   }
-
 
   return (
     <Fragment>
@@ -38,6 +41,7 @@ const Actiontaken = (setfunc) => {
               changeTextValue={(e) => updateFormData(e)}
               value={errordesc}
               name="errordesc"
+              disabled={distrue}
             />
           </div>
           <div className="col-md-3">
@@ -48,6 +52,7 @@ const Actiontaken = (setfunc) => {
               changeTextValue={(e) => updateFormData(e)}
               value={personresponsible}
               name="personresponsible"
+              disabled={distrue}
             />
           </div>
           <div className="col-md-3">
@@ -58,6 +63,7 @@ const Actiontaken = (setfunc) => {
               changeTextValue={(e) => updateFormData(e)}
               value={actiontaken}
               name="actiontaken"
+              disabled={distrue}
             />
           </div>
         </div>

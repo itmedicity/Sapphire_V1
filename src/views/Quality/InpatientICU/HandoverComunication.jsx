@@ -1,25 +1,45 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
-import PatientCard from '../Inpatient/PatientCard'
 import { Select, FormControl, MenuItem, Card } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
 import TextInput from 'src/views/Component/TextInput'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
-import { useStyles } from 'src/views/CommonCode/MaterialStyle'
 import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 
 const HandoverComunication = () => {
   const { id } = useParams()
-  const classes = useStyles()
   const [toggle, setToggle] = useState(0)
+  const [distrue, setdistrue] = useState(false)
   const history = useHistory()
   const RedirectToProfilePage = () => {
     history.push(`/Home/InpatientEdit/${id}`)
   }
+
+
+  useEffect(() => {
+    const handovercommunictn = async () => {
+      const result = await axioslogin.get(`communicationerror/${id}`)
+      const { success, data } = result.data
+      if (success === 1) {
+        setdistrue(true)
+        const { ce_ysno, ce_remark, ce_prsnresponsible, ce_errordesc, ce_actntkn } = data[0]
+        setToggle(ce_ysno)
+        const frmData = {
+          handover: ce_ysno,
+          errordesc: ce_errordesc,
+          personresponsible: ce_prsnresponsible,
+          actiontaken: ce_actntkn,
+          remarks: ce_remark
+        }
+        setactiontaken(frmData)
+      }
+    }
+    handovercommunictn()
+  }, [id])
   const [actiondata, setactiontaken] = useState({
     handover: '',
     errordesc: '',
@@ -68,7 +88,8 @@ const HandoverComunication = () => {
     const { success, message } = result.data
     if (success === 1) {
       succesNofity(message)
-      setactiontaken(defaultstate)
+      setdistrue(true)
+      //setactiontaken(defaultstate)
     } else if (success === 2) {
       warningNofity(message)
     } else {
@@ -96,6 +117,7 @@ const HandoverComunication = () => {
                       setToggle(e.target.value)
                       //updateFormData(e.target.value)
                     }}
+                    disabled={distrue}
                     fullWidth
                     variant="outlined"
                     style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
@@ -108,7 +130,7 @@ const HandoverComunication = () => {
               </div>
               <div className="col-md-10 pt-2 pl-0">
                 {toggle === '2' ? (
-                  <Actiontaken setfunc={setactiontaken} />
+                  <Actiontaken setfunc={setactiontaken} handover={actiondata} distrue={distrue} />
                 ) : (
                   <TextInput
                     type="text"
@@ -117,6 +139,7 @@ const HandoverComunication = () => {
                     value={remarks}
                     name="remarks"
                     changeTextValue={(e) => updateFormData(e)}
+                    disabled={distrue}
                   />
                 )}
               </div>

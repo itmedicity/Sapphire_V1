@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
 import PatientCard from '../Inpatient/PatientCard'
@@ -8,24 +8,106 @@ import Actiontaken from 'src/views/CommonCode/Actiontaken'
 import TextInput from 'src/views/Component/TextInput'
 import { FormControl, Select } from '@material-ui/core'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
+import { useStyles } from 'src/views/CommonCode/MaterialStyle'
+import { userslno } from 'src/views/Constant/Constant'
+import { axioslogin } from 'src/views/Axios/Axios'
+import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 // import { useStyles } from 'src/views/CommonCode/MaterialStyle'
 
 const Patientidentfctnerror = () => {
   const { id } = useParams()
+  const [distrue, setdistrue] = useState(false)
+  const [toggle, setToggle] = useState(0)
 
   const history = useHistory()
-  // const RedirectToProfilePage = () => {
-  //   history.push(`/Home/InpatientEdit/${id}`)
-  // }
+  const RedirectToProfilePage = () => {
+    history.push(`/Home/InpatientEdit/${id}`)
+  }
 
-  const [toggle, setToggle] = useState(0)
+
+  useEffect(() => {
+    const patientidentierror = async () => {
+      const result = await axioslogin.get(`patientIdenticationError/${id}`)
+      const { success, data } = result.data
+      if (success === 1) {
+        setdistrue(true)
+        const { pie_ysno, pie_remark, pie_errordesc, pie_prsnresponsible, pie_actntkn } = data[0]
+        setToggle(pie_ysno)
+        const frmData = {
+          patientidentification: pie_ysno,
+          errordesc: pie_errordesc,
+          personresponsible: pie_prsnresponsible,
+          actiontaken: pie_actntkn,
+          remarks: pie_remark
+        }
+        setpatientidentdata(frmData)
+      }
+    }
+    patientidentierror()
+  }, [id])
+  const [patientidentdata, setpatientidentdata] = useState({
+    patientidentification: '',
+    errordesc: '',
+    personresponsible: '',
+    actiontaken: '',
+    remarks: ''
+  })
+  //default state
+  const defaultstate = {
+    patientidentification: '',
+    errordesc: '',
+    personresponsible: '',
+    actiontaken: '',
+    remarks: ''
+
+  }
+
+  //destrutring object
+  const {
+    patientidentification,
+    errordesc,
+    personresponsible,
+    actiontaken,
+    remarks
+  } = patientidentdata
+
+  //getting data from the form 
+
+  const updateFormData = async (e) => {
+    const value = e.target.value
+    setpatientidentdata({ ...patientidentdata, [e.target.name]: value })
+  }
+  const postData = {
+    inpt_slno: id,
+    user_slno: userslno(),
+    pie_ysno: toggle,
+    pie_errordesc: errordesc,
+    pie_prsnresponsible: personresponsible,
+    pie_actntkn: actiontaken,
+    pie_remark: remarks
+
+  }
+  const submitFormData = async (e) => {
+    e.preventDefault()
+    const result = await axioslogin.post('/patientIdenticationError', postData)
+    const { success, message } = result.data
+    if (success === 1) {
+      succesNofity(message)
+      setdistrue(true)
+      //setactiontaken(defaultstate)
+    } else if (success === 2) {
+      warningNofity(message)
+    } else {
+      errorNofity('Error Occured!!!Please Contact EDP')
+    }
+  }
 
   return (
     <Fragment>
       <SessionCheck />
       <ToastContainer />
       <form
-      // onSubmit={submitFormData}
+        onSubmit={submitFormData}
       >
         <Card className="card-body">
           <div className="col-md-12">
@@ -42,6 +124,7 @@ const Patientidentfctnerror = () => {
                       setToggle(e.target.value)
                     }}
                     fullWidth
+                    disabled={distrue}
                     variant="outlined"
                     style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
                   >
@@ -53,12 +136,16 @@ const Patientidentfctnerror = () => {
               </div>
               <div className="col-md-10 pt-2">
                 {toggle === '2' ? (
-                  <Actiontaken />
+                  <Actiontaken setfunc={setpatientidentdata} handover={patientidentdata} distrue={distrue} />
                 ) : (
                   <TextInput
                     type="text"
                     classname="form-control form-control-sm"
                     Placeholder="Remarks"
+                    value={remarks}
+                    name="remarks"
+                    changeTextValue={(e) => updateFormData(e)}
+                    disabled={distrue}
                   />
                 )}
               </div>

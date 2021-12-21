@@ -21,7 +21,7 @@ const EquipmentSelect = (props) => {
             <FormControl
                 fullWidth
                 margin="dense"
-                className="mt-1">
+                className="mt-4">
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
