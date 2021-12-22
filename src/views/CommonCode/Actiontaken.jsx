@@ -18,7 +18,7 @@ const Actiontaken = ({ setfunc, handover, distrue }) => {
   const { errordesc, personresponsible, actiontaken } = actiontakenData
   useEffect(() => {
     setactiontakenData(handover)
-    setactiontakenData(handover)
+
 
   }, [handover])
   const updateFormData = async (e) => {

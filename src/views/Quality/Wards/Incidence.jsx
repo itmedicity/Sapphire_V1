@@ -1,11 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import PatientCard from '../Inpatient/PatientCard'
-import { useHistory, useParams } from 'react-router'
+import { useParams } from 'react-router'
 import { Select, FormControl, MenuItem, Card } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
 import TextInput from 'src/views/Component/TextInput'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
-import { useStyles } from 'src/views/CommonCode/MaterialStyle'
 import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
@@ -14,32 +12,12 @@ import { ToastContainer } from 'react-toastify'
 
 const Incidence = () => {
     const { id } = useParams()
-    const classes = useStyles()
+
     const [toggle, setToggle] = useState(0)
-    const history = useHistory()
-    const [distrue, setdistrue] = useState(false)
 
+    const [distrue, setdistrue] = useState(true)
+    const [value, setValue] = useState(0)
 
-    useEffect(() => {
-        const incidence = async () => {
-            const result = await axioslogin.get(`nutritionalScreening/${id}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setdistrue(true)
-                const { ns_ysno, ns_remark, ns_personresponsible, ns_errordesc, ns_actntkn } = data[0]
-                setToggle(ns_ysno)
-                const frmData = {
-                    nutritionalScreening: ns_ysno,
-                    errordesc: ns_errordesc,
-                    personresponsible: ns_personresponsible,
-                    actiontaken: ns_actntkn,
-                    remarks: ns_remark
-                }
-                setincidencedata(frmData)
-            }
-        }
-        incidence()
-    }, [id])
     const [incidencedata, setincidencedata] = useState({
         incidence: '',
         errordesc: '',
@@ -47,6 +25,7 @@ const Incidence = () => {
         actiontaken: '',
         remarks: ''
     })
+
     //default state
     const defaultstate = {
         incidence: '',
@@ -64,16 +43,13 @@ const Incidence = () => {
         actiontaken,
         remarks
     } = incidencedata
-
     //getting data from the form 
 
     const updateFormData = async (e) => {
         const value = e.target.value
         setincidencedata({ ...incidencedata, [e.target.name]: value })
     }
-    const RedirectToProfilePage = () => {
-        history.push(`/Home/InpatientEdit/${id}`)
-    }
+
     const postData = {
         inpt_slno: id,
         user_slno: userslno(),
@@ -83,19 +59,85 @@ const Incidence = () => {
         if_actntkn: actiontaken,
         if_remark: remarks
     }
+
+    const postDataEdit = {
+        inpt_slno: value,
+        user_slno: userslno(),
+        if_ysno: toggle,
+        if_errordesc: errordesc,
+        if_personresponsible: personresponsible,
+        if_actntkn: actiontaken,
+        if_remark: remarks
+    }
     const submitFormData = async (e) => {
         e.preventDefault()
-        const result = await axioslogin.post('/incidencefall', postData)
-        const { success, message } = result.data
-        if (success === 1) {
-            succesNofity(message)
-            setincidencedata(defaultstate)
-        } else if (success === 2) {
-            warningNofity(message)
-        } else {
-            errorNofity('Error Occured!!!Please Contact EDP')
+        if (value === 0) {
+            const result = await axioslogin.post('/incidencefall', postData)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNofity(message)
+                setdistrue(true)
+                // setsentinentdata(defaultstate)
+            } else if (success === 2) {
+                warningNofity(message)
+            } else {
+                errorNofity('Error Occured!!!Please Contact EDP')
+            }
         }
+        else {
+            const result = await axioslogin.patch('/incidencefall/edit', postDataEdit)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNofity(message)
+                // setdistrue(true)
+
+            } else if (success === 2) {
+                warningNofity(message)
+            } else {
+                errorNofity('Error Occured!!!Please Contact EDP')
+            }
+        }
+
     }
+
+    useEffect(() => {
+        const incidence = async () => {
+            const result = await axioslogin.get(`incidencefall/${id}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                setdistrue(true)
+                const { inpt_slno, if_ysno, if_errordesc, if_personresponsible, if_actntkn, if_remark } = data[0]
+                // setToggle(if_ysno)
+                const frmData = {
+
+                    errordesc: if_errordesc,
+                    personresponsible: if_personresponsible,
+                    actiontaken: if_actntkn,
+                    remarks: if_remark
+                }
+                setincidencedata(frmData)
+                setValue(inpt_slno)
+                setToggle(if_ysno)
+            }
+            else if (success === 0) {
+                setdistrue(false)
+                setValue(0)
+            }
+            else {
+                warningNofity("Error Occured!!!Please Contact EDP")
+            }
+        }
+        incidence()
+    }, [id])
+
+
+
+
+    const editincidence = () => {
+        setdistrue(false)
+    }
+
+
     return (
         <Fragment>
             <SessionCheck />
@@ -152,7 +194,8 @@ const Incidence = () => {
                 // }}
                 >
                     <div className="col-md-12">
-                        <FooterClosebtn />
+                        <FooterClosebtn
+                            edit={editincidence} />
                     </div>
                 </div>
             </form>

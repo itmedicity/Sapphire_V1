@@ -4,10 +4,25 @@ import { ToastContainer } from 'react-toastify'
 import { FormControl, MenuItem, Select } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
 import TextInput from 'src/views/Component/TextInput'
-
-const Dietititaincard = () => {
+import { userslno } from 'src/views/Constant/Constant'
+const Dietititaincard = ({ setfunc, handover, setdietvaluemain, id }) => {
   const [toggle, setToggle] = useState(0)
-
+  const [dietval, setdietvalue] = useState({
+    inpt_slno: id,
+    user_slno: userslno(),
+    dietian: '',
+    remarks: '',
+  })
+  //destructring the data
+  const {
+    dietian,
+    remarks
+  } = dietval
+  const updateFormData = async (e) => {
+    const value = e.target.value
+    setdietvalue({ ...dietval, [e.target.name]: value })
+    setdietvaluemain(dietval)
+  }
   return (
     <Fragment>
       <SessionCheck />
@@ -36,9 +51,14 @@ const Dietititaincard = () => {
         </div>
         <div className="col-md-9 pt-2">
           {toggle === '2' ? (
-            <Actiontaken />
+            <Actiontaken setfunc={setfunc} handover={handover} />
           ) : (
-            <TextInput type="text" classname="form-control form-control-sm" Placeholder="Remarks" />
+            <TextInput type="text"
+              classname="form-control form-control-sm"
+              Placeholder="Remarks"
+              value={remarks}
+              name="remarks"
+              changeTextValue={(e) => updateFormData(e)} />
           )}
         </div>
       </div>
