@@ -136,7 +136,7 @@ const InpatientEditnew = () => {
                       <Typography display="block" fontSize={18}>Care Plan</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography>
+                      <Typography component={'span'} variant={'body2'}>
                         <Careplan />
                       </Typography>
                     </AccordionDetails>
@@ -153,7 +153,7 @@ const InpatientEditnew = () => {
                       <Typography display="block" fontSize={18}>Equipment Utilization</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography>
+                      <Typography component={'span'} variant={'body2'}>
                         <EquipmentUtilization />
                       </Typography>
                     </AccordionDetails>
@@ -170,7 +170,7 @@ const InpatientEditnew = () => {
                       <Typography display="block" fontSize={18}>HandOver Communication</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography >
+                      <Typography component={'span'} variant={'body2'} >
                         <HandoverComunication />
                       </Typography>
                     </AccordionDetails>
@@ -187,7 +187,7 @@ const InpatientEditnew = () => {
                       <Typography display="block" fontSize={18}>Nutritional Screening</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography>
+                      <Typography component={'span'} variant={'body2'}>
                         <NutritionalScreening />
                       </Typography>
                     </AccordionDetails>
@@ -204,7 +204,7 @@ const InpatientEditnew = () => {
                       <Typography display="block" fontSize={18}>Dietitian</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography>
+                      <Typography component={'span'} variant={'body2'}>
                         <Dietitian />
                       </Typography>
                     </AccordionDetails>
@@ -221,7 +221,7 @@ const InpatientEditnew = () => {
                       <Typography display="block" fontSize={18}>Near Misses</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography>
+                      <Typography component={'span'} variant={'body2'}>
                         <Nearmissess />
                       </Typography>
                     </AccordionDetails>
@@ -238,7 +238,7 @@ const InpatientEditnew = () => {
                       <Typography display="block" fontSize={18}>Nurse Patient Ratio</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography>
+                      <Typography component={'span'} variant={'body2'}>
                         <NursePatientratio />
                       </Typography>
                     </AccordionDetails>
@@ -255,7 +255,7 @@ const InpatientEditnew = () => {
                       <Typography display="block" fontSize={18}> Patient Identification Error</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography>
+                      <Typography component={'span'} variant={'body2'}>
                         <Patientidentfctnerror />
                       </Typography>
                     </AccordionDetails>
@@ -272,7 +272,7 @@ const InpatientEditnew = () => {
                       <Typography display="block" fontSize={18}>Sentinal Event</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography>
+                      <Typography component={'span'} variant={'body2'}>
                         <Sentinalevent />
                       </Typography>
                     </AccordionDetails>
@@ -289,12 +289,12 @@ const InpatientEditnew = () => {
                       <Typography display="block" fontSize={18}>Discharge</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography>
+                      <Typography component={'span'} variant={'body2'}>
                         <Discharge />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
-                  <Accordion>
+                  {/* <Accordion>
                     <AccordionSummary
                       style={{
                         backgroundColor: '#f9fbe7'
@@ -306,12 +306,11 @@ const InpatientEditnew = () => {
                       <Typography display="block" fontSize={18}>Bed Utilization Ward</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography>
-                        {/* <Bedutilizatinward /> */}
-                      </Typography>
+                      <Typography component={'span'} variant={'body2'}>
+                      
                     </AccordionDetails>
-                  </Accordion>
-                  <Accordion>
+                  </Accordion> */}
+                  {/* <Accordion>
                     <AccordionSummary
                       style={{
                         backgroundColor: '#f9fbe7'
@@ -326,8 +325,8 @@ const InpatientEditnew = () => {
                       <Typography>
                       </Typography>
                     </AccordionDetails>
-                  </Accordion>
-                  <Accordion>
+                  </Accordion> */}
+                  {/* <Accordion>
                     <AccordionSummary
                       style={{
                         backgroundColor: '#f9fbe7'
@@ -342,7 +341,7 @@ const InpatientEditnew = () => {
                       <Typography>
                       </Typography>
                     </AccordionDetails>
-                  </Accordion>
+                  </Accordion> */}
                   <Accordion>
                     <AccordionSummary
                       style={{
@@ -355,12 +354,12 @@ const InpatientEditnew = () => {
                       <Typography display="block" fontSize={18}>Incidence of Fall</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography>
+                      <Typography component={'span'} variant={'body2'}>
                         <Incidence />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
-                  <Accordion>
+                  {/* <Accordion>
                     <AccordionSummary
                       style={{
                         backgroundColor: '#f9fbe7'
@@ -375,7 +374,7 @@ const InpatientEditnew = () => {
                       <Typography>
                       </Typography>
                     </AccordionDetails>
-                  </Accordion>
+                  </Accordion> */}
                 </Card>
               </div>
             </div>

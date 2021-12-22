@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
-import { useHistory, useParams } from 'react-router'
+import { useParams } from 'react-router'
 import { Select, FormControl, MenuItem, Card } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
@@ -9,37 +9,16 @@ import { useStyles } from 'src/views/CommonCode/MaterialStyle'
 import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
-
 import TextInput from 'src/views/Component/TextInput'
+
 const Careplan = () => {
     const { id } = useParams()
-    const classes = useStyles()
+
     const [toggle, setToggle] = useState(0)
-    const history = useHistory()
-    const RedirectToProfilePage = () => {
-        history.push(`/Home/InpatientEdit/${id}`)
-    }
-    const [distrue, setdistrue] = useState(false)
-    useEffect(() => {
-        const nutriscreening = async () => {
-            const result = await axioslogin.get(`careplan/${id}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setdistrue(true)
-                const { nc_ysno, nc_remark, nc_errordesc, nc_prsnresponsible, nc_actntkn } = data[0]
-                setToggle(nc_ysno)
-                const frmData = {
-                    careplan: nc_ysno,
-                    errordesc: nc_errordesc,
-                    personresponsible: nc_prsnresponsible,
-                    actiontaken: nc_actntkn,
-                    remarks: nc_remark
-                }
-                setcareplandata(frmData)
-            }
-        }
-        nutriscreening()
-    }, [id])
+
+    const [distrue, setdistrue] = useState(true)
+    const [value, setValue] = useState(0)
+
     const [careplandata, setcareplandata] = useState({
         careplan: '',
         errordesc: '',
@@ -53,9 +32,8 @@ const Careplan = () => {
         errordesc: '',
         personresponsible: '',
         actiontaken: '',
-        remarks: ''
+        remarks: '',
     }
-
     //destrutring object
     const {
         careplan,
@@ -72,7 +50,6 @@ const Careplan = () => {
         setcareplandata({ ...careplandata, [e.target.name]: value })
     }
 
-
     const postData = {
         inpt_slno: id,
         user_slno: userslno(),
@@ -83,19 +60,79 @@ const Careplan = () => {
         nc_remark: remarks
 
     }
+    const postDataEdit = {
+        inpt_slno: value,
+        user_slno: userslno(),
+        nc_ysno: toggle,
+        nc_errordesc: errordesc,
+        nc_prsnresponsible: personresponsible,
+        nc_actntkn: actiontaken,
+        nc_remark: remarks
+
+    }
+
+
     const submitFormData = async (e) => {
         e.preventDefault()
-        const result = await axioslogin.post('/careplan', postData)
-        const { success, message } = result.data
-        if (success === 1) {
-            succesNofity(message)
-            setdistrue(true)
+        if (value === 0) {
+            const result = await axioslogin.post('/careplan', postData)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNofity(message)
+                // setdistrue(true)
 
-        } else if (success === 2) {
-            warningNofity(message)
-        } else {
-            errorNofity('Error Occured!!!Please Contact EDP')
+            } else if (success === 2) {
+                warningNofity(message)
+            } else {
+                errorNofity('Error Occured!!!Please Contact EDP')
+            }
         }
+        else {
+            const result = await axioslogin.patch('/careplan/edit', postDataEdit)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNofity(message)
+                // setdistrue(true)
+
+            } else if (success === 2) {
+                warningNofity(message)
+            } else {
+                errorNofity('Error Occured!!!Please Contact EDP')
+            }
+        }
+
+    }
+    useEffect(() => {
+        const careplann = async () => {
+            const result = await axioslogin.get(`careplan/${id}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                // setdistrue(true)
+                const { inpt_slno, nc_ysno, nc_remark, nc_errordesc, nc_prsnresponsible, nc_actntkn } = data[0]
+                setToggle(nc_ysno)
+                const frmData = {
+                    careplan: nc_ysno,
+                    errordesc: nc_errordesc,
+                    personresponsible: nc_prsnresponsible,
+                    actiontaken: nc_actntkn,
+                    remarks: nc_remark
+                }
+                setcareplandata(frmData)
+                setValue(inpt_slno)
+            }
+            else if (success === 0) {
+                setdistrue(false)
+                setValue(0)
+            }
+            else {
+                warningNofity("Error Occured!!!Please Contact EDP")
+            }
+        }
+        careplann()
+    }, [id])
+
+    const editcareplan = () => {
+        setdistrue(false)
     }
 
     return (
@@ -152,7 +189,8 @@ const Careplan = () => {
                 // }}
                 >
                     <div className="col-md-12">
-                        <FooterClosebtn />
+                        <FooterClosebtn
+                            edit={editcareplan} />
                     </div>
                 </div>
             </form>

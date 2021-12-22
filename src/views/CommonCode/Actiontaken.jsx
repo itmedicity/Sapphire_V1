@@ -15,7 +15,7 @@ const Actiontaken = ({ setfunc, handover, distrue }) => {
     remarks: ''
   })
 
-  const { errordesc, personresponsible, actiontaken } = actiontakenData
+  const { errordesc, personresponsible, actiontaken, remarks, } = actiontakenData
   useEffect(() => {
     setactiontakenData(handover)
     setactiontakenData(handover)

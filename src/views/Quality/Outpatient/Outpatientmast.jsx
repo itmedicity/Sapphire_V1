@@ -10,8 +10,9 @@ const Outpatientmast = () => {
     useEffect(() => {
         const getPatientList = async () => {
             const id = 'P001'
-            const result = await axioslogin.get(`/op_indicator/${id}`);
+            const result = await axioslogin.post(`/op_indicator`);
             const { success, data } = result.data
+            console.log(data)
             if (success === 2) {
                 setPatientList(data)
             }

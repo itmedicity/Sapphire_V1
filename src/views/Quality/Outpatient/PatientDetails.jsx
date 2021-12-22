@@ -8,7 +8,7 @@ import { errorNofity, infoNofity, succesNofity, warningNofity } from 'src/views/
 import TextInput from 'src/views/Component/TextInput'
 
 const PatientDetails = ({ value }) => {
-    // console.log(value)
+    console.log(value)
     const [formData, setFormData] = useState({
         vsd_date: "",
         dtrop_vosit_time: "",
@@ -17,6 +17,8 @@ const PatientDetails = ({ value }) => {
 
     })
     const { vsd_date, dtrop_vosit_time, consult_start_time, consult_end_time } = formData
+
+
     const defaultState = {
         vsd_date: "",
         dtrop_vosit_time: "",
@@ -77,7 +79,7 @@ const PatientDetails = ({ value }) => {
                             classname="form-control form-control-sm custom-datefeild-height"
                             Placeholder="Date"
                             name="vsd_date"
-                            value={vsd_date}
+                            value={moment(vsd_date).format("yyyy-MM-dd")}
                             changeTextValue={(e) => updateOpIndicator(e)}
                         />
                     </div>
@@ -88,7 +90,7 @@ const PatientDetails = ({ value }) => {
                             classname="form-control form-control-sm custom-datefeild-height"
                             Placeholder="Date"
                             name="dtrop_vosit_time"
-                            value={dtrop_vosit_time}
+                            value={moment(dtrop_vosit_time).format("yyyy-MM-dd")}
                             changeTextValue={(e) => updateOpIndicator(e)}
                         />
 
@@ -99,7 +101,7 @@ const PatientDetails = ({ value }) => {
                             classname="form-control form-control-sm custom-datefeild-height"
                             Placeholder="Date"
                             name="consult_start_time"
-                            value={consult_start_time}
+                            value={moment(consult_start_time).format("yyyy-MM-dd")}
                             changeTextValue={(e) => updateOpIndicator(e)}
                         />
                     </div>
@@ -109,7 +111,7 @@ const PatientDetails = ({ value }) => {
                             classname="form-control form-control-sm custom-datefeild-height"
                             Placeholder="Date"
                             name="consult_end_time"
-                            value={consult_end_time}
+                            value={moment(consult_end_time).format("yyyy-MM-dd")}
                             changeTextValue={(e) => updateOpIndicator(e)}
                         />
                     </div>

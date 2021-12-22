@@ -14,58 +14,44 @@ import moment from 'moment'
 
 const EquipmentUtilization = () => {
     const { id } = useParams()
-    const [distrue, setdistrue] = useState(false)
-    const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
 
-    useEffect(() => {
-        const equipmentutilzation = async () => {
-            const result = await axioslogin.get(`equipmentUtilization/${id}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setdistrue(true)
-                const { euipment_slno,
-                    eu_starttime,
-                    eu_endtime } = data[0]
-
-                updateEquipment(euipment_slno)
-                const frmData = {
-                    start_utilization: moment(eu_starttime).format("YYYY-MM-DD[T]HH:mm:ss"),
-                    end_utilization: moment(eu_endtime).format("YYYY-MM-DD[T]HH:mm:ss")
-                }
-                setequipmentData(frmData)
+    const [enable, setenable] = useState(true)
+    const [value, setvalue] = useState(0)
 
 
-            }
-        }
-        equipmentutilzation()
-    }, [id])
+    //setting Intial State
+    const [equipmentutiliztinData, setEquipmentUtilization] = useState({
 
-    //setting initial state
-    const [equipmentutiliztinData, setequipmentData] = useState({
         start_utilization: '',
         end_utilization: ''
     })
-    //defaultb state
+
+    //default state
     const defaultstate = {
+
         start_utilization: '',
         end_utilization: ''
     }
 
     //destrutring object
     const {
+
         start_utilization,
         end_utilization
     } = equipmentutiliztinData
 
-    //select doctorselect
+    //select euipment selectselect
     const { selectEquipment, updateEquipment } = useContext(PayrolMasterContext)
+
+
+    //  const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
 
 
     //getting data from the form 
 
     const updateFormData = async (e) => {
         const value = e.target.value
-        setequipmentData({ ...equipmentutiliztinData, [e.target.name]: value })
+        setEquipmentUtilization({ ...equipmentutiliztinData, [e.target.name]: value })
     }
 
     const postData = {
@@ -76,20 +62,77 @@ const EquipmentUtilization = () => {
         eu_endtime: end_utilization
 
     }
+    const postDataEdit = {
+        inpt_slno: value,
+        user_slno: userslno(),
+        euipment_slno: selectEquipment,
+        eu_starttime: start_utilization,
+        eu_endtime: end_utilization
+    }
+
     //saving form data
     const submitFormData = async (e) => {
         e.preventDefault()
-        const result = await axioslogin.post('/equipmentUtilization', postData)
-        const { success, message } = result.data
-        if (success === 1) {
-            succesNofity(message)
-            setdistrue(true)
-        } else if (success === 2) {
-            warningNofity(message)
-        } else {
-            errorNofity('Error Occured!!!Please Contact EDP')
+        if (value === 0) {
+            const result = await axioslogin.post('/equipmentUtilization', postData)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNofity(message)
+                // setdistrue(true)
+            } else if (success === 2) {
+                warningNofity(message)
+            } else {
+                errorNofity('Error Occured!!!Please Contact EDP')
+            }
+        }
+        else {
+            const result = await axioslogin.patch('/equipmentUtilization/edit', postDataEdit)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNofity(message)
+                // setdistrue(true)
+            } else if (success === 2) {
+                warningNofity(message)
+            } else {
+                errorNofity('Error Occured!!!Please Contact EDP')
+            }
         }
     }
+
+    useEffect(() => {
+        const equipmentutilzation = async () => {
+            const result = await axioslogin.get(`equipmentUtilization/${id}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                // setdistrue(true)
+                const { inpt_slno,
+                    euipment_slno,
+                    eu_starttime,
+                    eu_endtime } = data[0]
+
+                const frmData = {
+                    selectEquipment: euipment_slno,
+                    start_utilization: moment(eu_starttime).format("YYYY-MM-DD[T]HH:mm:ss"),
+                    end_utilization: moment(eu_endtime).format("YYYY-MM-DD[T]HH:mm:ss"),
+                }
+                setEquipmentUtilization(frmData)
+                setvalue(inpt_slno)
+            }
+            else if (success === 0) {
+                setenable(false)
+                setvalue(0)
+            }
+            else {
+                warningNofity("Error Occured!!!Please Contact EDP")
+            }
+        }
+        equipmentutilzation()
+    }, [id])
+
+    const editequipmentutilization = () => {
+        setenable(false)
+    }
+
 
     return (
         <Fragment>
@@ -119,7 +162,7 @@ const EquipmentUtilization = () => {
                                     changeTextValue={(e) => updateFormData(e)}
                                     value={start_utilization}
                                     name="start_utilization"
-                                    disabled={distrue}
+                                    disabled={enable}
                                 />
                             </div>
                             <div className="col-md-4 ">
@@ -131,7 +174,7 @@ const EquipmentUtilization = () => {
                                     changeTextValue={(e) => updateFormData(e)}
                                     value={end_utilization}
                                     name="end_utilization"
-                                    disabled={distrue}
+                                    disabled={enable}
                                 />
                             </div>
                         </div>
@@ -143,7 +186,9 @@ const EquipmentUtilization = () => {
                 // }}
                 >
                     <div className="col-md-12">
-                        <FooterClosebtn />
+                        <FooterClosebtn
+                            edit={editequipmentutilization}
+                        />
                     </div>
                 </div>
             </form >
