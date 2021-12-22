@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { useHistory, useParams } from 'react-router'
 import { ToastContainer } from 'react-toastify'
+import { useParams } from 'react-router'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { Card } from '@mui/material'
 import TextInput from 'src/views/Component/TextInput'
@@ -13,12 +13,12 @@ import moment from 'moment'
 
 const InitialassesmentDoctor = () => {
   const { id } = useParams()
-  const history = useHistory()
-  const [distrue, setdistrue] = useState(false)
-  const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
-  const RedirectToProfilePage = () => {
-    history.push(`/Home/InpatientEdit/${id}`)
-  }
+
+
+  //use state for enable fields on clicking edit button
+  const [enable, Setenable] = useState(true)
+  const [value, setValue] = useState(0)
+
   //   setting intial state
   const [intAssmntDoctorData, setintAssmntDoctorData] = useState({
     arrived_time: '',
@@ -26,26 +26,6 @@ const InitialassesmentDoctor = () => {
     intialassessment_end: '',
     remark: '',
   })
-  useEffect(() => {
-    const getinitailassessdoc = async () => {
-      const result = await axioslogin.get(`initalassessmentDoc/${id}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        setdistrue(true)
-        const { iad_start_time, iad_end_time, iad_remark, pt_received_time } = data[0]
-        const frmData = {
-          arrived_time: moment(pt_received_time).format("YYYY-MM-DD[T]HH:mm:ss"),
-          intialassessment_start: moment(iad_start_time).format("YYYY-MM-DD[T]HH:mm:ss"),
-          intialassessment_end: moment(iad_end_time).format("YYYY-MM-DD[T]HH:mm:ss"),
-          remark: iad_remark
-        }
-        setintAssmntDoctorData(frmData)
-      }
-    }
-    getinitailassessdoc()
-  }, [id])
-
-
   //   default state
   const defaultstate = {
     arrived_time: '',
@@ -76,23 +56,75 @@ const InitialassesmentDoctor = () => {
     iad_remark: remark,
     user_slno: userslno(),
   }
+  const postDataEdit = {
+    pt_received_time: arrived_time,
+    iad_start_time: intialassessment_start,
+    iad_end_time: intialassessment_end,
+    iad_remark: remark,
+    user_slno: userslno(),
+    inpt_slno: value,
+  }
 
   //saving form data
   const submitFormData = async (e) => {
     e.preventDefault()
-    const result = await axioslogin.post('/initalassessmentDoc', postData)
-    const { success, message } = result.data
-    if (success === 1) {
-      succesNofity(message)
-      setdistrue(true)
+    if (value === 0) {
+      const result = await axioslogin.post('/initalassessmentDoc', postData)
+      const { success, message } = result.data
+      if (success === 1) {
+        succesNofity(message)
+        // setdistrue(true)
 
-    } else if (success === 2) {
-      warningNofity(message)
-    } else {
-      errorNofity('Error Occured!!!Please Contact EDP')
+      } else if (success === 2) {
+        warningNofity(message)
+      } else {
+        errorNofity('Error Occured!!!Please Contact EDP')
+      }
     }
+    else {
+      const result = await axioslogin.patch('/initalassessmentDoc/edit', postDataEdit)
+      const { success, message } = result.data
+      if (success === 1) {
+        succesNofity(message)
+        // setdistrue(true)
+      } else if (success === 2) {
+        warningNofity(message)
+      } else {
+        errorNofity('Error Occured!!!Please Contact EDP')
+      }
+    }
+
   }
 
+  useEffect(() => {
+    const getinitailassessdoc = async () => {
+      const result = await axioslogin.get(`initalassessmentDoc/${id}`)
+      const { success, data } = result.data
+      if (success === 1) {
+        // setdistrue(true)
+        const { inpt_slno, iad_start_time, iad_end_time, iad_remark, pt_received_time } = data[0]
+        const frmData = {
+          arrived_time: moment(pt_received_time).format("YYYY-MM-DD[T]HH:mm:ss"),
+          intialassessment_start: moment(iad_start_time).format("YYYY-MM-DD[T]HH:mm:ss"),
+          intialassessment_end: moment(iad_end_time).format("YYYY-MM-DD[T]HH:mm:ss"),
+          remark: iad_remark
+        }
+        setintAssmntDoctorData(frmData)
+        setValue(inpt_slno)
+      }
+      else if (success === 2) {
+        Setenable(false)
+        setValue(0)
+      }
+      else {
+        warningNofity("Error Occured!!!Please Contact EDP")
+      }
+    }
+    getinitailassessdoc()
+  }, [id])
+  const editinitialassessmentdoc = () => {
+    Setenable(false)
+  }
   return (
 
     <Fragment>
@@ -114,7 +146,7 @@ const InitialassesmentDoctor = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={arrived_time}
                   name="arrived_time"
-                  disabled={distrue}
+                  disabled={enable}
                 />
               </div>
               <div className="col-md-3 pb-1">
@@ -129,7 +161,7 @@ const InitialassesmentDoctor = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={intialassessment_start}
                   name="intialassessment_start"
-                  disabled={distrue}
+                  disabled={enable}
                 />
               </div>
               <div className="col-md-3  pb-1">
@@ -144,7 +176,7 @@ const InitialassesmentDoctor = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={intialassessment_end}
                   name="intialassessment_end"
-                  disabled={distrue}
+                  disabled={enable}
                 />
               </div>
               <div className="col-md-3  pb-1">
@@ -157,7 +189,7 @@ const InitialassesmentDoctor = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={remark}
                   name="remark"
-                  disabled={distrue}
+                  disabled={enable}
                 />
               </div>
             </div>
@@ -169,7 +201,9 @@ const InitialassesmentDoctor = () => {
         // }}
         >
           <div className="col-md-12">
-            <FooterClosebtn />
+            <FooterClosebtn
+              edit={editinitialassessmentdoc}
+            />
           </div>
         </div>
       </form>

@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { useParams, useHistory } from 'react-router'
+import { useParams } from 'react-router'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { Card } from '@mui/material'
@@ -11,8 +11,13 @@ import moment from 'moment'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 const IntialassessmentNurse = () => {
   const { id } = useParams()
-  const [distrue, setdistrue] = useState(false)
-  const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
+  //const [distrue, setdistrue] = useState(false)
+  //const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
+
+  //use state for enable fields on clicking edit button
+  const [enable, Setenable] = useState(true)
+  const [value, setValue] = useState(0)
+  console.log(value)
   //   setting intial state
   const [intAssmntNurseData, setintAssmntNurseData] = useState({
     arrived_time_ns: '',
@@ -48,28 +53,50 @@ const IntialassessmentNurse = () => {
     ian_remark: remarkns,
     user_slno: userslno(),
   }
-
+  const postDataEdit = {
+    pt_receivetime: arrived_time_ns,
+    ia_startnstime: initialassemnt_startns,
+    ia_endnstime: initialassemnt_endns,
+    ian_remark: remarkns,
+    user_slno: userslno(),
+    inpt_slno: value,
+  }
   //saving form data
   const submitFormData = async (e) => {
     e.preventDefault()
-    const result = await axioslogin.post('/assesmentnurse', postData)
-    const { success, message } = result.data
-    if (success === 1) {
-      succesNofity(message)
-      setdistrue(true)
-    } else if (success === 2) {
-      warningNofity(message)
-    } else {
-      errorNofity('Error Occured!!!Please Contact EDP')
+    if (value === 0) {
+      const result = await axioslogin.post('/assesmentnurse', postData)
+      const { success, message } = result.data
+      if (success === 1) {
+        succesNofity(message)
+        //setdistrue(true)
+      } else if (success === 2) {
+        warningNofity(message)
+      } else {
+        errorNofity('Error Occured!!!Please Contact EDP')
+      }
     }
+    else {
+      const result = await axioslogin.patch('/assesmentnurse/edit', postDataEdit)
+      const { success, message } = result.data
+      if (success === 1) {
+        succesNofity(message)
+        // setdistrue(true)
+      } else if (success === 2) {
+        warningNofity(message)
+      } else {
+        errorNofity('Error Occured!!!Please Contact EDP')
+      }
+    }
+
   }
   useEffect(() => {
     const getinitailassessnurse = async () => {
       const result = await axioslogin.get(`assesmentnurse/${id}`)
       const { success, data } = result.data
       if (success === 1) {
-        setdistrue(true)
-        const { pt_receivetime, ia_startnstime, ia_endnstime, ian_remark } = data[0]
+        // setdistrue(true)
+        const { inpt_slno, pt_receivetime, ia_startnstime, ia_endnstime, ian_remark } = data[0]
         const frmData = {
           arrived_time_ns: moment(pt_receivetime).format("YYYY-MM-DD[T]HH:mm:ss"),
           initialassemnt_startns: moment(ia_startnstime).format("YYYY-MM-DD[T]HH:mm:ss"),
@@ -77,10 +104,24 @@ const IntialassessmentNurse = () => {
           remarkns: ian_remark
         }
         setintAssmntNurseData(frmData)
+        setValue(inpt_slno)
+      }
+      else if (success === 2) {
+        Setenable(false)
+        setValue(0)
+      }
+      else {
+        warningNofity("Error Occured!!!Please Contact EDP")
       }
     }
     getinitailassessnurse()
   }, [id])
+  const editinitialassessment = () => {
+    Setenable(false)
+  }
+  // const RedirectToProfilePage = () => {
+  //   history.push(`/Home/Profile/${id}/${no}`)
+  // }
 
   return (
     <Fragment>
@@ -102,7 +143,7 @@ const IntialassessmentNurse = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={arrived_time_ns}
                   name="arrived_time_ns"
-                  disabled={distrue}
+                  disabled={enable}
                 />
               </div>
               <div className="col-md-3  pb-1">
@@ -117,7 +158,7 @@ const IntialassessmentNurse = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={initialassemnt_startns}
                   name="initialassemnt_startns"
-                  disabled={distrue}
+                  disabled={enable}
                 />
               </div>
               <div className="col-md-3  pb-1">
@@ -132,7 +173,7 @@ const IntialassessmentNurse = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={initialassemnt_endns}
                   name="initialassemnt_endns"
-                  disabled={distrue}
+                  disabled={enable}
                 />
               </div>
               <div className="col-md-2  pb-1">
@@ -143,7 +184,7 @@ const IntialassessmentNurse = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={remarkns}
                   name="remarkns"
-                  disabled={distrue} />
+                  disabled={enable} />
               </div>
             </div>
           </div>
@@ -154,7 +195,11 @@ const IntialassessmentNurse = () => {
         // }}
         >
           <div className="col-md-12">
-            <FooterClosebtn />
+            <FooterClosebtn
+              edit={editinitialassessment}
+            //redirect={RedirectToProfilePage}
+            // value={value}
+            />
           </div>
         </div>
 

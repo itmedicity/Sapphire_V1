@@ -14,36 +14,11 @@ import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/C
 
 const NutritionalScreening = () => {
     const { id } = useParams()
-    const history = useHistory()
-    const RedirectToProfilePage = () => {
-        history.push(`/Home/InpatientEdit/${id}`)
-    }
+
     const classes = useStyles()
     const [toggle, setToggle] = useState(0)
-    const [distrue, setdistrue] = useState(false)
-
-
-    useEffect(() => {
-        const nutriscreening = async () => {
-            const result = await axioslogin.get(`nutritionalScreening/${id}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setdistrue(true)
-                const { ns_ysno, ns_remark, ns_personresponsible, ns_errordesc, ns_actntkn } = data[0]
-                setToggle(ns_ysno)
-                const frmData = {
-                    nutritionalScreening: ns_ysno,
-                    errordesc: ns_errordesc,
-                    personresponsible: ns_personresponsible,
-                    actiontaken: ns_actntkn,
-                    remarks: ns_remark
-                }
-                setnutritionalScreeningdata(frmData)
-            }
-        }
-        nutriscreening()
-    }, [id])
-
+    const [distrue, setdistrue] = useState(true)
+    const [value, setValue] = useState(0)
 
     const [nutritionalScreeningdata, setnutritionalScreeningdata] = useState(
         {
@@ -61,7 +36,6 @@ const NutritionalScreening = () => {
         actiontaken: '',
         remarks: ''
     }
-
     //destrutring object
     const {
         nutritionalScreening,
@@ -77,6 +51,8 @@ const NutritionalScreening = () => {
         const value = e.target.value
         setnutritionalScreeningdata({ ...nutritionalScreeningdata, [e.target.name]: value })
     }
+
+
     const postData = {
         inpt_slno: id,
         user_slno: userslno(),
@@ -86,24 +62,86 @@ const NutritionalScreening = () => {
         ns_actntkn: actiontaken,
         ns_remark: remarks
     }
+
+    const postDataEdit = {
+        inpt_slno: value,
+        user_slno: userslno(),
+        ns_ysno: toggle,
+        ns_errordesc: errordesc,
+        ns_personresponsible: personresponsible,
+        ns_actntkn: actiontaken,
+        ns_remark: remarks
+
+    }
+
     const submitFormData = async (e) => {
         e.preventDefault()
-        const result = await axioslogin.post('/nutritionalScreening', postData)
-        const { success, message } = result.data
-        if (success === 1) {
-            succesNofity(message)
-            setdistrue(true)
-        } else if (success === 2) {
-            warningNofity(message)
-        } else {
-            errorNofity('Error Occured!!!Please Contact EDP')
+        if (value === 0) {
+            const result = await axioslogin.post('/nutritionalScreening', postData)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNofity(message)
+                // setdistrue(true)
+            } else if (success === 2) {
+                warningNofity(message)
+            } else {
+                errorNofity('Error Occured!!!Please Contact EDP')
+            }
         }
+        else {
+            const result = await axioslogin.patch('/nutritionalScreening/edit', postDataEdit)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNofity(message)
+                // setdistrue(true)
+
+            } else if (success === 2) {
+                warningNofity(message)
+            } else {
+                errorNofity('Error Occured!!!Please Contact EDP')
+            }
+        }
+
+    }
+
+    useEffect(() => {
+        const nutriscreening = async () => {
+            const result = await axioslogin.get(`nutritionalScreening/${id}`)
+            console.log(result)
+            const { success, data } = result.data
+            if (success === 1) {
+                setdistrue(true)
+                const { inpt_slno, ns_ysno, ns_remark, ns_personresponsible, ns_errordesc, ns_actntkn } = data[0]
+                setToggle(ns_ysno)
+                const frmData = {
+                    nutritionalScreening: ns_ysno,
+                    errordesc: ns_errordesc,
+                    personresponsible: ns_personresponsible,
+                    actiontaken: ns_actntkn,
+                    remarks: ns_remark
+                }
+                setnutritionalScreeningdata(frmData)
+                setValue(inpt_slno)
+            }
+            else if (success === 0) {
+                setdistrue(false)
+                setValue(0)
+            }
+            else {
+                warningNofity("Error Occured!!!Please Contact EDP")
+            }
+        }
+        nutriscreening()
+    }, [id])
+
+    const editnutritionalscreening = () => {
+        setdistrue(false)
     }
     return (
         <Fragment>
             <SessionCheck />
             <ToastContainer />
-            <form className={classes.root} onSubmit={submitFormData}>
+            <form onSubmit={submitFormData}>
                 <Card className="card-body">
                     <div className="col-md-12">
                         <div className="row">
@@ -154,7 +192,8 @@ const NutritionalScreening = () => {
                 // }}
                 >
                     <div className="col-md-12">
-                        <FooterClosebtn />
+                        <FooterClosebtn
+                            edit={editnutritionalscreening} />
                     </div>
                 </div>
             </form>

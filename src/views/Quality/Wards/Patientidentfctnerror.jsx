@@ -16,35 +16,10 @@ import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/C
 
 const Patientidentfctnerror = () => {
   const { id } = useParams()
-  const [distrue, setdistrue] = useState(false)
+  const [distrue, setdistrue] = useState(true)
   const [toggle, setToggle] = useState(0)
+  const [value, setValue] = useState(0)
 
-  const history = useHistory()
-  const RedirectToProfilePage = () => {
-    history.push(`/Home/InpatientEdit/${id}`)
-  }
-
-
-  useEffect(() => {
-    const patientidentierror = async () => {
-      const result = await axioslogin.get(`patientIdenticationError/${id}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        setdistrue(true)
-        const { pie_ysno, pie_remark, pie_errordesc, pie_prsnresponsible, pie_actntkn } = data[0]
-        setToggle(pie_ysno)
-        const frmData = {
-          patientidentification: pie_ysno,
-          errordesc: pie_errordesc,
-          personresponsible: pie_prsnresponsible,
-          actiontaken: pie_actntkn,
-          remarks: pie_remark
-        }
-        setpatientidentdata(frmData)
-      }
-    }
-    patientidentierror()
-  }, [id])
   const [patientidentdata, setpatientidentdata] = useState({
     patientidentification: '',
     errordesc: '',
@@ -61,7 +36,6 @@ const Patientidentfctnerror = () => {
     remarks: ''
 
   }
-
   //destrutring object
   const {
     patientidentification,
@@ -77,6 +51,7 @@ const Patientidentfctnerror = () => {
     const value = e.target.value
     setpatientidentdata({ ...patientidentdata, [e.target.name]: value })
   }
+
   const postData = {
     inpt_slno: id,
     user_slno: userslno(),
@@ -87,19 +62,80 @@ const Patientidentfctnerror = () => {
     pie_remark: remarks
 
   }
+
+  const postDataEdit = {
+    inpt_slno: value,
+    user_slno: userslno(),
+    pie_ysno: toggle,
+    pie_errordesc: errordesc,
+    pie_prsnresponsible: personresponsible,
+    pie_actntkn: actiontaken,
+    pie_remark: remarks
+
+  }
   const submitFormData = async (e) => {
     e.preventDefault()
-    const result = await axioslogin.post('/patientIdenticationError', postData)
-    const { success, message } = result.data
-    if (success === 1) {
-      succesNofity(message)
-      setdistrue(true)
-      //setactiontaken(defaultstate)
-    } else if (success === 2) {
-      warningNofity(message)
-    } else {
-      errorNofity('Error Occured!!!Please Contact EDP')
+    if (value === 0) {
+      const result = await axioslogin.post('/patientIdenticationError', postData)
+      const { success, message } = result.data
+      if (success === 1) {
+        succesNofity(message)
+        setdistrue(true)
+        //setactiontaken(defaultstate)
+      } else if (success === 2) {
+        warningNofity(message)
+      } else {
+        errorNofity('Error Occured!!!Please Contact EDP')
+      }
     }
+
+    else {
+      const result = await axioslogin.patch('/patientIdenticationError/edit', postDataEdit)
+      const { success, message } = result.data
+      if (success === 1) {
+        succesNofity(message)
+        // setdistrue(true)
+
+      } else if (success === 2) {
+        warningNofity(message)
+      } else {
+        errorNofity('Error Occured!!!Please Contact EDP')
+      }
+    }
+
+  }
+
+  useEffect(() => {
+    const patientidentierror = async () => {
+      const result = await axioslogin.get(`patientIdenticationError/${id}`)
+      const { success, data } = result.data
+      if (success === 1) {
+        //setdistrue(true)
+        const { inpt_slno, pie_ysno, pie_remark, pie_errordesc, pie_prsnresponsible, pie_actntkn } = data[0]
+        setToggle(pie_ysno)
+        const frmData = {
+          patientidentification: pie_ysno,
+          errordesc: pie_errordesc,
+          personresponsible: pie_prsnresponsible,
+          actiontaken: pie_actntkn,
+          remarks: pie_remark
+        }
+        setpatientidentdata(frmData)
+        setValue(inpt_slno)
+      }
+      else if (success === 0) {
+        setdistrue(false)
+        setValue(0)
+      }
+      else {
+        warningNofity("Error Occured!!!Please Contact EDP")
+      }
+    }
+    patientidentierror()
+  }, [id])
+
+  const editpatientidentification = () => {
+    setdistrue(false)
   }
 
   return (
@@ -158,7 +194,8 @@ const Patientidentfctnerror = () => {
         // }}
         >
           <div className="col-md-12">
-            <FooterClosebtn />
+            <FooterClosebtn
+              edit={editpatientidentification} />
           </div>
         </div>
       </form>

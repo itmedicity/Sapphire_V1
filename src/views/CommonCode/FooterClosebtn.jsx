@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react'
 import { Chip, IconButton } from '@mui/material'
-import WrongLocationOutlinedIcon from '@mui/icons-material/WrongLocationOutlined';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { MdOutlineAddTask } from 'react-icons/md'
 // BiEditAlt
 
-const FooterClosebtn = () => {
+const FooterClosebtn = (props) => {
+  const { edit } = props
   return (
     <Fragment>
       <div className="col-md-12 col-sm-4 d-flex flex-row justify-content-md-end">
@@ -19,20 +20,23 @@ const FooterClosebtn = () => {
           // disabled={props.disable}
           // clickable={true}
           />
-          {/* <Chip
+
+
+          <Chip
             icon={
-              <IconButton type="submit" >
-                <BiEditAlt className="text-info p-0" size={22} />
+              <IconButton className="p-1" >
+                <ModeEditIcon className="text-info" size={22} />
               </IconButton>
             }
-            BiEditAlt
-            label="Save"
-          // disabled={props.disable}
-          // clickable={true}
-          /> */}
+            label="Edit"
+            onClick={edit}
+            // value={value}
+            clickable={true}
+          />
         </div>
-
       </div>
+
+
     </Fragment>
   )
 }

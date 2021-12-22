@@ -13,33 +13,9 @@ import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/C
 const HandoverComunication = () => {
   const { id } = useParams()
   const [toggle, setToggle] = useState(0)
-  const [distrue, setdistrue] = useState(false)
-  const history = useHistory()
-  const RedirectToProfilePage = () => {
-    history.push(`/Home/InpatientEdit/${id}`)
-  }
+  const [distrue, setdistrue] = useState(true)
+  const [value, setValue] = useState(0)
 
-
-  useEffect(() => {
-    const handovercommunictn = async () => {
-      const result = await axioslogin.get(`communicationerror/${id}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        setdistrue(true)
-        const { ce_ysno, ce_remark, ce_prsnresponsible, ce_errordesc, ce_actntkn } = data[0]
-        setToggle(ce_ysno)
-        const frmData = {
-          handover: ce_ysno,
-          errordesc: ce_errordesc,
-          personresponsible: ce_prsnresponsible,
-          actiontaken: ce_actntkn,
-          remarks: ce_remark
-        }
-        setactiontaken(frmData)
-      }
-    }
-    handovercommunictn()
-  }, [id])
   const [actiondata, setactiontaken] = useState({
     handover: '',
     errordesc: '',
@@ -56,7 +32,6 @@ const HandoverComunication = () => {
     remarks: ''
 
   }
-
   //destrutring object
   const {
     handover,
@@ -72,6 +47,7 @@ const HandoverComunication = () => {
     const value = e.target.value
     setactiontaken({ ...actiondata, [e.target.name]: value })
   }
+
   const postData = {
     inpt_slno: id,
     user_slno: userslno(),
@@ -82,20 +58,88 @@ const HandoverComunication = () => {
     ce_remark: remarks
 
   }
+
+  const postDataEdit = {
+    inpt_slno: value,
+    user_slno: userslno(),
+    ce_ysno: toggle,
+    ce_errordesc: errordesc,
+    ce_prsnresponsible: personresponsible,
+    ce_actntkn: actiontaken,
+    ce_remark: remarks
+
+  }
+
   const submitFormData = async (e) => {
     e.preventDefault()
-    const result = await axioslogin.post('/communicationerror', postData)
-    const { success, message } = result.data
-    if (success === 1) {
-      succesNofity(message)
-      setdistrue(true)
-      //setactiontaken(defaultstate)
-    } else if (success === 2) {
-      warningNofity(message)
-    } else {
-      errorNofity('Error Occured!!!Please Contact EDP')
+    if (value === 0) {
+      const result = await axioslogin.post('/communicationerror', postData)
+      const { success, message } = result.data
+      if (success === 1) {
+        succesNofity(message)
+        // setdistrue(true)
+        //setactiontaken(defaultstate)
+      } else if (success === 2) {
+        warningNofity(message)
+      } else {
+        errorNofity('Error Occured!!!Please Contact EDP')
+      }
     }
+    else {
+      const result = await axioslogin.patch('/communicationerror/edit', postDataEdit)
+      const { success, message } = result.data
+      if (success === 1) {
+        succesNofity(message)
+        // setdistrue(true)
+
+      } else if (success === 2) {
+        warningNofity(message)
+      } else {
+        errorNofity('Error Occured!!!Please Contact EDP')
+      }
+    }
+
   }
+
+  useEffect(() => {
+    const handovercommunictn = async () => {
+      const result = await axioslogin.get(`communicationerror/${id}`)
+      console.log(result)
+      const { success, data } = result.data
+      if (success === 1) {
+        // setdistrue(true)
+        const { inpt_slno, ce_ysno, ce_remark, ce_prsnresponsible, ce_errordesc, ce_actntkn } = data[0]
+        const frmData = {
+          // handover: ce_ysno,
+          errordesc: ce_errordesc,
+          personresponsible: ce_prsnresponsible,
+          actiontaken: ce_actntkn,
+          remarks: ce_remark
+        }
+        setactiontaken(frmData)
+        setValue(inpt_slno)
+        setToggle(ce_ysno)
+      }
+      else if (success === 0) {
+        setdistrue(false)
+        setValue(0)
+      }
+      else {
+        warningNofity("Error Occured!!!Please Contact EDP")
+      }
+    }
+    handovercommunictn()
+  }, [id])
+
+  const edithandovercommuication = () => {
+    setdistrue(false)
+  }
+
+
+
+
+
+
 
   return (
     <Fragment>
@@ -152,7 +196,9 @@ const HandoverComunication = () => {
         // }}
         >
           <div className="col-md-12">
-            <FooterClosebtn />
+            <FooterClosebtn
+              edit={edithandovercommuication}
+            />
           </div>
         </div>
       </form>

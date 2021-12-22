@@ -15,11 +15,9 @@ const Nearmissess = () => {
     const { id } = useParams()
     const classes = useStyles()
     const [toggle, setToggle] = useState(0)
-    const history = useHistory()
-    const [distrue, setdistrue] = useState(false)
-    const RedirectToProfilePage = () => {
-        history.push(`/Home/InpatientEdit/${id}`)
-    }
+    const [distrue, setdistrue] = useState(true)
+    const [value, setValue] = useState(0)
+
     const [nearmissdata, setnearmissdata] = useState({
         nearmisses: '',
         errordesc: '',
@@ -27,26 +25,6 @@ const Nearmissess = () => {
         actiontaken: '',
         remarks: ''
     })
-    useEffect(() => {
-        const nearmisses = async () => {
-            const result = await axioslogin.get(`nearMisses/${id}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setdistrue(true)
-                const { nm_ysno, nm_remark, nm_personresponsible, nm_errordesc, nm_actntkn } = data[0]
-                setToggle(nm_ysno)
-                const frmData = {
-                    nearmisses: nm_ysno,
-                    errordesc: nm_errordesc,
-                    personresponsible: nm_personresponsible,
-                    actiontaken: nm_actntkn,
-                    remarks: nm_remark
-                }
-                setnearmissdata(frmData)
-            }
-        }
-        nearmisses()
-    }, [id])
     //default state
     const defaultstate = {
         nearmisses: '',
@@ -63,6 +41,7 @@ const Nearmissess = () => {
         actiontaken,
         remarks
     } = nearmissdata
+
     //getting data from the form 
 
     const updateFormData = async (e) => {
@@ -78,21 +57,82 @@ const Nearmissess = () => {
         nm_actntkn: actiontaken,
         nm_remark: remarks
     }
+
+    const postDataEdit = {
+        inpt_slno: value,
+        user_slno: userslno(),
+        nm_ysno: toggle,
+        nm_errordesc: errordesc,
+        nm_personresponsible: personresponsible,
+        nm_actntkn: actiontaken,
+        nm_remark: remarks
+
+    }
+
     const submitFormData = async (e) => {
         e.preventDefault()
-        const result = await axioslogin.post('/nearMisses', postData)
-        const { success, message } = result.data
-        if (success === 1) {
-            succesNofity(message)
-            setdistrue(true)
-            //setnearmissdata(defaultstate)
+        if (value === 0) {
+            const result = await axioslogin.post('/nearMisses', postData)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNofity(message)
+                setdistrue(true)
+                //setnearmissdata(defaultstate)
 
-        } else if (success === 2) {
-            warningNofity(message)
-        } else {
-            errorNofity('Error Occured!!!Please Contact EDP')
+            } else if (success === 2) {
+                warningNofity(message)
+            } else {
+                errorNofity('Error Occured!!!Please Contact EDP')
+            }
         }
+        else {
+            const result = await axioslogin.patch('/nearMisses/edit', postDataEdit)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNofity(message)
+                // setdistrue(true)
+
+            } else if (success === 2) {
+                warningNofity(message)
+            } else {
+                errorNofity('Error Occured!!!Please Contact EDP')
+            }
+        }
+
     }
+
+    useEffect(() => {
+        const nearmisses = async () => {
+            const result = await axioslogin.get(`nearMisses/${id}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                // setdistrue(true)
+                const { inpt_slno, nm_ysno, nm_remark, nm_personresponsible, nm_errordesc, nm_actntkn } = data[0]
+                setToggle(nm_ysno)
+                const frmData = {
+                    nearmisses: nm_ysno,
+                    errordesc: nm_errordesc,
+                    personresponsible: nm_personresponsible,
+                    actiontaken: nm_actntkn,
+                    remarks: nm_remark
+                }
+                setnearmissdata(frmData)
+                setValue(inpt_slno)
+            }
+            else if (success === 0) {
+                setdistrue(false)
+                setValue(0)
+            }
+            else {
+                warningNofity("Error Occured!!!Please Contact EDP")
+            }
+        }
+        nearmisses()
+    }, [id])
+    const editnearmisses = () => {
+        setdistrue(false)
+    }
+
     return (
         <Fragment>
             <ToastContainer />
@@ -148,7 +188,8 @@ const Nearmissess = () => {
                 // }}
                 >
                     <div className="col-md-12">
-                        <FooterClosebtn />
+                        <FooterClosebtn
+                            edit={editnearmisses} />
                     </div>
                 </div>
             </form >

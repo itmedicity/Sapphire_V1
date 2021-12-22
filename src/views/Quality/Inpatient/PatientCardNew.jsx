@@ -64,7 +64,7 @@ const PatientCardNew = () => {
 
   return (
     <Fragment>
-      <Card sx={{ minWidth: 300, borderRadius: 8, boxShadow: 10 }}>
+      <Card sx={{ borderRadius: 8, boxShadow: 10 }}>
         <CardActionArea>
           <CardMedia>
             <Stack

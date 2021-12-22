@@ -16,31 +16,10 @@ const Sentinalevent = () => {
     const { id } = useParams()
     const classes = useStyles()
     const [toggle, setToggle] = useState(0)
-    const history = useHistory()
-    const [distrue, setdistrue] = useState(false)
-    const RedirectToProfilePage = () => {
-        history.push(`/Home/InpatientEdit/${id}`)
-    }
-    useEffect(() => {
-        const sentient = async () => {
-            const result = await axioslogin.get(`sentinelevent/${id}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setdistrue(true)
-                const { ser_ysno, ser_remark, ser_errordesc, ser_personresponsible, ser_actntkn } = data[0]
-                setToggle(ser_ysno)
-                const frmData = {
-                    nearmisses: ser_ysno,
-                    errordesc: ser_errordesc,
-                    personresponsible: ser_personresponsible,
-                    actiontaken: ser_actntkn,
-                    remarks: ser_remark
-                }
-                setsentinentdata(frmData)
-            }
-        }
-        sentient()
-    }, [id])
+
+    const [distrue, setdistrue] = useState(true)
+    const [value, setValue] = useState(0)
+
     const [sentinentdata, setsentinentdata] = useState({
         sentinent: '',
         errordesc: '',
@@ -57,6 +36,7 @@ const Sentinalevent = () => {
         remarks: ''
 
     }
+
     //destrutring object
     const {
         sentinent,
@@ -65,6 +45,7 @@ const Sentinalevent = () => {
         actiontaken,
         remarks
     } = sentinentdata
+
     const updateFormData = (e) => {
         const value = e.target.value
         setsentinentdata({ ...sentinentdata, [e.target.name]: value })
@@ -78,20 +59,84 @@ const Sentinalevent = () => {
         ser_actntkn: actiontaken,
         ser_remark: remarks
     }
+    const postDataEdit = {
+        inpt_slno: value,
+        user_slno: userslno(),
+        ser_ysno: toggle,
+        ser_errordesc: errordesc,
+        ser_personresponsible: personresponsible,
+        ser_actntkn: actiontaken,
+        ser_remark: remarks
+
+    }
     const submitFormData = async (e) => {
         e.preventDefault()
-        const result = await axioslogin.post('/sentinelevent', postData)
-        const { success, message } = result.data
-        if (success === 1) {
-            succesNofity(message)
-            setdistrue(true)
-            setsentinentdata(defaultstate)
-        } else if (success === 2) {
-            warningNofity(message)
-        } else {
-            errorNofity('Error Occured!!!Please Contact EDP')
+        if (value === 0) {
+            const result = await axioslogin.post('/sentinelevent', postData)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNofity(message)
+                setdistrue(true)
+                // setsentinentdata(defaultstate)
+            } else if (success === 2) {
+                warningNofity(message)
+            } else {
+                errorNofity('Error Occured!!!Please Contact EDP')
+            }
         }
+        else {
+            const result = await axioslogin.patch('/sentinelevent/edit', postDataEdit)
+            const { success, message } = result.data
+            if (success === 1) {
+                succesNofity(message)
+                // setdistrue(true)
+
+            } else if (success === 2) {
+                warningNofity(message)
+            } else {
+                errorNofity('Error Occured!!!Please Contact EDP')
+            }
+        }
+
     }
+
+    useEffect(() => {
+        const sentient = async () => {
+            const result = await axioslogin.get(`sentinelevent/${id}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                // setdistrue(true)
+                const { inpt_slno, ser_ysno, ser_remark, ser_errordesc, ser_personresponsible, ser_actntkn } = data[0]
+
+                const frmData = {
+                    //  nearmisses: ser_ysno,
+                    errordesc: ser_errordesc,
+                    personresponsible: ser_personresponsible,
+                    actiontaken: ser_actntkn,
+                    remarks: ser_remark
+                }
+                setsentinentdata(frmData)
+                setValue(inpt_slno)
+                setToggle(ser_ysno)
+            }
+            else if (success === 0) {
+                setdistrue(false)
+                setValue(0)
+            }
+            else {
+                warningNofity("Error Occured!!!Please Contact EDP")
+            }
+        }
+        sentient()
+    }, [id])
+
+    const editsentinalevent = () => {
+        setdistrue(false)
+    }
+
+
+
+
     return (
         <Fragment>
             <SessionCheck />
@@ -146,7 +191,8 @@ const Sentinalevent = () => {
                 // }}
                 >
                     <div className="col-md-12">
-                        <FooterClosebtn />
+                        <FooterClosebtn
+                            edit={editsentinalevent} />
                     </div>
                 </div>
             </form>

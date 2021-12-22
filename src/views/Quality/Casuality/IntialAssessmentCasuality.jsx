@@ -1,6 +1,6 @@
 import { Card } from '@mui/material'
 import React, { Fragment, useState } from 'react'
-import { useParams } from 'react-router-dom'
+
 import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
@@ -9,7 +9,7 @@ import { userslno } from 'src/views/Constant/Constant'
 
 const IntialAssessmentCasuality = () => {
 
-    // const id = useParams()
+
 
 
     const [IntialCasualityData, setIntialCasualityData] = useState({
