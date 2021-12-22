@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext } from 'react'
+import React, { Fragment, useState, useContext, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
@@ -12,10 +12,19 @@ import { Card, Chip, IconButton } from '@mui/material'
 import OptionSelection from 'src/views/CommonCode/OptionSelection'
 import { MdOutlineAddTask } from 'react-icons/md'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
+import moment from 'moment'
 
 const Bloodcomponents = () => {
   const { id } = useParams()
   const history = useHistory()
+  // const [distrue, setdistrue] = useState(false)
+  // const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
+
+
+  //use state for enable fields on clicking edit button
+  const [enable, Setenable] = useState(false)
+  const [value, setValue] = useState(0)
+
 
   // setting Intial state
   const [bloodcomponentData, setBloodcomponentData] = useState({
@@ -76,21 +85,82 @@ const Bloodcomponents = () => {
     remark: remarks,
   }
 
+  const postDataEdit = {
+    inpt_slno: value,
+    user_slno: userslno(),
+    bldmst_slno: selectBloodGroup,
+    bagrequested: noofbrdrequired,
+    bagreq_time: requesteddatetime,
+    bagreceived: noofbagreceived,
+    bagrec_time: recieved_datetime,
+    bldprduct_used: noofprdct_used,
+    bldprduct_wasted: noofprdct_wasted,
+    reactn_occ: selectOption,
+    remark: remarks,
+  }
+
   //saving form data
   const submitFormData = async (e) => {
     e.preventDefault()
-    const result = await axioslogin.post('/bloodcomponents', postData)
-    const { success, message } = result.data
-    if (success === 1) {
-      succesNofity(message)
-      setBloodcomponentData(defaultstate)
-      updateBloodGroup(0)
-      updateOption(0)
-    } else if (success === 2) {
-      warningNofity(message)
-    } else {
-      errorNofity('Error Occured!!!Please Contact EDP')
+    if (value === 0) {
+      const result = await axioslogin.post('/bloodcomponents', postData)
+      const { success, message } = result.data
+      if (success === 1) {
+        succesNofity(message)
+        Setenable(true)
+      } else if (success === 2) {
+        warningNofity(message)
+      } else {
+        errorNofity('Error Occured!!!Please Contact EDP')
+      }
     }
+    else {
+      const result = await axioslogin.patch('/bloodcomponents/edit', postDataEdit)
+      const { success, message } = result.data
+      if (success === 1) {
+        succesNofity(message)
+        Setenable(true)
+      } else if (success === 2) {
+        warningNofity(message)
+      } else {
+        errorNofity('Error Occured!!!Please Contact EDP')
+      }
+    }
+  }
+
+  useEffect(() => {
+    const bloodcomponent = async () => {
+      const result = await axioslogin.get(`bloodcomponents/${id}`)
+      const { success, data } = result.data
+      if (success === 1) {
+        Setenable(true)
+        const { inpt_slno, bldmst_slno, bagrequested, bagreq_time, bagreceived, bagrec_time, bldprduct_used, bldprduct_wasted, reactn_occ, remark } = data[0]
+        updateBloodGroup(bldmst_slno)
+        updateOption(reactn_occ)
+        const frmData = {
+          noofbrdrequired: bagrequested,
+          requesteddatetime: moment(bagreq_time).format("YYYY-MM-DD[T]HH:mm:ss"),
+          noofbagreceived: bagreceived,
+          noofprdct_used: bldprduct_used,
+          recieved_datetime: moment(bagrec_time).format("YYYY-MM-DD[T]HH:mm:ss"),
+          noofprdct_wasted: bldprduct_wasted,
+          remarks: remark,
+        }
+        setBloodcomponentData(frmData)
+        setValue(inpt_slno)
+      }
+      else if (success === 2) {
+        Setenable(false)
+        setValue(0)
+      }
+      else {
+        warningNofity("Error Occured!!!Please Contact EDP")
+      }
+    }
+    bloodcomponent()
+  }, [id])
+  const editbloodcompnt = () => {
+    Setenable(false)
   }
   return (
     <Fragment>
@@ -118,6 +188,7 @@ const Bloodcomponents = () => {
                   value={noofbrdrequired}
                   name="noofbrdrequired"
                   changeTextValue={(e) => updateFormData(e)}
+                  disabled={enable}
                 />
               </div>
               <div className="col-md-3 pt-2">
@@ -133,6 +204,7 @@ const Bloodcomponents = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={requesteddatetime}
                   name="requesteddatetime"
+                  disabled={enable}
                 />
               </div>
             </div>
@@ -145,6 +217,7 @@ const Bloodcomponents = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={noofbagreceived}
                   name="noofbagreceived"
+                  disabled={enable}
                 />
               </div>
               <div className="col-md-3 pt-2">
@@ -155,6 +228,7 @@ const Bloodcomponents = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={noofprdct_used}
                   name="noofprdct_used"
+                  disabled={enable}
                 />
               </div>
               <div className="col-md-3 pt-2">
@@ -171,6 +245,7 @@ const Bloodcomponents = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={recieved_datetime}
                   name="recieved_datetime"
+                  disabled={enable}
                 />
               </div>
             </div>
@@ -183,6 +258,7 @@ const Bloodcomponents = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={noofprdct_wasted}
                   name="noofprdct_wasted"
+                  disabled={enable}
                 />
               </div>
               <div className="col-md-3 pt-2">
@@ -203,6 +279,7 @@ const Bloodcomponents = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={remarks}
                   name="remarks"
+                  disabled={enable}
                 />
               </div>
             </div>
@@ -214,7 +291,8 @@ const Bloodcomponents = () => {
         // }}
         >
           <div className="col-md-12">
-            <FooterClosebtn />
+            <FooterClosebtn
+              edit={editbloodcompnt} />
           </div>
         </div>
       </form>
