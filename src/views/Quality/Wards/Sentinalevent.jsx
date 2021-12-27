@@ -34,7 +34,6 @@ const Sentinalevent = () => {
         personresponsible: '',
         actiontaken: '',
         remarks: ''
-
     }
 
     //destrutring object
@@ -85,21 +84,19 @@ const Sentinalevent = () => {
             }
         }
         else {
-            const result = await axioslogin.patch('/sentinelevent/edit', postDataEdit)
+            const result = await axioslogin.patch('/sentinelevent', postDataEdit)
             const { success, message } = result.data
-            if (success === 1) {
+            if (success === 2) {
                 succesNofity(message)
                 // setdistrue(true)
 
-            } else if (success === 2) {
+            } else if (success === 1) {
                 warningNofity(message)
             } else {
                 errorNofity('Error Occured!!!Please Contact EDP')
             }
         }
-
     }
-
     useEffect(() => {
         const sentient = async () => {
             const result = await axioslogin.get(`sentinelevent/${id}`)
@@ -134,9 +131,6 @@ const Sentinalevent = () => {
         setdistrue(false)
     }
 
-
-
-
     return (
         <Fragment>
             <SessionCheck />
@@ -147,6 +141,7 @@ const Sentinalevent = () => {
                         <div className="row">
                             <div className="col-md-2 pt-2">
                                 <FormControl
+                                    fullWidth
                                     margin="dense"
                                     className="mt-1"
                                 >
@@ -163,9 +158,8 @@ const Sentinalevent = () => {
                                         disabled={distrue}
                                         variant="outlined"
                                         style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
-
                                     >
-                                        <MenuItem value='0'>Selected Option</MenuItem>
+                                        <MenuItem value='0'>selected option</MenuItem>
                                         <MenuItem value='1'>Reported</MenuItem>
                                         <MenuItem value='2'>Not Reported</MenuItem>
                                     </Select>

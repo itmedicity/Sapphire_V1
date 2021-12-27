@@ -15,7 +15,7 @@ const Incidence = () => {
 
     const [toggle, setToggle] = useState(0)
 
-    const [distrue, setdistrue] = useState(true)
+    const [distrue, setdistrue] = useState(false)
     const [value, setValue] = useState(0)
 
     const [incidencedata, setincidencedata] = useState({
@@ -85,13 +85,12 @@ const Incidence = () => {
             }
         }
         else {
-            const result = await axioslogin.patch('/incidencefall/edit', postDataEdit)
+            const result = await axioslogin.patch('/incidencefall', postDataEdit)
             const { success, message } = result.data
-            if (success === 1) {
+            if (success === 2) {
                 succesNofity(message)
                 // setdistrue(true)
-
-            } else if (success === 2) {
+            } else if (success === 1) {
                 warningNofity(message)
             } else {
                 errorNofity('Error Occured!!!Please Contact EDP')

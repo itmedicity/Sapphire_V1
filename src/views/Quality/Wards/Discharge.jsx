@@ -3,7 +3,7 @@ import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import PatientCard from '../Inpatient/PatientCard'
 import { useHistory, useParams } from 'react-router'
-import { Card } from '@mui/material'
+import { Card, Typography } from '@mui/material'
 import TextInput from 'src/views/Component/TextInput'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
@@ -92,12 +92,12 @@ const Discharge = () => {
             }
         }
         else {
-            const result = await axioslogin.patch('/Discharge/edit', postDataEdit)
+            const result = await axioslogin.patch('/Discharge', postDataEdit)
             const { success, message } = result.data
-            if (success === 1) {
+            if (success === 2) {
                 succesNofity(message)
                 setdistrue(true)
-            } else if (success === 2) {
+            } else if (success === 1) {
                 warningNofity(message)
             } else {
                 errorNofity('Error Occured!!!Please Contact EDP')
@@ -148,10 +148,10 @@ const Discharge = () => {
                 <Card className="card-body">
                     <div className="col-md-12">
                         <div className="row">
-                            <div className="col-md-3 ">
-                                <label htmlFor="test" className="form-label">Discharge Advice Time</label>
-                            </div>
                             <div className="col-md-3">
+                                <Typography fontSize={16} noWrap={true} >Discharge Advice Time</Typography>
+                            </div>
+                            <div className="col-md-3 pb-1">
                                 <TextInput
                                     id="test"
                                     type="datetime-local"
@@ -164,9 +164,9 @@ const Discharge = () => {
                                 />
                             </div>
                             <div className="col-md-3">
-                                <label htmlFor="test" className="form-label">Discharge Summary Received Time</label>
+                                <Typography fontSize={16} noWrap={true} >Discharge Summary Received Time</Typography>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3 pb-1">
                                 <TextInput
                                     id="test"
                                     type="datetime-local"
@@ -180,9 +180,9 @@ const Discharge = () => {
                         </div>
                         <div className="row">
                             <div className="col-md-3">
-                                <label htmlFor="test" className="form-label">Summary Prepare Time</label>
+                                <Typography fontSize={16} noWrap={true} >Summary Prepare Time</Typography>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3 pb-1">
                                 <TextInput
                                     id="test"
                                     type="datetime-local"
@@ -195,9 +195,9 @@ const Discharge = () => {
                             </div>
 
                             <div className="col-md-3">
-                                <label htmlFor="test" className="form-label">Summary HandOver to Patient</label>
+                                <Typography fontSize={16} noWrap={true} >Summary HandOver to Patient</Typography>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3 pb-1">
                                 <TextInput
                                     id="test"
                                     type="datetime-local"
@@ -211,9 +211,9 @@ const Discharge = () => {
                         </div>
                         <div className="row">
                             <div className="col-md-3">
-                                <label htmlFor="test" className="form-label">Date of Discharge</label>
+                                <Typography fontSize={16} noWrap={true} >Date of Discharge</Typography>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3 pb-1">
                                 <TextInput
                                     id="test"
                                     type="datetime-local"
@@ -225,9 +225,9 @@ const Discharge = () => {
                                 />
                             </div>
                             <div className="col-md-3">
-                                <label htmlFor="test" className="form-label">Patient leaving from the unit</label>
+                                <Typography fontSize={16} noWrap={true} >Patient leaving from the unit</Typography>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3 pb-1">
                                 <TextInput
                                     id="test"
                                     type="datetime-local"

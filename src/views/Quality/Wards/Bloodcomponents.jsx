@@ -108,6 +108,10 @@ const Bloodcomponents = () => {
       if (success === 1) {
         succesNofity(message)
         Setenable(true)
+        //  setdistrue(true)
+        // setBloodcomponentData(defaultstate)
+        //updateBloodGroup(0)
+        //updateOption(0)
       } else if (success === 2) {
         warningNofity(message)
       } else {
@@ -115,12 +119,12 @@ const Bloodcomponents = () => {
       }
     }
     else {
-      const result = await axioslogin.patch('/bloodcomponents/edit', postDataEdit)
+      const result = await axioslogin.patch('/bloodcomponents', postDataEdit)
       const { success, message } = result.data
-      if (success === 1) {
+      if (success === 2) {
         succesNofity(message)
         Setenable(true)
-      } else if (success === 2) {
+      } else if (success === 1) {
         warningNofity(message)
       } else {
         errorNofity('Error Occured!!!Please Contact EDP')

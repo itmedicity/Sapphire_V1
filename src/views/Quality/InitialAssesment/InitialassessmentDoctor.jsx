@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 import { useParams } from 'react-router'
 import SessionCheck from 'src/views/Axios/SessionCheck'
-import { Card } from '@mui/material'
+import { Card, Typography } from '@mui/material'
 import TextInput from 'src/views/Component/TextInput'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -10,13 +10,11 @@ import { userslno } from 'src/views/Constant/Constant'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import moment from 'moment'
 
-
 const InitialassesmentDoctor = () => {
   const { id } = useParams()
 
-
   //use state for enable fields on clicking edit button
-  const [enable, Setenable] = useState(true)
+  const [enable, Setenable] = useState(false)
   const [value, setValue] = useState(0)
 
   //   setting intial state
@@ -73,21 +71,21 @@ const InitialassesmentDoctor = () => {
       const { success, message } = result.data
       if (success === 1) {
         succesNofity(message)
-        // setdistrue(true)
+        Setenable(true)
 
-      } else if (success === 2) {
+      } else if (success === 0) {
         warningNofity(message)
       } else {
         errorNofity('Error Occured!!!Please Contact EDP')
       }
     }
     else {
-      const result = await axioslogin.patch('/initalassessmentDoc/edit', postDataEdit)
+      const result = await axioslogin.patch('/initalassessmentDoc', postDataEdit)
       const { success, message } = result.data
-      if (success === 1) {
+      if (success === 2) {
         succesNofity(message)
-        // setdistrue(true)
-      } else if (success === 2) {
+        Setenable(true)
+      } else if (success === 1) {
         warningNofity(message)
       } else {
         errorNofity('Error Occured!!!Please Contact EDP')
@@ -101,7 +99,7 @@ const InitialassesmentDoctor = () => {
       const result = await axioslogin.get(`initalassessmentDoc/${id}`)
       const { success, data } = result.data
       if (success === 1) {
-        // setdistrue(true)
+        Setenable(true)
         const { inpt_slno, iad_start_time, iad_end_time, iad_remark, pt_received_time } = data[0]
         const frmData = {
           arrived_time: moment(pt_received_time).format("YYYY-MM-DD[T]HH:mm:ss"),
@@ -112,7 +110,7 @@ const InitialassesmentDoctor = () => {
         setintAssmntDoctorData(frmData)
         setValue(inpt_slno)
       }
-      else if (success === 2) {
+      else if (success === 0) {
         Setenable(false)
         setValue(0)
       }
@@ -126,7 +124,6 @@ const InitialassesmentDoctor = () => {
     Setenable(false)
   }
   return (
-
     <Fragment>
       <SessionCheck />
       <ToastContainer />
@@ -135,9 +132,7 @@ const InitialassesmentDoctor = () => {
           <div className="col-md-12">
             <div className="row">
               <div className="col-md-3  pb-1">
-                <label htmlFor="test" className="form-label" style={{ fontSize: '1rem ' }}>
-                  Arrived Time
-                </label>
+                <Typography fontSize={16} noWrap={true} >Arrived Time</Typography>
                 <TextInput
                   id="test"
                   type="datetime-local"
@@ -150,9 +145,7 @@ const InitialassesmentDoctor = () => {
                 />
               </div>
               <div className="col-md-3 pb-1">
-                <label htmlFor="test" className="form-label">
-                  Initial Assessment start
-                </label>
+                <Typography fontSize={16} noWrap={true} >Initial Assessment start</Typography>
                 <TextInput
                   id="test"
                   type="datetime-local"
@@ -165,9 +158,7 @@ const InitialassesmentDoctor = () => {
                 />
               </div>
               <div className="col-md-3  pb-1">
-                <label htmlFor="test" className="form-label">
-                  Initial Assessment End
-                </label>
+                <Typography fontSize={16} noWrap={true} > Initial Assessment End</Typography>
                 <TextInput
                   id="test"
                   type="datetime-local"
@@ -180,9 +171,7 @@ const InitialassesmentDoctor = () => {
                 />
               </div>
               <div className="col-md-3  pb-1">
-                <label htmlFor="test" className="form-label">
-                  Remark
-                </label>
+                <Typography fontSize={16} noWrap={true} > Remark</Typography>
                 <TextInput
                   classname="form-control form-control-sm"
                   Placeholder="Remark"
@@ -196,9 +185,7 @@ const InitialassesmentDoctor = () => {
           </div>
         </Card>
         <div className="card-footer"
-        // style={{
-        //   backgroundColor: '#b6b8c3',
-        // }}
+
         >
           <div className="col-md-12">
             <FooterClosebtn

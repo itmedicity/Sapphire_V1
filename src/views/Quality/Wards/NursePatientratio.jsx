@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import PatientCard from '../Inpatient/PatientCard'
 import { ToastContainer } from 'react-toastify'
@@ -15,6 +15,7 @@ const NursePatientratio = () => {
   // using useparam get id to get details of patient
   const { id } = useParams()
   const [toggle, setToggle] = useState(0)
+  const [enable, Setenable] = useState(false)
   const history = useHistory()
   const RedirectToProfilePage = () => {
     history.push(`/Home/InpatientEdit/${id}`)
@@ -43,7 +44,6 @@ const NursePatientratio = () => {
     inpt_slno: setdta.inpt_slno,
     user_slno: setdta.user_slno,
     nr_shift_flag: diestflag
-
   }
 
   const submitformData = async (e) => {
@@ -87,6 +87,35 @@ const NursePatientratio = () => {
       }
     }
   }
+  useEffect(() => {
+    const incidence = async () => {
+      const result = await axioslogin.get(`nursepatientRatio/${id}`)
+      const { success, data } = result.data
+      if (success === 1) {
+        //  setdistrue(true)
+        const { npr_ratio, npr_noofpatient, npr_noofnurse, inpt_slno } = data[0]
+        //   // setToggle(if_ysno)
+        const frmData = {
+          nursePatientratio: npr_ratio,
+          noofPatient: npr_noofpatient,
+          noofNurses: npr_noofnurse,
+
+        }
+        setfunc(frmData)
+        // setValue(inpt_slno)
+        // setToggle(if_ysno)
+      }
+      else if (success === 0) {
+        // setdistrue(false)
+        // setValue(0)
+      }
+      else {
+        warningNofity("Error Occured!!!Please Contact EDP")
+      }
+    }
+    incidence()
+  }, [id])
+
 
 
 
