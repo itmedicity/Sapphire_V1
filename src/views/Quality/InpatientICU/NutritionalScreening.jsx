@@ -81,21 +81,21 @@ const NutritionalScreening = () => {
             const { success, message } = result.data
             if (success === 1) {
                 succesNofity(message)
-                // setdistrue(true)
-            } else if (success === 2) {
+                setdistrue(true)
+            } else if (success === 0) {
                 warningNofity(message)
             } else {
                 errorNofity('Error Occured!!!Please Contact EDP')
             }
         }
         else {
-            const result = await axioslogin.patch('/nutritionalScreening/edit', postDataEdit)
+            const result = await axioslogin.patch('/nutritionalScreening', postDataEdit)
             const { success, message } = result.data
-            if (success === 1) {
+            if (success === 2) {
                 succesNofity(message)
-                // setdistrue(true)
+                setdistrue(true)
 
-            } else if (success === 2) {
+            } else if (success === 1) {
                 warningNofity(message)
             } else {
                 errorNofity('Error Occured!!!Please Contact EDP')
@@ -107,7 +107,7 @@ const NutritionalScreening = () => {
     useEffect(() => {
         const nutriscreening = async () => {
             const result = await axioslogin.get(`nutritionalScreening/${id}`)
-            console.log(result)
+
             const { success, data } = result.data
             if (success === 1) {
                 setdistrue(true)
@@ -147,6 +147,7 @@ const NutritionalScreening = () => {
                         <div className="row">
                             <div className="col-md-2 pt-2">
                                 <FormControl
+                                    fullWidth
                                     margin="dense"
                                     className="mt-1"
                                 >

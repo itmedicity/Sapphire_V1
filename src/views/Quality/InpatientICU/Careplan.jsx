@@ -16,7 +16,7 @@ const Careplan = () => {
 
     const [toggle, setToggle] = useState(0)
 
-    const [distrue, setdistrue] = useState(true)
+    const [distrue, setdistrue] = useState(false)
     const [value, setValue] = useState(0)
 
     const [careplandata, setcareplandata] = useState({
@@ -79,22 +79,22 @@ const Careplan = () => {
             const { success, message } = result.data
             if (success === 1) {
                 succesNofity(message)
-                // setdistrue(true)
+                setdistrue(true)
 
-            } else if (success === 2) {
+            } else if (success === 0) {
                 warningNofity(message)
             } else {
                 errorNofity('Error Occured!!!Please Contact EDP')
             }
         }
         else {
-            const result = await axioslogin.patch('/careplan/edit', postDataEdit)
+            const result = await axioslogin.patch('/careplan', postDataEdit)
             const { success, message } = result.data
-            if (success === 1) {
+            if (success === 2) {
                 succesNofity(message)
-                // setdistrue(true)
+                setdistrue(true)
 
-            } else if (success === 2) {
+            } else if (success === 1) {
                 warningNofity(message)
             } else {
                 errorNofity('Error Occured!!!Please Contact EDP')
@@ -107,7 +107,7 @@ const Careplan = () => {
             const result = await axioslogin.get(`careplan/${id}`)
             const { success, data } = result.data
             if (success === 1) {
-                // setdistrue(true)
+                setdistrue(true)
                 const { inpt_slno, nc_ysno, nc_remark, nc_errordesc, nc_prsnresponsible, nc_actntkn } = data[0]
                 setToggle(nc_ysno)
                 const frmData = {
@@ -145,6 +145,7 @@ const Careplan = () => {
                         <div className="row">
                             <div className="col-md-2 pt-2">
                                 <FormControl
+                                    fullWidth
                                     margin="dense"
                                     className="mt-1"
                                 >

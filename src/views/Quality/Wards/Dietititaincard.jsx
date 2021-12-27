@@ -1,11 +1,11 @@
-import React, { Fragment, useState, memo } from 'react'
+import React, { Fragment, useState, memo, useEffect } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
 import { FormControl, MenuItem, Select } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
 import TextInput from 'src/views/Component/TextInput'
 import { userslno } from 'src/views/Constant/Constant'
-const Dietititaincard = ({ setfunc, handover, setdietvaluemain, id }) => {
+const Dietititaincard = ({ setfunc, handover, setdietvaluemain, id, togglee }) => {
   const [toggle, setToggle] = useState(0)
   const [dietval, setdietvalue] = useState({
     inpt_slno: id,
@@ -23,13 +23,16 @@ const Dietititaincard = ({ setfunc, handover, setdietvaluemain, id }) => {
     setdietvalue({ ...dietval, [e.target.name]: value })
     setdietvaluemain(dietval)
   }
+  useEffect(() => {
+    setToggle(togglee)
+  }, [])
   return (
     <Fragment>
       <SessionCheck />
       <ToastContainer />
       <div className="row">
         <div className="col-md-3 pt-2">
-          <FormControl margin="dense" className="mt-1">
+          <FormControl fullWidth margin="dense" className="mt-1">
             <Select
               labelId="test-select-label"
               name="dietian"
@@ -50,7 +53,7 @@ const Dietititaincard = ({ setfunc, handover, setdietvaluemain, id }) => {
           </FormControl>
         </div>
         <div className="col-md-9 pt-2">
-          {toggle === '2' ? (
+          {toggle == 2 ? (
             <Actiontaken setfunc={setfunc} handover={handover} />
           ) : (
             <TextInput type="text"

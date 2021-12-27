@@ -15,7 +15,7 @@ import moment from 'moment'
 const EquipmentUtilization = () => {
     const { id } = useParams()
 
-    const [enable, setenable] = useState(true)
+    const [enable, setenable] = useState(false)
     const [value, setvalue] = useState(0)
 
 
@@ -78,20 +78,20 @@ const EquipmentUtilization = () => {
             const { success, message } = result.data
             if (success === 1) {
                 succesNofity(message)
-                // setdistrue(true)
-            } else if (success === 2) {
+                setenable(true)
+            } else if (success === 0) {
                 warningNofity(message)
             } else {
                 errorNofity('Error Occured!!!Please Contact EDP')
             }
         }
         else {
-            const result = await axioslogin.patch('/equipmentUtilization/edit', postDataEdit)
+            const result = await axioslogin.patch('/equipmentUtilization', postDataEdit)
             const { success, message } = result.data
-            if (success === 1) {
+            if (success === 2) {
                 succesNofity(message)
-                // setdistrue(true)
-            } else if (success === 2) {
+                setenable(true)
+            } else if (success === 1) {
                 warningNofity(message)
             } else {
                 errorNofity('Error Occured!!!Please Contact EDP')
@@ -104,7 +104,7 @@ const EquipmentUtilization = () => {
             const result = await axioslogin.get(`equipmentUtilization/${id}`)
             const { success, data } = result.data
             if (success === 1) {
-                // setdistrue(true)
+                setenable(true)
                 const { inpt_slno,
                     euipment_slno,
                     eu_starttime,
@@ -118,7 +118,7 @@ const EquipmentUtilization = () => {
                 setEquipmentUtilization(frmData)
                 setvalue(inpt_slno)
             }
-            else if (success === 0) {
+            else if (success === 2) {
                 setenable(false)
                 setvalue(0)
             }

@@ -13,7 +13,7 @@ import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/C
 const HandoverComunication = () => {
   const { id } = useParams()
   const [toggle, setToggle] = useState(0)
-  const [distrue, setdistrue] = useState(true)
+  const [distrue, setdistrue] = useState(false)
   const [value, setValue] = useState(0)
 
   const [actiondata, setactiontaken] = useState({
@@ -75,24 +75,25 @@ const HandoverComunication = () => {
     if (value === 0) {
       const result = await axioslogin.post('/communicationerror', postData)
       const { success, message } = result.data
+
       if (success === 1) {
         succesNofity(message)
-        // setdistrue(true)
+        setdistrue(true)
         //setactiontaken(defaultstate)
-      } else if (success === 2) {
+      } else if (success === 0) {
         warningNofity(message)
       } else {
         errorNofity('Error Occured!!!Please Contact EDP')
       }
     }
     else {
-      const result = await axioslogin.patch('/communicationerror/edit', postDataEdit)
+      const result = await axioslogin.patch('/communicationerror', postDataEdit)
       const { success, message } = result.data
-      if (success === 1) {
+      if (success === 2) {
         succesNofity(message)
-        // setdistrue(true)
+        setdistrue(true)
 
-      } else if (success === 2) {
+      } else if (success === 1) {
         warningNofity(message)
       } else {
         errorNofity('Error Occured!!!Please Contact EDP')
@@ -104,10 +105,9 @@ const HandoverComunication = () => {
   useEffect(() => {
     const handovercommunictn = async () => {
       const result = await axioslogin.get(`communicationerror/${id}`)
-      console.log(result)
       const { success, data } = result.data
       if (success === 1) {
-        // setdistrue(true)
+        setdistrue(true)
         const { inpt_slno, ce_ysno, ce_remark, ce_prsnresponsible, ce_errordesc, ce_actntkn } = data[0]
         const frmData = {
           // handover: ce_ysno,
@@ -150,7 +150,7 @@ const HandoverComunication = () => {
           <div className="col-md-12">
             <div className="row">
               <div className="col-md-2 pt-2">
-                <FormControl margin="dense" className="mt-1">
+                <FormControl fullWidth margin="dense" className="mt-1">
                   <Select
                     labelId="test-select-label"
                     name="handover"

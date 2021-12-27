@@ -90,13 +90,13 @@ const Patientidentfctnerror = () => {
     }
 
     else {
-      const result = await axioslogin.patch('/patientIdenticationError/edit', postDataEdit)
+      const result = await axioslogin.patch('/patientIdenticationError', postDataEdit)
       const { success, message } = result.data
-      if (success === 1) {
+      if (success === 2) {
         succesNofity(message)
         // setdistrue(true)
 
-      } else if (success === 2) {
+      } else if (success === 1) {
         warningNofity(message)
       } else {
         errorNofity('Error Occured!!!Please Contact EDP')
@@ -149,7 +149,7 @@ const Patientidentfctnerror = () => {
           <div className="col-md-12">
             <div className="row">
               <div className="col-md-2 pt-2">
-                <FormControl margin="dense" className="mt-1">
+                <FormControl fullWidth margin="dense" className="mt-1">
                   <Select
                     labelId="test-select-label"
                     name="patientidentification"

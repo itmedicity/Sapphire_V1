@@ -79,26 +79,25 @@ const Nearmissess = () => {
                 setdistrue(true)
                 //setnearmissdata(defaultstate)
 
-            } else if (success === 2) {
+            } else if (success === 0) {
                 warningNofity(message)
             } else {
                 errorNofity('Error Occured!!!Please Contact EDP')
             }
         }
         else {
-            const result = await axioslogin.patch('/nearMisses/edit', postDataEdit)
+            const result = await axioslogin.patch('/nearMisses', postDataEdit)
             const { success, message } = result.data
-            if (success === 1) {
+            if (success === 2) {
                 succesNofity(message)
-                // setdistrue(true)
+                setdistrue(true)
 
-            } else if (success === 2) {
+            } else if (success === 1) {
                 warningNofity(message)
             } else {
                 errorNofity('Error Occured!!!Please Contact EDP')
             }
         }
-
     }
 
     useEffect(() => {
@@ -106,7 +105,7 @@ const Nearmissess = () => {
             const result = await axioslogin.get(`nearMisses/${id}`)
             const { success, data } = result.data
             if (success === 1) {
-                // setdistrue(true)
+                setdistrue(true)
                 const { inpt_slno, nm_ysno, nm_remark, nm_personresponsible, nm_errordesc, nm_actntkn } = data[0]
                 setToggle(nm_ysno)
                 const frmData = {
@@ -143,6 +142,7 @@ const Nearmissess = () => {
                         <div className="row">
                             <div className="col-md-2 pt-2">
                                 <FormControl
+                                    fullWidth
                                     margin="dense"
                                     className="mt-1"
                                 >
