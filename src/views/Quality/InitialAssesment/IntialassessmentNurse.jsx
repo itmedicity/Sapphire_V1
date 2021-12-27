@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
-import { Card } from '@mui/material'
+import { Card, Typography } from '@mui/material'
 import TextInput from 'src/views/Component/TextInput'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import { userslno } from 'src/views/Constant/Constant'
@@ -15,9 +15,8 @@ const IntialassessmentNurse = () => {
   //const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
 
   //use state for enable fields on clicking edit button
-  const [enable, Setenable] = useState(true)
+  const [enable, Setenable] = useState(false)
   const [value, setValue] = useState(0)
-  console.log(value)
   //   setting intial state
   const [intAssmntNurseData, setintAssmntNurseData] = useState({
     arrived_time_ns: '',
@@ -69,7 +68,8 @@ const IntialassessmentNurse = () => {
       const { success, message } = result.data
       if (success === 1) {
         succesNofity(message)
-        //setdistrue(true)
+        Setenable(true)
+
       } else if (success === 2) {
         warningNofity(message)
       } else {
@@ -77,13 +77,13 @@ const IntialassessmentNurse = () => {
       }
     }
     else {
-      const result = await axioslogin.patch('/assesmentnurse/edit', postDataEdit)
+      const result = await axioslogin.patch('/assesmentnurse', postDataEdit)
       const { success, message } = result.data
-      if (success === 1) {
-        succesNofity(message)
-        // setdistrue(true)
-      } else if (success === 2) {
+      if (success === 2) {
         warningNofity(message)
+        Setenable(true)
+      } else if (success === 1) {
+        succesNofity(message)
       } else {
         errorNofity('Error Occured!!!Please Contact EDP')
       }
@@ -95,7 +95,7 @@ const IntialassessmentNurse = () => {
       const result = await axioslogin.get(`assesmentnurse/${id}`)
       const { success, data } = result.data
       if (success === 1) {
-        // setdistrue(true)
+        Setenable(true)
         const { inpt_slno, pt_receivetime, ia_startnstime, ia_endnstime, ian_remark } = data[0]
         const frmData = {
           arrived_time_ns: moment(pt_receivetime).format("YYYY-MM-DD[T]HH:mm:ss"),
@@ -119,10 +119,6 @@ const IntialassessmentNurse = () => {
   const editinitialassessment = () => {
     Setenable(false)
   }
-  // const RedirectToProfilePage = () => {
-  //   history.push(`/Home/Profile/${id}/${no}`)
-  // }
-
   return (
     <Fragment>
       <SessionCheck />
@@ -132,9 +128,7 @@ const IntialassessmentNurse = () => {
           <div className="col-md-12">
             <div className="row">
               <div className="col-md-3  pb-1">
-                <label htmlFor="test" className="form-label">
-                  Arrived Time
-                </label>
+                <Typography fontSize={16} noWrap={true} >Arrived Time</Typography>
                 <TextInput
                   id="test"
                   type="datetime-local"
@@ -147,9 +141,7 @@ const IntialassessmentNurse = () => {
                 />
               </div>
               <div className="col-md-3  pb-1">
-                <label htmlFor="test" className="form-label">
-                  Initial Assessment start
-                </label>
+                <Typography fontSize={16} noWrap={true} >Initial Assessment Start</Typography>
                 <TextInput
                   id="test"
                   type="datetime-local"
@@ -162,9 +154,7 @@ const IntialassessmentNurse = () => {
                 />
               </div>
               <div className="col-md-3  pb-1">
-                <label htmlFor="test" className="form-label">
-                  Initial Assessment End
-                </label>
+                <Typography fontSize={16} noWrap={true} >Initial Assessment End</Typography>
                 <TextInput
                   id="test"
                   type="datetime-local"
@@ -177,9 +167,7 @@ const IntialassessmentNurse = () => {
                 />
               </div>
               <div className="col-md-2  pb-1">
-                <label htmlFor="test" className="form-label">
-                  Remark
-                </label>
+                <Typography fontSize={16} noWrap={true} >Remarks</Typography>
                 <TextInput classname="form-control form-control-sm" Placeholder="Remark"
                   changeTextValue={(e) => updateFormData(e)}
                   value={remarkns}
@@ -194,7 +182,7 @@ const IntialassessmentNurse = () => {
         //   backgroundColor: '#b6b8c3',
         // }}
         >
-          <div className="col-md-12">
+          <div className="col-md-12 p-0">
             <FooterClosebtn
               edit={editinitialassessment}
             //redirect={RedirectToProfilePage}

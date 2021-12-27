@@ -8,7 +8,6 @@ import { errorNofity, infoNofity, succesNofity, warningNofity } from 'src/views/
 import TextInput from 'src/views/Component/TextInput'
 
 const PatientDetails = ({ value }) => {
-    console.log(value)
     const [formData, setFormData] = useState({
         vsd_date: "",
         dtrop_vosit_time: "",

@@ -25,7 +25,7 @@ const FooterClosebtn = (props) => {
           <Chip
             icon={
               <IconButton className="p-1" >
-                <ModeEditIcon className="text-info" size={22} />
+                <ModeEditIcon className="text-info p-0" size={22} />
               </IconButton>
             }
             label="Edit"

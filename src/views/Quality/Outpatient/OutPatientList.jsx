@@ -9,11 +9,9 @@ const OutPatientList = () => {
     useEffect(() => {
         const getPatientList = async () => {
             const result = await axioslogin.get(`/op_indicator/${'P001'}`);
-            console.log(result);
             const { success, data } = result.data
             if (success === 1) {
                 setPatientList(data)
-
                 succesNofity(message)
 
 
