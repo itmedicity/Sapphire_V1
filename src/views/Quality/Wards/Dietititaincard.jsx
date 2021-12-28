@@ -5,7 +5,7 @@ import { FormControl, MenuItem, Select } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
 import TextInput from 'src/views/Component/TextInput'
 import { userslno } from 'src/views/Constant/Constant'
-const Dietititaincard = ({ setfunc, handover, setdietvaluemain, id, togglee }) => {
+const Dietititaincard = ({ setfunc, handover, setdietvaluemain, id, togglee, disabled }) => {
   const [toggle, setToggle] = useState(0)
   const [dietval, setdietvalue] = useState({
     inpt_slno: id,
@@ -43,6 +43,7 @@ const Dietititaincard = ({ setfunc, handover, setdietvaluemain, id, togglee }) =
                 setToggle(e.target.value)
               }}
               fullWidth
+              disabled={disabled}
               variant="outlined"
               style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
             >
@@ -61,6 +62,7 @@ const Dietititaincard = ({ setfunc, handover, setdietvaluemain, id, togglee }) =
               Placeholder="Remarks"
               value={remarks}
               name="remarks"
+              disabled={disabled}
               changeTextValue={(e) => updateFormData(e)} />
           )}
         </div>
