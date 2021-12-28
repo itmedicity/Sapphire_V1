@@ -6,7 +6,6 @@ import { userslno } from 'src/views/Constant/Constant'
 import { Card } from '@mui/material'
 
 const Nurseratiocard = ({ setfunc, id }) => {
-
     const [nurseratioData, setnurseratioData] = useState({
         inpt_slno: id,
         user_slno: userslno(),
@@ -19,6 +18,7 @@ const Nurseratiocard = ({ setfunc, id }) => {
         const value = e.target.value
         setnurseratioData({ ...nurseratioData, [e.target.name]: value })
         setfunc({ ...nurseratioData, [e.target.name]: value })
+        // setfunc(nurseratioData)
     }
 
 
@@ -26,7 +26,7 @@ const Nurseratiocard = ({ setfunc, id }) => {
         <Fragment>
             <SessionCheck />
             <ToastContainer />
-            <form><Card>
+            <form>
                 <div className="row">
                     <div className="col-md-4 pt-1 pb-1" >
                         <TextInput
@@ -59,7 +59,7 @@ const Nurseratiocard = ({ setfunc, id }) => {
                         />
                     </div>
                 </div>
-            </Card></form>
+            </form>
 
         </Fragment>
     )

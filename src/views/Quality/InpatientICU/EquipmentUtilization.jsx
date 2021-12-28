@@ -117,6 +117,7 @@ const EquipmentUtilization = () => {
                 }
                 setEquipmentUtilization(frmData)
                 setvalue(inpt_slno)
+                updateEquipment(euipment_slno)
             }
             else if (success === 2) {
                 setenable(false)

@@ -1,4 +1,4 @@
-import { FormControl, MenuItem, Select } from '@material-ui/core'
+import { FormControl, MenuItem, Select } from '@mui/material'
 import React, { Fragment, useContext, useState, memo, useEffect } from 'react'
 import { PayrolMasterContext } from 'src/Context/MasterContext'
 import { axioslogin } from '../Axios/Axios'
@@ -19,7 +19,9 @@ const DoctornameSelect = (nameselect) => {
 
   return (
     <Fragment>
-      <FormControl fullWidth margin="dense" className="mt-1">
+      <FormControl fullWidth
+        margin="dense"
+        className="mt-1">
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
