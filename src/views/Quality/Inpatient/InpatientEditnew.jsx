@@ -2,7 +2,7 @@ import {
   Accordion, AccordionDetails, AccordionSummary, Card,
   CardHeader, Divider, Typography
 } from '@mui/material'
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import PatientCardNew from './PatientCardNew';
 import InitialAssesmentNurseNew from '../InitialAssesment/InitialAssesmentNurseNew';
 import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
@@ -33,8 +33,46 @@ import Bedutilizatinward from '../Wards/Bedutilizatinward';
 import NursePatientratio from '../Wards/NursePatientratio';
 import Dietitian from '../Wards/Dietitian';
 import NutritionalScreening from '../InpatientICU/NutritionalScreening';
-
+import Returntoicu from '../InpatientICU/Returntoicu';
+import { axioslogin } from 'src/views/Axios/Axios';
+import { useParams } from 'react-router';
+import moment from 'moment'
+import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
+import { differenceInHours } from 'date-fns'
 const InpatientEditnew = () => {
+  const { id } = useParams()
+
+  //setting the date for return to icu
+  const [datevalue, setDatevalue] = useState(0)
+
+  useEffect(() => {
+    const returnicudate = async () => {
+      const result = await axioslogin.get(`/returntoIcu/shf/${id}`)
+      const { success, data } = result.data
+      if (success === 1) {
+        const { shift_frm_icu,
+          inpt_slno
+        } = data[0]
+        const datetime = moment(shift_frm_icu).format("YYYY-MM-DD[T]HH:mm:ss")
+        const currdate = moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss")
+        const result = differenceInHours(new Date(currdate), new Date(datetime));
+
+
+        if (result <= 48) {
+          setDatevalue(false)
+        } else {
+          setDatevalue(true)
+        }
+      }
+      else if (success === 2) {
+      }
+      else {
+        warningNofity("Error Occured!!!Please Contact EDP")
+      }
+    }
+    returnicudate()
+  }, [id])
+
   return (
     <Fragment>
       <div className="card "
@@ -326,7 +364,9 @@ const InpatientEditnew = () => {
                       </Typography>
                     </AccordionDetails>
                   </Accordion> */}
-                  {/* <Accordion>
+                  <Accordion
+                    disabled={datevalue}
+                  >
                     <AccordionSummary
                       style={{
                         backgroundColor: '#f9fbe7'
@@ -334,14 +374,18 @@ const InpatientEditnew = () => {
                       expandIcon={<EventBusyIcon />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
+                    // disabled={datevalue}
                     >
-                      <Typography display="block" fontSize={18}>Return to ICU</Typography>
+                      <Typography display="block" fontSize={18} >Return to ICU</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography>
+                        <Returntoicu />
                       </Typography>
                     </AccordionDetails>
-                  </Accordion> */}
+                  </Accordion>
+
+
                   <Accordion>
                     <AccordionSummary
                       style={{

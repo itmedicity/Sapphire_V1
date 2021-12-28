@@ -16,6 +16,8 @@ const NursePatientratio = () => {
   const { id } = useParams()
   const [toggle, setToggle] = useState(0)
   const [enable, Setenable] = useState(false)
+  const [value, setValue] = useState(0)
+  const [distrue, setdistrue] = useState(false)
   const history = useHistory()
   const RedirectToProfilePage = () => {
     history.push(`/Home/InpatientEdit/${id}`)
@@ -92,22 +94,32 @@ const NursePatientratio = () => {
       const result = await axioslogin.get(`nursepatientRatio/${id}`)
       const { success, data } = result.data
       if (success === 1) {
-        //  setdistrue(true)
-        const { npr_ratio, npr_noofpatient, npr_noofnurse, inpt_slno } = data[0]
+        setdistrue(true)
+        const { npr_ratio, npr_noofpatient, npr_noofnurse, inpt_slno, nr_shift_flag } = data[0]
         //   // setToggle(if_ysno)
         const frmData = {
           nursePatientratio: npr_ratio,
           noofPatient: npr_noofpatient,
           noofNurses: npr_noofnurse,
-
         }
         setfunc(frmData)
-        // setValue(inpt_slno)
+        setValue(inpt_slno)
         // setToggle(if_ysno)
+        if (nr_shift_flag === 'M') {
+          const morining = 1
+          setfunc(frmData)
+          setToggle(morining)
+        } else if (nr_shift_flag === 'E') {
+          setfunc(frmData)
+          setToggle(2)
+        } else {
+          setfunc(frmData)
+          setToggle(3)
+        }
       }
       else if (success === 0) {
-        // setdistrue(false)
-        // setValue(0)
+        setdistrue(false)
+        setValue(0)
       }
       else {
         warningNofity("Error Occured!!!Please Contact EDP")
@@ -117,7 +129,9 @@ const NursePatientratio = () => {
   }, [id])
 
 
-
+  const editdischarge = () => {
+    setdistrue(false)
+  }
 
 
 
@@ -174,7 +188,7 @@ const NursePatientratio = () => {
         // }}
         >
           <div className="col-md-12">
-            <FooterClosebtn />
+            <FooterClosebtn edit={editdischarge} />
           </div>
         </div>
       </form>
