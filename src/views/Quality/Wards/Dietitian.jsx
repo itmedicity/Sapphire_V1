@@ -88,6 +88,7 @@ const Dietitian = () => {
         const { success, message } = result.data
         if (success === 1) {
           succesNofity(message)
+          Setenable(true)
           // setfunc(postdietpeadtric)
         } else if (success === 2) {
           warningNofity(message)
@@ -100,6 +101,7 @@ const Dietitian = () => {
         const { success, message } = result.data
         if (success === 1) {
           succesNofity(message)
+          Setenable(true)
           // seteveningdata(evengdefaultstate)
         } else if (success === 2) {
           warningNofity(message)
@@ -112,6 +114,7 @@ const Dietitian = () => {
         const { success, message } = result.data
         if (success === 1) {
           succesNofity(message)
+          Setenable(true)
           // setnightdata(nightdefaultstate)
         } else if (success === 2) {
           warningNofity(message)
@@ -152,7 +155,6 @@ const Dietitian = () => {
         }
         if (diet_pao_flag === "P") {
           const peadiatric = 2
-
           setToggle(2)
           setdietvaluemain(diet_ysno)
           if (diet_ysno === 1) {
@@ -175,14 +177,13 @@ const Dietitian = () => {
           const obstritcs = 3
           setToggle(obstritcs)
           setdietvaluemain(diet_ysno)
+
           if (diet_ysno === 1) {
             setfunc(frmdata1)
           } else {
             setfunc(frmData)
           }
         }
-
-
       }
       else if (success === 0) {
         Setenable(false)
@@ -194,7 +195,7 @@ const Dietitian = () => {
     }
     dietitian()
   }, [id])
-  const editbloodcompnt = () => {
+  const editdietian = () => {
     Setenable(false)
   }
 
@@ -250,9 +251,9 @@ const Dietitian = () => {
                 </div>
               </div>
               <div className="col-md-9">
-                {toggle === 1 ? <Dietititaincard setfunc={setfunc} handover={setdta} setdietvaluemain={setdietvaluemain} id={id} togglee={toggle} /> : null}
-                {toggle === 2 ? <Dietititaincard setfunc={setfunc} handover={setdta} setdietvaluemain={setdietvaluemain} id={id} togglee={toggle} /> : null}
-                {toggle === 3 ? <Dietititaincard setfunc={setfunc} handover={setdta} setdietvaluemain={setdietvaluemain} id={id} togglee={toggle} /> : null}
+                {toggle === 1 ? <Dietititaincard setfunc={setfunc} handover={setdta} setdietvaluemain={setdietvaluemain} id={id} togglee={toggle} disabled={enable} /> : null}
+                {toggle === 2 ? <Dietititaincard setfunc={setfunc} handover={setdta} setdietvaluemain={setdietvaluemain} id={id} togglee={toggle} disabled={enable} /> : null}
+                {toggle === 3 ? <Dietititaincard setfunc={setfunc} handover={setdta} setdietvaluemain={setdietvaluemain} id={id} togglee={toggle} disabled={enable} /> : null}
               </div>
             </div>
           </div>
@@ -264,7 +265,7 @@ const Dietitian = () => {
         >
           <div className="col-md-12">
             <FooterClosebtn
-              edit={editbloodcompnt} />
+              edit={editdietian} />
           </div>
         </div>
       </form>
