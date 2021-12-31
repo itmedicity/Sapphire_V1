@@ -22,7 +22,8 @@ const Patientidentfctnerror = React.lazy(() => import('./views/Quality/Wards/Pat
 const Sentinalevent = React.lazy(() => import('./views/Quality/Wards/Sentinalevent'))
 const Nearmissess = React.lazy(() => import('./views/Quality/Wards/Nearmissess'))
 const Incidencefall = React.lazy(() => import('./views/Quality/Wards/Incidence'))
-const Bedutilizatinward = React.lazy(() => import('./views/Quality/Wards/Bedutilizatinward'))
+const BedutilizationWardNew = React.lazy(() => import('./views/Quality/Wards/BedutilizationWardNew'))
+const BedUtilizationIcu = React.lazy(() => import('./views/Quality/InpatientICU/BedUtilizationIcu'))
 const Bedoccupancy = React.lazy(() => import('./views/Quality/InpatientICU/Bedoccupancy'))
 const Casuality = React.lazy(() => import('./views/Quality/Casuality/CasulityPatients'))
 const CasualityEdit = React.lazy(() => import('./views/Quality/Casuality/CasualityEdit'))
@@ -58,7 +59,8 @@ const routes = [
   { path: '/Home/Sentinalevent/:id', exact: true, name: 'Sentinalevent', component: Sentinalevent },
   { path: '/Home/Nearmissess/:id', exact: true, name: 'Nearmissess', component: Nearmissess },
   { path: '/Home/Incidencefall/:id', exact: true, name: 'Incidencefall', component: Incidencefall },
-  { path: '/Home/Bedutilizatinward', exact: true, name: 'Bedutilizatinward', component: Bedutilizatinward },
+  { path: '/Home/BedutilizationWardNew/:id', exact: true, name: 'BedutilizationWardNew', component: BedutilizationWardNew },
+  { path: '/Home/BedUtilizationIcu/:id', exact: true, name: 'BedUtilizationIcu', component: BedUtilizationIcu },
   { path: '/Home/Bedoccupancy', exact: true, name: 'Bedoccupancy', component: Bedoccupancy },
   { path: '/Home/Nurseratiocard', exact: true, name: 'Nurseratiocard', component: Nurseratiocard },
   { path: '/Home/CasualitypatientList', exact: true, name: 'Casuality', component: Casuality },

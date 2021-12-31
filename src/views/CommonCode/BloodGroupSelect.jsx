@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useState, memo, useContext } from 'react'
 import { PayrolMasterContext } from 'src/Context/MasterContext'
 import { axioslogin } from '../Axios/Axios'
 
-const BloodGroupSelect = (props) => {
+const BloodGroupSelect = ({ distrue, style }) => {
   const [bloodgroup, setbloodgroup] = useState([])
   const { selectBloodGroup, updateBloodGroup } = useContext(PayrolMasterContext)
 
@@ -28,9 +28,10 @@ const BloodGroupSelect = (props) => {
           fullWidth
           name="selectbloodgroup"
           value={selectBloodGroup}
-          style={props.style}
+          style={style}
           onChange={(e) => updateBloodGroup(e.target.value)}
           defaultValue={0}
+          disabled={distrue}
         >
           <MenuItem value="0" disabled>
             Select Blood

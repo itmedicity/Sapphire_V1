@@ -15,53 +15,44 @@ import moment from 'moment'
 const EquipmentUtilization = () => {
     const { id } = useParams()
 
+    // input field disable
     const [enable, setenable] = useState(false)
     const [value, setvalue] = useState(0)
-
-
+    // equipment select box
+    const [distrue, setdistrue] = useState(false)
     //setting Intial State
     const [equipmentutiliztinData, setEquipmentUtilization] = useState({
-
         start_utilization: '',
         end_utilization: ''
     })
-
     //default state
     const defaultstate = {
-
         start_utilization: '',
         end_utilization: ''
     }
-
     //destrutring object
     const {
-
         start_utilization,
         end_utilization
     } = equipmentutiliztinData
-
     //select euipment selectselect
     const { selectEquipment, updateEquipment } = useContext(PayrolMasterContext)
 
-
+    // date time format
     //  const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
-
-
     //getting data from the form 
-
     const updateFormData = async (e) => {
         const value = e.target.value
         setEquipmentUtilization({ ...equipmentutiliztinData, [e.target.name]: value })
     }
-
     const postData = {
         inpt_slno: id,
         user_slno: userslno(),
         euipment_slno: selectEquipment,
         eu_starttime: start_utilization,
         eu_endtime: end_utilization
-
     }
+    //edit
     const postDataEdit = {
         inpt_slno: value,
         user_slno: userslno(),
@@ -69,7 +60,6 @@ const EquipmentUtilization = () => {
         eu_starttime: start_utilization,
         eu_endtime: end_utilization
     }
-
     //saving form data
     const submitFormData = async (e) => {
         e.preventDefault()
@@ -79,6 +69,8 @@ const EquipmentUtilization = () => {
             if (success === 1) {
                 succesNofity(message)
                 setenable(true)
+                setdistrue(true)
+
             } else if (success === 0) {
                 warningNofity(message)
             } else {
@@ -91,6 +83,8 @@ const EquipmentUtilization = () => {
             if (success === 2) {
                 succesNofity(message)
                 setenable(true)
+                setdistrue(true)
+
             } else if (success === 1) {
                 warningNofity(message)
             } else {
@@ -98,13 +92,14 @@ const EquipmentUtilization = () => {
             }
         }
     }
-
     useEffect(() => {
         const equipmentutilzation = async () => {
             const result = await axioslogin.get(`equipmentUtilization/${id}`)
             const { success, data } = result.data
             if (success === 1) {
                 setenable(true)
+                setdistrue(true)
+
                 const { inpt_slno,
                     euipment_slno,
                     eu_starttime,
@@ -120,6 +115,7 @@ const EquipmentUtilization = () => {
             }
             else if (success === 2) {
                 setenable(false)
+                setdistrue(false)
                 setvalue(0)
             }
             else {
@@ -128,12 +124,11 @@ const EquipmentUtilization = () => {
         }
         equipmentutilzation()
     }, [id])
-
+    //edit option
     const editequipmentutilization = () => {
         setenable(false)
+        setdistrue(false)
     }
-
-
     return (
         <Fragment>
             <SessionCheck />
@@ -144,6 +139,7 @@ const EquipmentUtilization = () => {
                         <div className="row">
                             <div className="col-md-4 pt-2">
                                 <EquipmentSelect
+                                    distrue={distrue}
                                     style={{
                                         minHeight: 10,
                                         maxHeight: 27,
@@ -163,6 +159,7 @@ const EquipmentUtilization = () => {
                                     value={start_utilization}
                                     name="start_utilization"
                                     disabled={enable}
+
                                 />
                             </div>
                             <div className="col-md-4 ">
@@ -175,16 +172,13 @@ const EquipmentUtilization = () => {
                                     value={end_utilization}
                                     name="end_utilization"
                                     disabled={enable}
+                                    min={start_utilization}
                                 />
                             </div>
                         </div>
                     </div>
                 </Card>
-                <div className="card-footer"
-                // style={{
-                //   backgroundColor: '#b6b8c3',
-                // }}
-                >
+                <div className="card-footer">
                     <div className="col-md-12">
                         <FooterClosebtn
                             edit={editequipmentutilization}

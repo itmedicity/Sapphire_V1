@@ -17,14 +17,23 @@ import moment from 'moment'
 const Bloodcomponents = () => {
   const { id } = useParams()
   const history = useHistory()
-  // const [distrue, setdistrue] = useState(false)
-  // const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
 
+  //select box disable
+  const [distrue, setdistrue] = useState(false)
+  // const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
 
   //use state for enable fields on clicking edit button
   const [enable, Setenable] = useState(false)
+  // usestate for option selection
+  const [disablee, setdisablee] = useState(false)
   const [value, setValue] = useState(0)
 
+
+  const [wasted, setWasted] = useState({
+    noofbagreceived: '',
+    noofprdct_used: '',
+
+  })
 
   // setting Intial state
   const [bloodcomponentData, setBloodcomponentData] = useState({
@@ -108,7 +117,8 @@ const Bloodcomponents = () => {
       if (success === 1) {
         succesNofity(message)
         Setenable(true)
-        //  setdistrue(true)
+        setdistrue(true)
+        setdisablee(true)
         // setBloodcomponentData(defaultstate)
         //updateBloodGroup(0)
         //updateOption(0)
@@ -121,23 +131,36 @@ const Bloodcomponents = () => {
     else {
       const result = await axioslogin.patch('/bloodcomponents', postDataEdit)
       const { success, message } = result.data
-      if (success === 2) {
+      if (success === 1) {
         succesNofity(message)
         Setenable(true)
-      } else if (success === 1) {
+        setdistrue(true)
+        setdisablee(true)
+      } else if (success === 2) {
         warningNofity(message)
       } else {
         errorNofity('Error Occured!!!Please Contact EDP')
       }
     }
   }
+  useEffect(() => {
+    if (noofprdct_wasted != '') {
+      const diff = noofbagreceived - noofprdct_used
+      if (noofprdct_wasted > diff) {
+        warningNofity('Wasted must be  less than difference between received and used blood products')
+      }
+    }
+  }, [noofprdct_wasted])
 
   useEffect(() => {
+
     const bloodcomponent = async () => {
       const result = await axioslogin.get(`bloodcomponents/${id}`)
       const { success, data } = result.data
       if (success === 1) {
         Setenable(true)
+        setdistrue(true)
+        setdisablee(true)
         const { inpt_slno, bldmst_slno, bagrequested, bagreq_time, bagreceived, bagrec_time, bldprduct_used, bldprduct_wasted, reactn_occ, remark } = data[0]
         updateBloodGroup(bldmst_slno)
         updateOption(reactn_occ)
@@ -155,16 +178,22 @@ const Bloodcomponents = () => {
       }
       else if (success === 2) {
         Setenable(false)
+        setdistrue(false)
+        setdisablee(false)
         setValue(0)
       }
       else {
-        warningNofity("Error Occured!!!Please Contact EDP")
+        // warningNofity("Error Occured!!!Please Contact EDP")
       }
     }
     bloodcomponent()
-  }, [id])
+  }, [id
+    // noofprdct_wasted
+  ])
   const editbloodcompnt = () => {
     Setenable(false)
+    setdistrue(false)
+    setdisablee(false)
   }
   return (
     <Fragment>
@@ -176,6 +205,7 @@ const Bloodcomponents = () => {
             <div className="row">
               <div className="col-md-3 pt-2">
                 <BloodGroupSelect
+                  distrue={distrue}
                   style={{
                     minHeight: 10,
                     maxHeight: 27,
@@ -186,7 +216,7 @@ const Bloodcomponents = () => {
               </div>
               <div className="col-md-3 pt-2">
                 <TextInput
-                  type="text"
+                  type="number"
                   classname="form-control form-control-sm"
                   Placeholder="No of bag Requested"
                   value={noofbrdrequired}
@@ -215,24 +245,26 @@ const Bloodcomponents = () => {
             <div className="row">
               <div className="col-md-3 pt-2">
                 <TextInput
-                  type="text"
+                  type="number"
                   classname="form-control form-control-sm"
                   Placeholder="No. of Bag Received"
                   changeTextValue={(e) => updateFormData(e)}
                   value={noofbagreceived}
                   name="noofbagreceived"
                   disabled={enable}
+                  max={noofbrdrequired}
                 />
               </div>
               <div className="col-md-3 pt-2">
                 <TextInput
-                  type="text"
+                  type="number"
                   classname="form-control form-control-sm"
                   Placeholder="No. Of Product Used"
                   changeTextValue={(e) => updateFormData(e)}
                   value={noofprdct_used}
                   name="noofprdct_used"
                   disabled={enable}
+                  max={noofbagreceived}
                 />
               </div>
               <div className="col-md-3 pt-2">
@@ -242,7 +274,7 @@ const Bloodcomponents = () => {
               </div>
               <div className="col-md-2 pt-2 pl-0">
                 <TextInput
-                  id="test"
+                  id="number"
                   type="datetime-local"
                   classname="form-control form-control-sm"
                   Placeholder="Requested date/Time"
@@ -250,23 +282,27 @@ const Bloodcomponents = () => {
                   value={recieved_datetime}
                   name="recieved_datetime"
                   disabled={enable}
+                  min={requesteddatetime}
                 />
               </div>
             </div>
             <div className="row">
               <div className="col-md-3 pt-2 pr-0">
                 <TextInput
-                  type="text"
+                  type="number"
                   classname="form-control form-control-sm"
                   Placeholder="No. of Product Wasted"
                   changeTextValue={(e) => updateFormData(e)}
                   value={noofprdct_wasted}
                   name="noofprdct_wasted"
                   disabled={enable}
+
+                // max={noofprdct_used}
                 />
               </div>
               <div className="col-md-3 pt-2">
                 <OptionSelection
+                  disablee={disablee}
                   style={{
                     minHeight: 10,
                     maxHeight: 27,

@@ -29,10 +29,10 @@ import Patientidentfctnerror from '../Wards/Patientidentfctnerror';
 import Sentinalevent from '../Wards/Sentinalevent';
 import Incidence from '../Wards/Incidence';
 import Careplan from '../InpatientICU/Careplan';
-import Bedutilizatinward from '../Wards/Bedutilizatinward';
 import NursePatientratio from '../Wards/NursePatientratio';
 import Dietitian from '../Wards/Dietitian';
 import NutritionalScreening from '../InpatientICU/NutritionalScreening';
+import BedutilizationWardNew from '../Wards/BedutilizationWardNew';
 
 const InpatientEditnew = () => {
   return (
@@ -294,7 +294,8 @@ const InpatientEditnew = () => {
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
-                  {/* <Accordion>
+
+                  <Accordion>
                     <AccordionSummary
                       style={{
                         backgroundColor: '#f9fbe7'
@@ -307,9 +308,17 @@ const InpatientEditnew = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography component={'span'} variant={'body2'}>
-                      
+                        <BedutilizationWardNew />
+                      </Typography>
                     </AccordionDetails>
-                  </Accordion> */}
+                  </Accordion>
+
+
+
+
+
+
+
                   {/* <Accordion>
                     <AccordionSummary
                       style={{

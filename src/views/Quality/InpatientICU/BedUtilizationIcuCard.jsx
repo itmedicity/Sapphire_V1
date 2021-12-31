@@ -1,33 +1,34 @@
+import { Card } from '@mui/material'
 import classNames from 'classnames'
-import React, { memo, Fragment, useState, useEffect } from 'react'
-import SessionCheck from 'src/views/Axios/SessionCheck'
+import React, { Fragment, useState, useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
+import SessionCheck from 'src/views/Axios/SessionCheck'
 import TextInput from 'src/views/Component/TextInput'
 import { userslno } from 'src/views/Constant/Constant'
-import { Card } from '@mui/material'
 
-const Bedutilizatinwardcard = ({ setfunc, setdta, id, disabled
+const BedUtilizationIcuCard = ({ setfunc, setdta, id, disabled }) => {
 
-}) => {
-    const [nurseratioData, setnurseratioData] = useState({
+    const [bedUtilizationIcuData, setbedUtilizationIcuData] = useState({
         inpt_slno: id,
         user_slno: userslno(),
         availableBedNumber: '',
         numberofbedOccupied: '',
-        noofNurses: '',
-        noofPatient: '',
-        // nursePatientratio: ''
+        noofventilatedpatient: '',
+        noofnurse: '',
+        noofnonventipat: '',
+        noofnonventinurse: ''
     })
-    const { availableBedNumber, numberofbedOccupied, noofNurses, noofPatient } = nurseratioData
+    const { availableBedNumber, numberofbedOccupied, noofventilatedpatient, noofnurse,
+        noofnonventipat, noofnonventinurse } = bedUtilizationIcuData
     const updateFormData = async (e) => {
         const value = e.target.value
-        setnurseratioData({ ...nurseratioData, [e.target.name]: value })
-        setfunc({ ...nurseratioData, [e.target.name]: value })
+        setbedUtilizationIcuData({ ...bedUtilizationIcuData, [e.target.name]: value })
+        setfunc({ ...bedUtilizationIcuData, [e.target.name]: value })
         // setfunc(nurseratioData)
     }
     useEffect(() => {
 
-        setnurseratioData(setdta)
+        setbedUtilizationIcuData(setdta)
     }, [setdta])
 
     return (
@@ -64,10 +65,10 @@ const Bedutilizatinwardcard = ({ setfunc, setdta, id, disabled
                             <TextInput
                                 type="text"
                                 classname="form-control form-control-sm"
-                                Placeholder="No.of Nurses"
+                                Placeholder="No.of Ventilated Patient"
                                 changeTextValue={(e) => updateFormData(e)}
-                                value={noofNurses}
-                                name="noofNurses"
+                                value={noofventilatedpatient}
+                                name="noofventilatedpatient"
                                 disabled={disabled}
                             />
                         </div>
@@ -75,24 +76,35 @@ const Bedutilizatinwardcard = ({ setfunc, setdta, id, disabled
                             <TextInput
                                 type="text"
                                 classname="form-control form-control-sm"
-                                Placeholder="No.of Patient"
+                                Placeholder="No.of Nurse"
                                 changeTextValue={(e) => updateFormData(e)}
-                                value={noofPatient}
-                                name="noofPatient"
+                                value={noofnurse}
+                                name="noofnurse"
                                 disabled={disabled}
                             />
                         </div>
-                        {/* <div className="col-md-4 pt-1 pb-1">
+                        <div className="col-md-6 pt-1 pb-1">
                             <TextInput
                                 type="text"
                                 classname="form-control form-control-sm"
-                                Placeholder="Nurse Patient ratio"
+                                Placeholder="No Of Non Ventilated Patient"
                                 changeTextValue={(e) => updateFormData(e)}
-                                value={nursePatientratio}
-                                name="nursePatientratio"
+                                value={noofnonventipat}
+                                name="noofnonventipat"
                                 disabled={disabled}
                             />
-                        </div> */}
+                        </div>
+                        <div className="col-md-6 pt-1 pb-1">
+                            <TextInput
+                                type="text"
+                                classname="form-control form-control-sm"
+                                Placeholder="No Of Nurse"
+                                changeTextValue={(e) => updateFormData(e)}
+                                value={noofnonventinurse}
+                                name="noofnonventinurse"
+                                disabled={disabled}
+                            />
+                        </div>
                     </div>
                 </Card>
             </form>
@@ -100,4 +112,4 @@ const Bedutilizatinwardcard = ({ setfunc, setdta, id, disabled
     )
 }
 
-export default memo(Bedutilizatinwardcard)
+export default BedUtilizationIcuCard

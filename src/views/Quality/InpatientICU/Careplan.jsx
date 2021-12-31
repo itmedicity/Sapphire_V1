@@ -68,10 +68,7 @@ const Careplan = () => {
         nc_prsnresponsible: personresponsible,
         nc_actntkn: actiontaken,
         nc_remark: remarks
-
     }
-
-
     const submitFormData = async (e) => {
         e.preventDefault()
         if (value === 0) {
@@ -81,7 +78,7 @@ const Careplan = () => {
                 succesNofity(message)
                 setdistrue(true)
 
-            } else if (success === 0) {
+            } else if (success === 2) {
                 warningNofity(message)
             } else {
                 errorNofity('Error Occured!!!Please Contact EDP')
@@ -100,7 +97,6 @@ const Careplan = () => {
                 errorNofity('Error Occured!!!Please Contact EDP')
             }
         }
-
     }
     useEffect(() => {
         const careplann = async () => {
@@ -130,11 +126,9 @@ const Careplan = () => {
         }
         careplann()
     }, [id])
-
     const editcareplan = () => {
         setdistrue(false)
     }
-
     return (
         <Fragment>
             <SessionCheck />
@@ -160,7 +154,6 @@ const Careplan = () => {
                                         disabled={distrue}
                                         variant="outlined"
                                         style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
-
                                     >
                                         <MenuItem value='0'>Selected Option</MenuItem>
                                         <MenuItem value='1'>Done</MenuItem>
@@ -179,7 +172,6 @@ const Careplan = () => {
                                     changeTextValue={(e) => updateFormData(e)}
                                 />
                                 }
-
                             </div>
                         </div>
                     </div>
