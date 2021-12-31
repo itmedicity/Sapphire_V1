@@ -9,35 +9,31 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import TextInput from 'src/views/Component/TextInput'
 import { userslno } from 'src/views/Constant/Constant'
+import { format } from 'date-fns';
 
 const PatientDetails = ({ value }) => {
-    const { id } = useParams()
-
+    console.log(value)
+    const { op_slno, dp_code, pt_no, ptc_ptname, doc_name, vsd_date, dtrop_vosit_time } = value
     const [formData, setFormData] = useState({
-        vsd_date: "",
-        dtrop_vosit_time: "",
+        // vsd_date: "",
+        //dtrop_vosit_time: "",
         consult_start_time: "",
         consult_end_time: "",
-
     })
-    const { vsd_date, dtrop_vosit_time, consult_start_time, consult_end_time } = formData
+    const { consult_start_time, consult_end_time } = formData
 
 
-    const defaultState = {
-        vsd_date: "",
-        dtrop_vosit_time: "",
-        consult_start_time: "",
-        consult_end_time: ""
-    }
+
     const updateOpIndicator = async (e) => {
         const value = e.target.value;
         setFormData({ ...formData, [e.target.name]: value })
     }
     const postData = {
-        op_slno: id,
+        op_slno: op_slno,
         user_slno: userslno(),
-        vsd_date: moment(vsd_date).format('yyyy-MM-dd'),
-        dtrop_vosit_time: moment(dtrop_vosit_time).format('yyyy-MM-dd'),
+        dp_code: dp_code,
+        vsd_date: moment(vsd_date).format('YYYY-MM-DD'),
+        dtrop_vosit_time: moment(dtrop_vosit_time).format('YYYY-MM-DD'),
         consult_start_time: moment(consult_start_time).format('YYYY-MM-DD'),
         consult_end_time: moment(consult_end_time).format('YYYY-MM-DD'),
 
@@ -46,11 +42,11 @@ const PatientDetails = ({ value }) => {
     //saving form data
     const SubmitFormData = async (e) => {
         e.preventDefault()
-        const result = await axioslogin.post('/op_indicator', postData)
+        const result = await axioslogin.post('/op_indicator/post', postData)
         const { success, message } = result.data
         if (success === 2) {
             succesNofity(message)
-            setFormData(defaultState)
+            // setFormData(defaultState)
         } else if (success === 0) {
             warningNofity(message)
         } else {
@@ -65,19 +61,18 @@ const PatientDetails = ({ value }) => {
                 <div className="d-flex justify-content-between" >
                     <div className="col-md-1">
                         <Typography variant="body2" gutterBottom className="my-0" >
-                            {value.pt_no}
+                            {pt_no}
                         </Typography>
                     </div>
                     <div className="col-md-1">
                         <Typography variant="body2" gutterBottom className="my-0" >
-                            {value.ptc_ptname}
+                            {ptc_ptname}
                         </Typography>
                     </div>
                     <div className="col-md-2">
                         <Typography variant="body2" gutterBottom className="my-0"
                         >
-                            {value.doc_name}
-
+                            {doc_name}
                         </Typography>
                     </div>
                     <div className="col-md-1">
@@ -87,8 +82,7 @@ const PatientDetails = ({ value }) => {
                             Placeholder="Date"
                             name="vsd_date"
                             disabled="disabled"
-                            value={moment(value.vsd_date).format('YYYY-MM-DD')}
-                            changeTextValue={(e) => updateOpIndicator(e)}
+                            value={format(new Date(vsd_date), "yyyy-MM-dd")}
                         />
                     </div>
 
@@ -99,9 +93,8 @@ const PatientDetails = ({ value }) => {
                             Placeholder="Date"
                             name="dtrop_vosit_time"
                             disabled="disabled"
-                            value={moment(value.dtrop_vosit_time).format('YYYY-MM-DD')}
-                            //value={moment(dtrop_vosit_time).format("yyyy-MM-dd")}
-                            changeTextValue={(e) => updateOpIndicator(e)}
+                            value={format(new Date(dtrop_vosit_time), "yyyy-MM-dd")}
+
                         />
 
                     </div>
@@ -111,7 +104,7 @@ const PatientDetails = ({ value }) => {
                             classname="form-control form-control-sm custom-datefeild-height"
                             Placeholder="Date"
                             name="consult_start_time"
-                            value={moment(consult_start_time).format('YYYY-MM-DD')}
+                            value={consult_start_time}
                             changeTextValue={(e) => updateOpIndicator(e)}
                         />
                     </div>
@@ -121,7 +114,7 @@ const PatientDetails = ({ value }) => {
                             classname="form-control form-control-sm custom-datefeild-height"
                             Placeholder="Date"
                             name="consult_end_time"
-                            value={moment(consult_end_time).format('YYYY-MM-DD')}
+                            value={consult_end_time}
                             changeTextValue={(e) => updateOpIndicator(e)}
                         />
                     </div>

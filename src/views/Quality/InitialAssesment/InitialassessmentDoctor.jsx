@@ -147,6 +147,7 @@ const InitialassesmentDoctor = () => {
               <div className="col-md-3 pb-1">
                 <Typography fontSize={16} noWrap={true} >Initial Assessment start</Typography>
                 <TextInput
+                  min={arrived_time}
                   id="test"
                   type="datetime-local"
                   classname="form-control form-control-sm"
@@ -160,6 +161,7 @@ const InitialassesmentDoctor = () => {
               <div className="col-md-3  pb-1">
                 <Typography fontSize={16} noWrap={true} > Initial Assessment End</Typography>
                 <TextInput
+                  min={intialassessment_start}
                   id="test"
                   type="datetime-local"
                   classname="form-control form-control-sm"

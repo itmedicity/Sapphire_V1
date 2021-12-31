@@ -18,16 +18,18 @@ export const useStyles = makeStyles((theme) => ({
     horizondalScroll: {
         overflowX: 'auto'
     },
-    customInputFeild: {
-        height: '1.6rem',
-        paddingLeft: '0px'
-    },
+
     inputColor: {
         height: "1.6rem",
     },
 
     cutomSelectFeild: {
         height: "1rem"
-    }
+    },
+    customInputFeild: {
+        height: '1.6rem',
+        paddingLeft: '0px',
+        paddingBottom: '0.3rem'
+    },
 
 }));

@@ -3,7 +3,7 @@ import React, { memo, Fragment, useState, useContext, useEffect } from 'react'
 import { PayrolMasterContext } from 'src/Context/MasterContext';
 import { axioslogin } from '../Axios/Axios';
 
-const EquipmentSelect = (props) => {
+const EquipmentSelect = ({ distrue, style }) => {
     const [equipment, setEquipment] = useState([])
     const { selectEquipment, updateEquipment } = useContext(PayrolMasterContext)
 
@@ -30,9 +30,12 @@ const EquipmentSelect = (props) => {
                     className="ml-0"
                     value={selectEquipment}
                     name="selectEquipment"
-                    style={props.style}
+                    style={style}
                     onChange={(e) => updateEquipment(e.target.value)}
                     defaultValue={0}
+                    disabled={distrue}
+
+
                 >
                     <MenuItem value='0' disabled>
                         Select Equipment

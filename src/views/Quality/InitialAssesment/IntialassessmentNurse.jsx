@@ -9,7 +9,10 @@ import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
 import moment from 'moment'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
+
+
 const IntialassessmentNurse = () => {
+
   const { id } = useParams()
   //const [distrue, setdistrue] = useState(false)
   //const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
@@ -143,6 +146,7 @@ const IntialassessmentNurse = () => {
               <div className="col-md-3  pb-1">
                 <Typography fontSize={16} noWrap={true} >Initial Assessment Start</Typography>
                 <TextInput
+                  min={arrived_time_ns}
                   id="test"
                   type="datetime-local"
                   classname="form-control form-control-sm"
@@ -156,6 +160,7 @@ const IntialassessmentNurse = () => {
               <div className="col-md-3  pb-1">
                 <Typography fontSize={16} noWrap={true} >Initial Assessment End</Typography>
                 <TextInput
+                  min={initialassemnt_startns}
                   id="test"
                   type="datetime-local"
                   classname="form-control form-control-sm"

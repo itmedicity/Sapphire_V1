@@ -161,6 +161,7 @@ const Discharge = () => {
                                     value={dis_advice_time}
                                     name="dis_advice_time"
                                     disabled={distrue}
+
                                 />
                             </div>
                             <div className="col-md-3">
@@ -175,6 +176,7 @@ const Discharge = () => {
                                     value={dis_sumrec_time}
                                     name="dis_sumrec_time"
                                     disabled={distrue}
+                                    min={dis_advice_time}
                                 />
                             </div>
                         </div>
@@ -191,6 +193,7 @@ const Discharge = () => {
                                     value={summ_prep_time}
                                     name="summ_prep_time"
                                     disabled={distrue}
+                                    min={dis_advice_time}
                                 />
                             </div>
 
@@ -206,6 +209,7 @@ const Discharge = () => {
                                     value={sumhand_patent}
                                     name="sumhand_patent"
                                     disabled={distrue}
+                                    min={dis_advice_time}
                                 />
                             </div>
                         </div>
@@ -222,6 +226,7 @@ const Discharge = () => {
                                     value={date_dis}
                                     name="date_dis"
                                     disabled={distrue}
+                                    min={dis_advice_time}
                                 />
                             </div>
                             <div className="col-md-3">
@@ -236,6 +241,7 @@ const Discharge = () => {
                                     value={patent_from_unit}
                                     name="patent_from_unit"
                                     disabled={distrue}
+                                    min={sumhand_patent}
                                 />
                             </div>
                         </div>

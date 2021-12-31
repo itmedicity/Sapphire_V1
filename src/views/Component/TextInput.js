@@ -3,7 +3,7 @@ import React from 'react'
 const TextInput = (props) => {
 
     const { type, Placeholder, classname,
-        changeTextValue, id, name, value, disabled
+        changeTextValue, id, name, value, disabled, max, min
     } = props;
     return (
         <div>
@@ -17,6 +17,8 @@ const TextInput = (props) => {
                 value={value}
                 onChange={changeTextValue}
                 disabled={disabled}
+                min={min}
+                max={max}
             />
         </div>
     )
