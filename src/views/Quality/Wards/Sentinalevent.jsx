@@ -115,6 +115,7 @@ const Sentinalevent = () => {
                 setsentinentdata(frmData)
                 setValue(inpt_slno)
                 setToggle(ser_ysno)
+                setdistrue(true)
             }
             else if (success === 0) {
                 setdistrue(false)

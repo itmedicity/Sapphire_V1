@@ -80,7 +80,7 @@ const HandoverComunication = () => {
         succesNofity(message)
         setdistrue(true)
         //setactiontaken(defaultstate)
-      } else if (success === 0) {
+      } else if (success === 2) {
         warningNofity(message)
       } else {
         errorNofity('Error Occured!!!Please Contact EDP')

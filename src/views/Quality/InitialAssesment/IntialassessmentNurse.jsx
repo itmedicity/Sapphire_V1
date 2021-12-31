@@ -73,7 +73,7 @@ const IntialassessmentNurse = () => {
         succesNofity(message)
         Setenable(true)
 
-      } else if (success === 2) {
+      } else if (success === 0) {
         warningNofity(message)
       } else {
         errorNofity('Error Occured!!!Please Contact EDP')
@@ -83,10 +83,10 @@ const IntialassessmentNurse = () => {
       const result = await axioslogin.patch('/assesmentnurse', postDataEdit)
       const { success, message } = result.data
       if (success === 2) {
-        warningNofity(message)
+        succesNofity(message)
         Setenable(true)
       } else if (success === 1) {
-        succesNofity(message)
+        warningNofity(message)
       } else {
         errorNofity('Error Occured!!!Please Contact EDP')
       }

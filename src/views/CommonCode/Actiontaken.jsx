@@ -15,7 +15,7 @@ const Actiontaken = ({ setfunc, handover, distrue }) => {
     remarks: ''
   })
 
-  const { errordesc, personresponsible, actiontaken, remarks, } = actiontakenData
+  const { errordesc, personresponsible, actiontaken, remarks } = actiontakenData
   useEffect(() => {
     setactiontakenData(handover)
 
@@ -42,6 +42,7 @@ const Actiontaken = ({ setfunc, handover, distrue }) => {
               value={errordesc}
               name="errordesc"
               disabled={distrue}
+
             />
           </div>
           <div className="col-md-3">
@@ -52,8 +53,7 @@ const Actiontaken = ({ setfunc, handover, distrue }) => {
               changeTextValue={(e) => updateFormData(e)}
               value={personresponsible}
               name="personresponsible"
-              disabled={distrue}
-            />
+              disabled={distrue} />
           </div>
           <div className="col-md-3">
             <TextInput
@@ -64,6 +64,7 @@ const Actiontaken = ({ setfunc, handover, distrue }) => {
               value={actiontaken}
               name="actiontaken"
               disabled={distrue}
+
             />
           </div>
         </div>
