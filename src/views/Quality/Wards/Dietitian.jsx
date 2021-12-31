@@ -22,31 +22,179 @@ import { MdOutlinePregnantWoman } from "react-icons/md";
 // import { FcPortraitMode } from 'react-icons/fc';
 
 const Dietitian = () => {
-  const { id } = useParams()
+
+  const { id } = useParams()// to get id 
   const history = useHistory()
   const RedirectToProfilePage = () => {
     history.push(`/Home/InpatientEdit/${id}`)
   }
-  const [enable, Setenable] = useState(false)
-  const [value, setValue] = useState(0)
-  const [toggle, setToggle] = useState(0)
-  const [color, setColor] = useState({
-
+  // to identify the colur
+  const [dietdata, setDietdata] = useState({
+    peadiatric: 0,
+    Adults: 0,
+    obstritcs: 0
   })
-  const [setdta, setfunc] = useState({
+  // for enable and disable
+  const [distrue, setdistrue] = useState(false)
+  // const [enable, Setenable] = useState(false)
+  // to set the flag which is selected pediatric,adult,obstrics
+  const [diestflag, setdietflag] = useState(0)
+  // to set remarkdata
+  const [remarkdata, setremarkdata] = useState({
+    remarks: ''
+  })
+  // destucture remarkdata
+  const { remarks } = remarkdata
+  // to set action taken data
+  const [actiontakendata, setactiontakendata] = useState({
     errordesc: '',
     personresponsible: '',
     actiontaken: '',
     remarks: ''
   })
-  const [diestflag, setdietflag] = useState('')
-  const [dietvalmain, setdietvaluemain] = useState({
+  // done not done process
+  const [donotdone, setdonenotdone] = useState(0)
+  // destructure action taken 
+  const { errordesc,
+    personresponsible,
+    actiontaken } = actiontakendata
+
+  const postdietpeadtric = {
+    diet_ysno: donotdone,
+    diet_remark: remarks,
+    diet_errordesc: errordesc,
+    diet_prsnresponsible: personresponsible,
+    diet_actntkn: actiontaken,
     inpt_slno: id,
     user_slno: userslno(),
-    bow_flag: diestflag,
-    dietian: '',
-    remarks: ''
-  })
+    diet_pao_flag: diestflag
+  }
+
+  //for edit
+
+
+  const postdietpeadtricEdit = {
+    diet_ysno: donotdone,
+    diet_remark: remarks,
+    diet_errordesc: errordesc,
+    diet_prsnresponsible: personresponsible,
+    diet_actntkn: actiontaken,
+    inpt_slno: id,
+    user_slno: userslno(),
+    diet_pao_flag: diestflag
+  }
+
+  //  for submission 
+  const submitformData = async (e) => {
+    e.preventDefault()
+    // if save 
+    if (value === 0) {
+
+      // pediatric
+      if (diestflag === '1') {
+        const result = await axioslogin.post('/dietian', postdietpeadtric)
+        const { success, message } = result.data
+        if (success === 1) {
+          succesNofity(message)
+          setdistrue(true)
+          // setfunc(postdietpeadtric)
+        } else if (success === 2) {
+          warningNofity(message)
+        } else {
+          errorNofity('Error Occured!!!Please Contact EDP')
+        }
+      }
+      // adult
+      else if (diestflag === '2') {
+        const result = await axioslogin.post('/dietian', postdietpeadtric)
+        const { success, message } = result.data
+        if (success === 1) {
+          succesNofity(message)
+          setdistrue(true)
+          // seteveningdata(evengdefaultstate)
+        } else if (success === 2) {
+          warningNofity(message)
+        } else {
+          errorNofity('Error Occured!!!Please Contact EDP')
+        }
+      }
+      // obstricts
+      else if (diestflag === '3') {
+        const result = await axioslogin.post('/dietian', postdietpeadtric)
+        const { success, message } = result.data
+        if (success === 1) {
+          succesNofity(message)
+          setdistrue(true)
+          // setnightdata(nightdefaultstate)
+        } else if (success === 2) {
+          warningNofity(message)
+        } else {
+          errorNofity('Error Occured!!!Please Contact EDP')
+        }
+      }
+    }
+
+    else {
+      const result = await axioslogin.patch('/dietian', postdietpeadtricEdit)
+      const { success, message } = result.data
+      if (success === 1) {
+        succesNofity(message)
+        setdistrue(true)
+      } else if (success === 2) {
+        warningNofity(message)
+      } else {
+        errorNofity('Error Occured!!!Please Contact EDP')
+      }
+    }
+  }
+
+
+  // usefect get previous data
+  useEffect(() => {
+    const dietitian = async () => {
+
+      const result = await axioslogin.get(`dietian/${id}`)
+      const { success, data } = result.data
+      if (success === 1) {
+        const { diet_ysno, diet_remark, diet_errordesc, diet_prsnresponsible, diet_actntkn, inpt_slno, diet_pao_flag } = data[0]
+        setdietflag(diet_pao_flag)
+        setDietdata({
+          peadiatric: diet_pao_flag === '1' ? 1 : 0,
+          Adults: diet_pao_flag === '2' ? 1 : 0,
+          obstritcs: diet_pao_flag === '3' ? 1 : 0,
+        })
+        const frmData = {
+          errordesc: diet_errordesc,
+          personresponsible: diet_prsnresponsible,
+          actiontaken: diet_actntkn
+        }
+        const frmdata1 = {
+
+          remarks: diet_remark
+        }
+        setdonenotdone(diet_ysno)
+
+        if (diet_ysno === '1') {
+          setremarkdata(frmdata1)
+          setdistrue(true)
+        } else {
+          setactiontakendata(frmData)
+          setdistrue(true)
+        }
+      }
+      else if (success === 0) {
+        setdistrue(false)
+        setValue(0)
+      }
+      else {
+        warningNofity("Error Occured!!!Please Contact EDP")
+      }
+    }
+    dietitian()
+  }, [id])
+
+  const [value, setValue] = useState(0)
+  const { peadiatric, Adults, obstritcs } = dietdata
   const dietdefaultsate = {
     errordesc: '',
     personresponsible: '',
@@ -56,147 +204,9 @@ const Dietitian = () => {
     remarks: ''
   }
 
-  const postdietpeadtric = {
-    diet_ysno: dietvalmain.dietian,
-    diet_remark: dietvalmain.remarks,
-    diet_errordesc: setdta.errordesc,
-    diet_prsnresponsible: setdta.personresponsible,
-    diet_actntkn: setdta.actiontaken,
-    inpt_slno: dietvalmain.inpt_slno,
-    user_slno: dietvalmain.user_slno,
-    diet_pao_flag: diestflag
 
-  }
-
-  const postdietpeadtricEdit = {
-    diet_ysno: dietvalmain.dietian,
-    diet_remark: dietvalmain.remarks,
-    diet_errordesc: setdta.errordesc,
-    diet_prsnresponsible: setdta.personresponsible,
-    diet_actntkn: setdta.actiontaken,
-    inpt_slno: dietvalmain.inpt_slno,
-    user_slno: dietvalmain.user_slno,
-    diet_pao_flag: diestflag
-  }
-
-  const submitformData = async (e) => {
-    e.preventDefault()
-    if (value === 0) {
-
-      if (toggle === 1) {
-        const result = await axioslogin.post('/dietian', postdietpeadtric)
-        const { success, message } = result.data
-        if (success === 1) {
-          succesNofity(message)
-          Setenable(true)
-          // setfunc(postdietpeadtric)
-        } else if (success === 2) {
-          warningNofity(message)
-        } else {
-          errorNofity('Error Occured!!!Please Contact EDP')
-        }
-      }
-      else if (toggle === 2) {
-        const result = await axioslogin.post('/dietian', postdietpeadtric)
-        const { success, message } = result.data
-        if (success === 1) {
-          succesNofity(message)
-          Setenable(true)
-          // seteveningdata(evengdefaultstate)
-        } else if (success === 2) {
-          warningNofity(message)
-        } else {
-          errorNofity('Error Occured!!!Please Contact EDP')
-        }
-      }
-      else {
-        const result = await axioslogin.post('/dietian', postdietpeadtric)
-        const { success, message } = result.data
-        if (success === 1) {
-          succesNofity(message)
-          Setenable(true)
-          // setnightdata(nightdefaultstate)
-        } else if (success === 2) {
-          warningNofity(message)
-        } else {
-          errorNofity('Error Occured!!!Please Contact EDP')
-        }
-      }
-    }
-    else {
-      const result = await axioslogin.patch('/dietian', postdietpeadtricEdit)
-      const { success, message } = result.data
-      if (success === 1) {
-        succesNofity(message)
-        Setenable(true)
-      } else if (success === 2) {
-        warningNofity(message)
-      } else {
-        errorNofity('Error Occured!!!Please Contact EDP')
-      }
-    }
-  }
-
-  useEffect(() => {
-    const dietitian = async () => {
-      const result = await axioslogin.get(`dietian/${id}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        Setenable(true)
-        const { diet_ysno, diet_remark, diet_errordesc, diet_prsnresponsible, diet_actntkn, inpt_slno, diet_pao_flag } = data[0]
-        const frmData = {
-          errordesc: diet_errordesc,
-          personresponsible: diet_prsnresponsible,
-          actiontaken: diet_actntkn
-        }
-        const frmdata1 = {
-          dietian: diet_ysno,
-          remarks: diet_remark
-        }
-        if (diet_pao_flag === "P") {
-          const peadiatric = 2
-          setToggle(2)
-          setdietvaluemain(diet_ysno)
-          if (diet_ysno === 1) {
-            setfunc(frmdata1)
-          } else {
-            setfunc(frmData)
-          }
-          // setfunc(frmdata1)
-          // setValue(inpt_slno)
-        } else if (diet_pao_flag === "A") {
-          const Adults = 2
-          setToggle(Adults)
-          setdietvaluemain(diet_ysno)
-          if (diet_ysno === 1) {
-            setfunc(frmdata1)
-          } else {
-            setfunc(frmData)
-          }
-        } else {
-          const obstritcs = 3
-          setToggle(obstritcs)
-          setdietvaluemain(diet_ysno)
-
-          if (diet_ysno === 1) {
-            setfunc(frmdata1)
-          } else {
-            setfunc(frmData)
-          }
-        }
-      }
-      else if (success === 0) {
-        Setenable(false)
-        setValue(0)
-      }
-      else {
-        warningNofity("Error Occured!!!Please Contact EDP")
-      }
-    }
-    dietitian()
-  }, [id])
   const editdietian = () => {
-    Setenable(false)
+    setdistrue(false)
   }
 
   return (
@@ -211,38 +221,53 @@ const Dietitian = () => {
             <div className="row">
               <div className="col-md-3 pt-1 ">
                 <div className="row">
-                  <Stack direction="row" spacing={2}>
-                    <Avatar >
+                  <Stack direction="row" spacing={4}>
+                    <Avatar sx={peadiatric === 1 ? { bgcolor: '#f7c17e' } : null} >
                       <Tooltip title="Peadiatrics" placement="top">
                         <IconButton onClick={() => {
-                          setToggle(1)
-                          setdietflag('P')
+
+                          setdietflag('1')// set flag
+                          setDietdata({
+                            peadiatric: 1,
+                            Adults: 0,
+                            obstritcs: 0
+                          })// for colur change
                         }}  >
-                          <FaBaby size={35} />
+                          <FaBaby size={25} />
                         </IconButton>
                       </Tooltip>
                     </Avatar>
 
-                    <Avatar>
+                    <Avatar sx={Adults === 1 ? { bgcolor: '#f7c17e' } : null}>
                       <Tooltip title="Adults" placement="top">
                         <IconButton onClick={() => {
-                          setToggle(2)
-                          setdietflag('A')
+
+                          setdietflag('2')// set flag
+                          setDietdata({
+                            peadiatric: 0,
+                            Adults: 1,
+                            obstritcs: 0
+                          })// for colur change
                         }}>
                           <GrRestroomWomen
-                            size={35} />
+                            size={25} />
 
                         </IconButton>
                       </Tooltip>
                     </Avatar>
 
-                    <Avatar>
+                    <Avatar sx={obstritcs === 1 ? { bgcolor: '#f7c17e' } : null}>
                       <Tooltip title="Obsteritcs" placement="top">
                         <IconButton onClick={() => {
-                          setToggle(3)
-                          setdietflag('O')
+
+                          setdietflag('3')// set flag
+                          setDietdata({
+                            peadiatric: 0,
+                            Adults: 0,
+                            obstritcs: 1
+                          })// for colur change
                         }}>
-                          < MdOutlinePregnantWoman size={35} />
+                          < MdOutlinePregnantWoman size={25} />
                           {/* <MdPregnantWoman  */}
                         </IconButton>
                       </Tooltip>
@@ -251,9 +276,9 @@ const Dietitian = () => {
                 </div>
               </div>
               <div className="col-md-9">
-                {toggle === 1 ? <Dietititaincard setfunc={setfunc} handover={setdta} setdietvaluemain={setdietvaluemain} id={id} togglee={toggle} disabled={enable} /> : null}
-                {toggle === 2 ? <Dietititaincard setfunc={setfunc} handover={setdta} setdietvaluemain={setdietvaluemain} id={id} togglee={toggle} disabled={enable} /> : null}
-                {toggle === 3 ? <Dietititaincard setfunc={setfunc} handover={setdta} setdietvaluemain={setdietvaluemain} id={id} togglee={toggle} disabled={enable} /> : null}
+                {diestflag === '1' ? <Dietititaincard setremarkdata={setremarkdata} setactiontakendata={setactiontakendata} actiontakendata={actiontakendata} setdonenotdonemain={setdonenotdone} remarkdata={remarkdata} donotdonemain={donotdone} distrue={distrue} /> : null}
+                {diestflag === '2' ? <Dietititaincard setremarkdata={setremarkdata} setactiontakendata={setactiontakendata} actiontakendata={actiontakendata} setdonenotdonemain={setdonenotdone} remarkdata={remarkdata} donotdonemain={donotdone} distrue={distrue} /> : null}
+                {diestflag === '3' ? <Dietititaincard setremarkdata={setremarkdata} setactiontakendata={setactiontakendata} actiontakendata={actiontakendata} setdonenotdonemain={setdonenotdone} remarkdata={remarkdata} donotdonemain={donotdone} distrue={distrue} /> : null}
               </div>
             </div>
           </div>

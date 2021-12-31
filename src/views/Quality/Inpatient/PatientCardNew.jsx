@@ -64,7 +64,7 @@ const PatientCardNew = () => {
 
   return (
     <Fragment>
-      <Card sx={{ borderRadius: 8, boxShadow: 10 }}>
+      <Card sx={{ height: 775, borderRadius: 8, boxShadow: 10 }}>
         <CardActionArea>
           <CardMedia>
             <Stack
@@ -80,7 +80,7 @@ const PatientCardNew = () => {
               />
             </Stack>
           </CardMedia>
-          <CardContent className="d-flex flex-column justify-content-center  align-items-center" >
+          <CardContent className="d-flex flex-column justify-content-center  align-items-left" >
             <Typography gutterBottom variant="h5" component="div">
               Patient  Information
             </Typography>
@@ -90,11 +90,11 @@ const PatientCardNew = () => {
                 {pt_no}
               </label>
               <br />
-              <label style={{ fontWeight: 'bold' }}>{pt_name}</label> <label>({ptc_sex})</label>
+              <label style={{ fontWeight: 'bold', fontSize: '15px' }}>{pt_name}</label> <label>({ptc_sex})</label>
               <br />
               <label style={{ fontWeight: 'bold' }}>Dr.{doc_name}</label>
               <br />
-              <label style={{ fontWeight: 'bold' }}>Dr.{spc_desc}</label>
+              <label style={{ fontWeight: 'bold' }}>{spc_desc}</label>
               <br />
               <label style={{ fontWeight: 'bold' }}>{ipd_date}</label>
               <br />
@@ -102,7 +102,7 @@ const PatientCardNew = () => {
               <br />
               <label style={{ fontWeight: 'bold' }}>{rcc_desc}</label>
               <label style={{ fontWeight: 'bold' }}>{bdc_no}</label>
-              <label>({inpt_flag})</label>
+              {/* <label>({inpt_flag})</label> */}
               <br />
             </Typography>
             <Typography variant="body2" color="text.secondary">

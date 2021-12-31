@@ -1,11 +1,11 @@
-import React, { memo, Fragment, useState } from 'react'
+import React, { memo, Fragment, useState, useEffect } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
 import TextInput from 'src/views/Component/TextInput'
 import { userslno } from 'src/views/Constant/Constant'
 import { Card } from '@mui/material'
 
-const Nurseratiocard = ({ setfunc, id }) => {
+const Nurseratiocard = ({ setfunc, setdta, id, disabled }) => {
     const [nurseratioData, setnurseratioData] = useState({
         inpt_slno: id,
         user_slno: userslno(),
@@ -20,7 +20,10 @@ const Nurseratiocard = ({ setfunc, id }) => {
         setfunc({ ...nurseratioData, [e.target.name]: value })
         // setfunc(nurseratioData)
     }
+    useEffect(() => {
 
+        setnurseratioData(setdta)
+    }, [setdta])
 
     return (
         <Fragment>
@@ -36,6 +39,7 @@ const Nurseratiocard = ({ setfunc, id }) => {
                             changeTextValue={(e) => updateFormData(e)}
                             value={noofNurses}
                             name="noofNurses"
+                            disabled={disabled}
                         />
                     </div>
                     <div className="col-md-4 pt-1 pb-1">
@@ -46,6 +50,7 @@ const Nurseratiocard = ({ setfunc, id }) => {
                             changeTextValue={(e) => updateFormData(e)}
                             value={noofPatient}
                             name="noofPatient"
+                            disabled={disabled}
                         />
                     </div>
                     <div className="col-md-4 pt-1 pb-1">
@@ -56,6 +61,7 @@ const Nurseratiocard = ({ setfunc, id }) => {
                             changeTextValue={(e) => updateFormData(e)}
                             value={nursePatientratio}
                             name="nursePatientratio"
+                            disabled={disabled}
                         />
                     </div>
                 </div>
