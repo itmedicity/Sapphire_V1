@@ -3,7 +3,7 @@ import React, { Fragment, useContext, useState, memo, useEffect } from 'react'
 import { PayrolMasterContext } from 'src/Context/MasterContext'
 import { axioslogin } from '../Axios/Axios'
 
-const DoctornameSelect = (nameselect) => {
+const DoctornameSelect = (nameselect, distrue) => {
   const [doctor, setDoctor] = useState([])
   const { selectDoctor, updateDoctor } = useContext(PayrolMasterContext)
 
@@ -28,6 +28,8 @@ const DoctornameSelect = (nameselect) => {
           variant="outlined"
           className="ml-0"
           fullWidth
+          defaultValue={0}
+          // disabled={distrue}
           value={selectDoctor}
           name="selectDoctor"
           style={nameselect.style}

@@ -39,11 +39,50 @@ import { useParams } from 'react-router';
 import moment from 'moment'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import { differenceInHours } from 'date-fns'
+import Reintubation from '../InpatientICU/Reintubation';
+import { green, pink, red } from '@mui/material/colors';
 const InpatientEditnew = () => {
   const { id } = useParams()
 
   //setting the date for return to icu
-  const [datevalue, setDatevalue] = useState(0)
+  const [datevalue, setDatevalue] = useState(false)
+  const [flagsetvalue, setFlagvalue] = useState({
+    flagNurse: '',
+    flagDoctor: '',
+    blodcompflag: '',
+    careflag: '',
+    eqpmutiltnfalg: '',
+    HandoverComflag: '',
+    nutrscreenflag: '',
+    dietetian: '',
+    nearmis: '',
+    nusrptntrati: '',
+    patientiderrflag: '',
+    sentriflag: '',
+    dischargeflag: '',
+    incedebnceflag: '',
+    reintubateflag: ''
+  })
+
+  //  destructure
+
+  const {
+    flagNurse,
+    flagDoctor,
+    blodcompflag,
+    careflag,
+    eqpmutiltnfalg,
+    HandoverComflag,
+    nutrscreenflag,
+    dietetian,
+    nearmis,
+    nusrptntrati,
+    patientiderrflag,
+    sentriflag,
+    dischargeflag,
+    incedebnceflag,
+    reintubateflag
+  } = flagsetvalue
 
   useEffect(() => {
     const returnicudate = async () => {
@@ -71,7 +110,67 @@ const InpatientEditnew = () => {
       }
     }
     returnicudate()
+
+
   }, [id])
+
+
+
+
+
+  useEffect(() => {
+    ///complete or Pending
+    const flagdetail = async () => {
+      const result = await axioslogin.get(`/common/getflgdetl/fgdetil/${id}`)
+      const { success, data } = result.data
+
+      const {
+        bedoccupicu_flag,
+        bedoccupward_flag,
+        bloodcomponent_flag,
+        communicationerror_flag,
+        diet_flag,
+        discharge_flag,
+        equipmentutilization_flag,
+        ia_doctor_flag,
+        ia_nurse_flag,
+        if_flag,
+        inpt_flag,
+        inpt_slno,
+        nearmisses_flag,
+        nrs_care_flag,
+        nrse_ptnt_ratio,
+        nut_screen_flag,
+        nutritionneed_flaG,
+        patientcare_flag,
+        pie_flag,
+        reintubation_flag,
+        return_to_icu_flag,
+        sentinal_flag
+      } = data[0]
+
+      var setdata = {
+        flagNurse: ia_nurse_flag,
+        flagDoctor: ia_doctor_flag,
+        blodcompflag: bloodcomponent_flag,
+        careflag: nrs_care_flag,
+        eqpmutiltnfalg: equipmentutilization_flag,
+        HandoverComflag: communicationerror_flag,
+        nutrscreenflag: nut_screen_flag,
+        dietetian: diet_flag,
+        nearmis: nearmisses_flag,
+        nusrptntrati: nrse_ptnt_ratio,
+        patientiderrflag: patientcare_flag,
+        sentriflag: sentinal_flag,
+        dischargeflag: discharge_flag,
+        incedebnceflag: if_flag,
+        reintubateflag: reintubation_flag
+      }
+
+      setFlagvalue(setdata)
+    }
+    flagdetail()
+  }, [setFlagvalue])
 
   return (
     <Fragment>
@@ -114,7 +213,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#ffebee'
                       }}
-                      expandIcon={<FormatAlignJustifyIcon />}
+                      expandIcon={<FormatAlignJustifyIcon sx={flagNurse === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel1a-content"
                       id="panel1a-header"
                       align="center"
@@ -132,7 +231,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#fce4ec'
                       }}
-                      expandIcon={<FormatListBulletedIcon />}
+                      expandIcon={<FormatListBulletedIcon sx={flagDoctor === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -149,7 +248,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#f3e5f5'
                       }}
-                      expandIcon={<BloodtypeSharpIcon />, < SaveIcon />}
+                      expandIcon={<BloodtypeSharpIcon />, < SaveIcon sx={blodcompflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       //  expandIcon={< SaveIcon/>}
                       aria-controls="panel3a-content"
                       id="panel3a-header"
@@ -167,7 +266,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#ede7f6'
                       }}
-                      expandIcon={<SelfImprovementSharpIcon />}
+                      expandIcon={<SelfImprovementSharpIcon sx={careflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -184,7 +283,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#e8eaf6'
                       }}
-                      expandIcon={<HomeRepairServiceSharpIcon />}
+                      expandIcon={<HomeRepairServiceSharpIcon sx={eqpmutiltnfalg === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -201,7 +300,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#e3f2fd'
                       }}
-                      expandIcon={<ContactPhoneSharpIcon />}
+                      expandIcon={<ContactPhoneSharpIcon sx={HandoverComflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -218,7 +317,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#e1f5fe'
                       }}
-                      expandIcon={<AssessmentSharpIcon />}
+                      expandIcon={<AssessmentSharpIcon sx={nutrscreenflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -235,7 +334,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#e0f7fa'
                       }}
-                      expandIcon={<EmojiFoodBeverageSharpIcon />}
+                      expandIcon={<EmojiFoodBeverageSharpIcon sx={dietetian === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -252,7 +351,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#e0f2f1'
                       }}
-                      expandIcon={<RuleSharpIcon />}
+                      expandIcon={<RuleSharpIcon sx={nearmis === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -269,7 +368,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#e8f5e9'
                       }}
-                      expandIcon={<PeopleOutlineIcon />}
+                      expandIcon={<PeopleOutlineIcon sx={nusrptntrati === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -286,7 +385,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#f1f8e9'
                       }}
-                      expandIcon={<ReportIcon />}
+                      expandIcon={<ReportIcon sx={patientiderrflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -303,7 +402,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#f9fbe7'
                       }}
-                      expandIcon={<EventBusyIcon />}
+                      expandIcon={<EventBusyIcon sx={sentriflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -320,7 +419,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#f9fbe7'
                       }}
-                      expandIcon={<EventBusyIcon />}
+                      expandIcon={<EventBusyIcon sx={dischargeflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -371,7 +470,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#f9fbe7'
                       }}
-                      expandIcon={<EventBusyIcon />}
+                      expandIcon={<EventBusyIcon sx={flagNurse === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     // disabled={datevalue}
@@ -391,7 +490,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#f9fbe7'
                       }}
-                      expandIcon={<EventBusyIcon />}
+                      expandIcon={<EventBusyIcon sx={incedebnceflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -403,12 +502,12 @@ const InpatientEditnew = () => {
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
-                  {/* <Accordion>
+                  <Accordion>
                     <AccordionSummary
                       style={{
                         backgroundColor: '#f9fbe7'
                       }}
-                      expandIcon={<EventBusyIcon />}
+                      expandIcon={<EventBusyIcon sx={reintubateflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -416,9 +515,10 @@ const InpatientEditnew = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography>
+                        <Reintubation />
                       </Typography>
                     </AccordionDetails>
-                  </Accordion> */}
+                  </Accordion>
                 </Card>
               </div>
             </div>

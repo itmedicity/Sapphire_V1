@@ -108,7 +108,6 @@ const Incidence = () => {
                 const { inpt_slno, if_ysno, if_errordesc, if_personresponsible, if_actntkn, if_remark } = data[0]
                 // setToggle(if_ysno)
                 const frmData = {
-
                     errordesc: if_errordesc,
                     personresponsible: if_personresponsible,
                     actiontaken: if_actntkn,
@@ -129,9 +128,6 @@ const Incidence = () => {
         incidence()
     }, [id])
 
-
-
-
     const editincidence = () => {
         setdistrue(false)
     }
@@ -147,6 +143,7 @@ const Incidence = () => {
                         <div className="row">
                             <div className="col-md-2 pt-2">
                                 <FormControl
+                                    fullWidth
                                     margin="dense"
                                     className="mt-1"
                                 >

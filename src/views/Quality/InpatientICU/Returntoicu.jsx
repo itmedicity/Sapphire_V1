@@ -21,9 +21,11 @@ const Returntoicu = () => {
   const RedirectToProfilePage = () => {
     history.push(`/Home/InpatientEdit/${id}`)
   }
-  const [enable, setenable] = useState(true)
+  const [enable, setenable] = useState(false)
   const [value, setvalue] = useState(0)
   //setting initial state
+
+  const [distrue, setdistrue] = useState(false)
 
   const [returntoicuData, setreturntoicuData] = useState({
     datetime: '',
@@ -79,12 +81,14 @@ const Returntoicu = () => {
   const submitFormData = async (e) => {
     e.preventDefault()
     const result = await axioslogin.post('/returntoIcu', postData)
-    if (value === 0) {
+
+    if (value === 1) {
       const { success, message } = result.data
       if (success === 1) {
         succesNofity(message)
+        setdistrue(true)
         setenable(true)
-        setreturntoicuData(defaultstate)
+
         updateDoctor(0)
       } else if (success === 0) {
         warningNofity(message)
@@ -97,11 +101,13 @@ const Returntoicu = () => {
       const { success, message } = result.data
       if (success === 2) {
         succesNofity(message)
+        setdistrue(true)
         setenable(true)
       } else if (success === 1) {
         warningNofity(message)
       } else {
         errorNofity('Error Occured!!!Please Contact EDP')
+        setdistrue(true)
       }
     }
   }
@@ -110,6 +116,7 @@ const Returntoicu = () => {
       const result = await axioslogin.get(`returntoIcu/${id}`)
       const { success, data } = result.data
       if (success === 1) {
+
         const { do_code, inpt_slno, prsnt_complaint,
           prvious_complaint, remark,
           rtnicu_datetime, rticu_flag, user_slno
@@ -124,9 +131,11 @@ const Returntoicu = () => {
         updateDoctor(do_code)
         setvalue(inpt_slno)
         setenable(true)
+        setdistrue(true)
       }
       else if (success === 2) {
         setenable(false)
+        setdistrue(false)
         setvalue(0)
       }
       else {
@@ -139,6 +148,7 @@ const Returntoicu = () => {
 
   const editreturn = () => {
     setenable(false)
+    setdistrue(false)
   }
   return (
     <Fragment>
@@ -147,19 +157,6 @@ const Returntoicu = () => {
       <form className={classes.root} onSubmit={submitFormData}>
         <div className="card-body">
           <div className="row">
-            {/* <div className="col-md-3 col-sm-12">
-              <PatientCard id={id} />
-            </div>
-            <div className="col-md-9  col-sm-12">
-              <div className="card"> */}
-            {/* <div
-                  className="card-header  text-black "
-                  style={{
-                    backgroundColor: '#b6b8c3',
-                  }}
-                >
-                  <h5>Return To ICU</h5>
-                </div> */}
             <Card className="card-body">
               <div className="row">
                 <div className="col-md-1"></div>
@@ -167,6 +164,7 @@ const Returntoicu = () => {
                   <div className="row">
                     <div className="col-md-6 pl-0">
                       <DoctornameSelect
+                        distrue={distrue}
                         style={{
                           minHeight: 10,
                           maxHeight: 27,
