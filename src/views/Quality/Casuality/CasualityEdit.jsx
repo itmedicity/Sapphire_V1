@@ -1,11 +1,50 @@
 import { Accordion, AccordionDetails, AccordionSummary, Card, CardHeader, Divider, Typography } from '@mui/material'
-import React, { Fragment } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
+import { useParams } from 'react-router';
 import PatientCardNew from '../Inpatient/PatientCardNew'
 import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import IntialAssessmentCasuality from './IntialAssessmentCasuality';
+import ReturntoCasuality from './ReturntoCasuality';
+import { MdPublishedWithChanges } from "react-icons/md";
+import { green, pink, red } from '@mui/material/colors';
+import { axioslogin } from 'src/views/Axios/Axios';
 
 const CasualityEdit = () => {
+  const { id } = useParams()
+  const [flagsetvalue, setFlagvalue] = useState({
+    casulflag: ''
+  })
+
+  //  destructure
+
+  const {
+    casulflag
+  } = flagsetvalue
+
+
+
+  useEffect(() => {
+    ///complete or Pending
+    const flagdetails = async () => {
+      const result = await axioslogin.get(`/common/getcasflag/casflgdetl/${id}`)
+      console.log(result)
+      const { success, data } = result.data
+      const {
+        casualityian_flag,
+        inpt_slno
+      } = data[0]
+
+      var setdata = {
+        casulflag: casualityian_flag,
+        inptslno: inpt_slno
+
+      }
+
+      setFlagvalue(setdata)
+    }
+    flagdetails()
+  }, [setFlagvalue])
 
   return (
     <Fragment>
@@ -48,7 +87,7 @@ const CasualityEdit = () => {
                       style={{
                         backgroundColor: '#ffebee'
                       }}
-                      expandIcon={<FormatAlignJustifyIcon />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={casulflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel1a-content"
                       id="panel1a-header"
                       align="center"
@@ -66,7 +105,7 @@ const CasualityEdit = () => {
                       style={{
                         backgroundColor: '#fce4ec'
                       }}
-                      expandIcon={<FormatListBulletedIcon />}
+                      expandIcon={<MdPublishedWithChanges size={25} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -74,7 +113,7 @@ const CasualityEdit = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography component={'span'} variant={'body2'}>
-                        {/* <InitialassesmentDoctor /> */}
+                        <ReturntoCasuality />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
