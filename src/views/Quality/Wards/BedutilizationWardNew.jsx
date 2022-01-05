@@ -52,7 +52,6 @@ const BedutilizationWardNew = () => {
         bow_noofbedoccup: setdta.numberofbedOccupied,
         bow_noofnurse: setdta.noofNurses,
         bow_noofpatient: setdta.noofPatient,
-
         inpt_slno: setdta.inpt_slno,
         user_slno: setdta.user_slno,
         bow_flag: bowflag
@@ -62,7 +61,6 @@ const BedutilizationWardNew = () => {
         bow_noofbedoccup: numberofbedOccupied,
         bow_noofnurse: noofNurses,
         bow_noofpatient: noofPatient,
-
         inpt_slno: value,
         user_slno: userslno(),
         bow_flag: bowflag

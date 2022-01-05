@@ -11,7 +11,7 @@ import { PayrolMasterContext } from 'src/Context/MasterContext'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import { userslno } from 'src/views/Constant/Constant'
-import { Card } from '@mui/material'
+import { Card, Typography } from '@mui/material'
 import moment from 'moment'
 
 const Returntoicu = () => {
@@ -175,9 +175,10 @@ const Returntoicu = () => {
                     </div>
                     {/* <div className="col-md-6 pt-2"> */}
                     <div className="col-md-3">
-                      <label htmlFor="test" className="form-label">
+                      <Typography> Return to Icu Date/Time</Typography>
+                      {/* <label htmlFor="test" className="form-label">
                         Return to Icu Date/Time
-                      </label>
+                      </label> */}
                     </div>
                     <div className="col-md-3">
                       <TextInput

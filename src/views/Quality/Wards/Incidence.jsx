@@ -89,7 +89,7 @@ const Incidence = () => {
             const { success, message } = result.data
             if (success === 2) {
                 succesNofity(message)
-                // setdistrue(true)
+                setdistrue(true)
             } else if (success === 1) {
                 warningNofity(message)
             } else {
@@ -176,6 +176,7 @@ const Incidence = () => {
                                     Placeholder="Remarks"
                                     value={remarks}
                                     name="remarks"
+                                    disabled={distrue}
                                     changeTextValue={(e) => updateFormData(e)}
                                 />
                                 }
