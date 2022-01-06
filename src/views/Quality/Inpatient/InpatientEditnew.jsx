@@ -40,6 +40,8 @@ import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/C
 import { differenceInHours } from 'date-fns'
 import Reintubation from '../InpatientICU/Reintubation';
 import { green, pink, red } from '@mui/material/colors';
+import BedutilizationWardNew from '../Wards/BedutilizationWardNew';
+import { MdPublishedWithChanges } from "react-icons/md";
 const InpatientEditnew = () => {
   const { id } = useParams()
 
@@ -60,7 +62,8 @@ const InpatientEditnew = () => {
     sentriflag: '',
     dischargeflag: '',
     incedebnceflag: '',
-    reintubateflag: ''
+    reintubateflag: '',
+    bedoccupward_flag: ''
   })
 
   //  destructure
@@ -80,7 +83,8 @@ const InpatientEditnew = () => {
     sentriflag,
     dischargeflag,
     incedebnceflag,
-    reintubateflag
+    reintubateflag,
+    bedoccupward_flag
   } = flagsetvalue
 
   useEffect(() => {
@@ -159,11 +163,12 @@ const InpatientEditnew = () => {
         dietetian: diet_flag,
         nearmis: nearmisses_flag,
         nusrptntrati: nrse_ptnt_ratio,
-        patientiderrflag: patientcare_flag,
+        patientiderrflag: pie_flag,
         sentriflag: sentinal_flag,
         dischargeflag: discharge_flag,
         incedebnceflag: if_flag,
-        reintubateflag: reintubation_flag
+        reintubateflag: reintubation_flag,
+        bedoccupward_flag: bedoccupward_flag
       }
 
       setFlagvalue(setdata)
@@ -212,7 +217,12 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#ffebee'
                       }}
-                      expandIcon={<FormatAlignJustifyIcon sx={flagNurse === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+
+                      expandIcon={<MdPublishedWithChanges
+                        // style={{ color: green[500] }}
+
+                        size={25} style={flagNurse === 'Y' ? { color: green[500] } : { color: red[500] }}
+                      />}
                       aria-controls="panel1a-content"
                       id="panel1a-header"
                       align="center"
@@ -230,7 +240,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#fce4ec'
                       }}
-                      expandIcon={<FormatListBulletedIcon sx={flagDoctor === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={flagDoctor === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -247,7 +257,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#f3e5f5'
                       }}
-                      expandIcon={<BloodtypeSharpIcon />, < SaveIcon sx={blodcompflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+                      expandIcon={<MdPublishedWithChanges />, < MdPublishedWithChanges size={25} style={blodcompflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       //  expandIcon={< SaveIcon/>}
                       aria-controls="panel3a-content"
                       id="panel3a-header"
@@ -265,7 +275,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#ede7f6'
                       }}
-                      expandIcon={<SelfImprovementSharpIcon sx={careflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={careflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -282,7 +292,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#e8eaf6'
                       }}
-                      expandIcon={<HomeRepairServiceSharpIcon sx={eqpmutiltnfalg === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={eqpmutiltnfalg === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -299,7 +309,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#e3f2fd'
                       }}
-                      expandIcon={<ContactPhoneSharpIcon sx={HandoverComflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={HandoverComflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -316,7 +326,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#e1f5fe'
                       }}
-                      expandIcon={<AssessmentSharpIcon sx={nutrscreenflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={nutrscreenflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -333,7 +343,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#e0f7fa'
                       }}
-                      expandIcon={<EmojiFoodBeverageSharpIcon sx={dietetian === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={dietetian === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -350,7 +360,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#e0f2f1'
                       }}
-                      expandIcon={<RuleSharpIcon sx={nearmis === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={nearmis === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -367,7 +377,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#e8f5e9'
                       }}
-                      expandIcon={<PeopleOutlineIcon sx={nusrptntrati === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={nusrptntrati === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -384,7 +394,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#f1f8e9'
                       }}
-                      expandIcon={<ReportIcon sx={patientiderrflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={patientiderrflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -401,7 +411,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#f9fbe7'
                       }}
-                      expandIcon={<EventBusyIcon sx={sentriflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={sentriflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -418,7 +428,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#f9fbe7'
                       }}
-                      expandIcon={<EventBusyIcon sx={dischargeflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={dischargeflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -436,7 +446,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#f9fbe7'
                       }}
-                      expandIcon={<EventBusyIcon />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={bedoccupward_flag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -478,7 +488,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#f9fbe7'
                       }}
-                      expandIcon={<EventBusyIcon sx={flagNurse === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={flagNurse === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     // disabled={datevalue}
@@ -498,7 +508,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#f9fbe7'
                       }}
-                      expandIcon={<EventBusyIcon sx={incedebnceflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={incedebnceflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
@@ -515,7 +525,7 @@ const InpatientEditnew = () => {
                       style={{
                         backgroundColor: '#f9fbe7'
                       }}
-                      expandIcon={<EventBusyIcon sx={reintubateflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
+                      expandIcon={<MdPublishedWithChanges size={25} style={reintubateflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
