@@ -41,7 +41,11 @@ import { differenceInHours } from 'date-fns'
 import Reintubation from '../InpatientICU/Reintubation';
 import { green, pink, red } from '@mui/material/colors';
 import BedutilizationWardNew from '../Wards/BedutilizationWardNew';
+import BedUtilizationIcu from '../InpatientICU/BedUtilizationIcu';
+import Accodation from './Accodation';
+import { COLOUR_ONE } from 'src/views/Constant/Constant';
 import { MdPublishedWithChanges } from "react-icons/md";
+
 const InpatientEditnew = () => {
   const { id } = useParams()
 
@@ -176,6 +180,28 @@ const InpatientEditnew = () => {
     flagdetail()
   }, [setFlagvalue])
 
+  const array = [
+    { comp: <IntialassessmentNurse />, style: { backgroundColor: COLOUR_ONE }, flag: flagNurse, nameheading: 'Intial Assement nurse' },
+    { comp: <InitialassesmentDoctor />, style: { backgroundColor: '#fce4ec' }, flag: flagDoctor, nameheading: 'Intial Assement Doctor' },
+    { comp: <Bloodcomponents />, style: { backgroundColor: '#f3e5f5' }, flag: blodcompflag, nameheading: 'Blood Component' },
+    { comp: <Careplan />, style: { backgroundColor: '#ede7f6' }, flag: careflag, nameheading: 'Care Plan' },
+    { comp: <EquipmentUtilization />, style: { backgroundColor: '#e8eaf6' }, flag: eqpmutiltnfalg, nameheading: 'Equipment Utilization' },
+    { comp: <HandoverComunication />, style: { backgroundColor: '#e3f2fd' }, flag: HandoverComflag, nameheading: 'Handover Communication' },
+    { comp: <NutritionalScreening />, style: { backgroundColor: '#e1f5fe' }, flag: nutrscreenflag, nameheading: 'Nutritional Screening ' },
+    { comp: <Dietitian />, style: { backgroundColor: '#e0f7fa' }, flag: dietetian, nameheading: 'Dietitian' },
+    { comp: <Nearmissess />, style: { backgroundColor: '#e0f2f1' }, flag: nearmis, nameheading: 'Near Misses' },
+    { comp: <NursePatientratio />, style: { backgroundColor: '#e8f5e9' }, flag: nusrptntrati, nameheading: 'Nurse Patient Ratio' },
+    { comp: <Patientidentfctnerror />, style: { backgroundColor: '#f9fbe7' }, flag: patientiderrflag, nameheading: 'Patient Identification Error' },
+    { comp: <Sentinalevent />, style: { backgroundColor: '#f9fbe7' }, flag: sentriflag, nameheading: 'Sentinal Event' },
+    { comp: <Discharge />, style: { backgroundColor: '#f9fbe7' }, flag: dischargeflag, nameheading: 'Discharge' },
+    { comp: <BedutilizationWardNew />, style: { backgroundColor: '#f9fbe7' }, flag: dischargeflag, nameheading: 'Bed Utilization Ward' },
+    { comp: <BedUtilizationIcu />, style: { backgroundColor: '#e0f7fa' }, flag: dischargeflag, nameheading: 'Bed Utilization ICU' },
+    { comp: <Returntoicu />, style: { backgroundColor: '#e0f7fa' }, flag: dietetian, nameheading: 'Return To ICU' },
+    { comp: <Incidence />, style: { backgroundColor: '#e0f7fa' }, flag: incedebnceflag, nameheading: 'Incidence Fall' },
+    { comp: <Reintubation />, style: { backgroundColor: '#e0f7fa' }, flag: reintubateflag, nameheading: 'Reintubation Flag' },
+
+  ]
+
   return (
     <Fragment>
       <div className="card "
@@ -212,331 +238,16 @@ const InpatientEditnew = () => {
             <div className="col-md-9 justify-content-around">
               <div className="col-md-11 col-lg-12">
                 <Card sx={{ borderRadius: 8, boxShadow: 10 }}>
-                  <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#ffebee'
-                      }}
-
-                      expandIcon={<MdPublishedWithChanges
-                        // style={{ color: green[500] }}
-
-                        size={25} style={flagNurse === 'Y' ? { color: green[500] } : { color: red[500] }}
-                      />}
-                      aria-controls="panel1a-content"
-                      id="panel1a-header"
-                      align="center"
-                    >
-                      <Typography display="block" fontSize={18}>  Initial Assessment Nurse </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography component={'span'} variant={'body2'}>
-                        <IntialassessmentNurse />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#fce4ec'
-                      }}
-                      expandIcon={<MdPublishedWithChanges size={25} style={flagDoctor === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography fontSize={18} display="block">Initial Assessment Doctor</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography component={'span'} variant={'body2'}>
-                        <InitialassesmentDoctor />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion >
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#f3e5f5'
-                      }}
-                      expandIcon={<MdPublishedWithChanges />, < MdPublishedWithChanges size={25} style={blodcompflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      //  expandIcon={< SaveIcon/>}
-                      aria-controls="panel3a-content"
-                      id="panel3a-header"
-                    >
-                      <Typography display="block" fontSize={18} >Blood Component</Typography>
-                    </AccordionSummary >
-                    <AccordionDetails>
-                      <Typography component={'span'} variant={'body2'}>
-                        <Bloodcomponents />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#ede7f6'
-                      }}
-                      expandIcon={<MdPublishedWithChanges size={25} style={careflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography display="block" fontSize={18}>Care Plan</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography component={'span'} variant={'body2'}>
-                        <Careplan />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#e8eaf6'
-                      }}
-                      expandIcon={<MdPublishedWithChanges size={25} style={eqpmutiltnfalg === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography display="block" fontSize={18}>Equipment Utilization</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography component={'span'} variant={'body2'}>
-                        <EquipmentUtilization />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#e3f2fd'
-                      }}
-                      expandIcon={<MdPublishedWithChanges size={25} style={HandoverComflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography display="block" fontSize={18}>HandOver Communication</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography component={'span'} variant={'body2'} >
-                        <HandoverComunication />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#e1f5fe'
-                      }}
-                      expandIcon={<MdPublishedWithChanges size={25} style={nutrscreenflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography display="block" fontSize={18}>Nutritional Screening</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography component={'span'} variant={'body2'}>
-                        <NutritionalScreening />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#e0f7fa'
-                      }}
-                      expandIcon={<MdPublishedWithChanges size={25} style={dietetian === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography display="block" fontSize={18}>Dietitian</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography component={'span'} variant={'body2'}>
-                        <Dietitian />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#e0f2f1'
-                      }}
-                      expandIcon={<MdPublishedWithChanges size={25} style={nearmis === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography display="block" fontSize={18}>Near Misses</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography component={'span'} variant={'body2'}>
-                        <Nearmissess />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#e8f5e9'
-                      }}
-                      expandIcon={<MdPublishedWithChanges size={25} style={nusrptntrati === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography display="block" fontSize={18}>Nurse Patient Ratio</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography component={'span'} variant={'body2'}>
-                        <NursePatientratio />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#f1f8e9'
-                      }}
-                      expandIcon={<MdPublishedWithChanges size={25} style={patientiderrflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography display="block" fontSize={18}> Patient Identification Error</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography component={'span'} variant={'body2'}>
-                        <Patientidentfctnerror />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#f9fbe7'
-                      }}
-                      expandIcon={<MdPublishedWithChanges size={25} style={sentriflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography display="block" fontSize={18}>Sentinal Event</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography component={'span'} variant={'body2'}>
-                        <Sentinalevent />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#f9fbe7'
-                      }}
-                      expandIcon={<MdPublishedWithChanges size={25} style={dischargeflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography display="block" fontSize={18}>Discharge</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography component={'span'} variant={'body2'}>
-                        <Discharge />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-
-                  <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#f9fbe7'
-                      }}
-                      expandIcon={<MdPublishedWithChanges size={25} style={bedoccupward_flag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography display="block" fontSize={18}>Bed Utilization Ward</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography component={'span'} variant={'body2'}>
-                        <BedutilizationWardNew />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-
-
-
-
-
-
-
-                  {/* <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#f9fbe7'
-                      }}
-                      expandIcon={<EventBusyIcon />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography display="block" fontSize={18}>Bed Occupancy ICU</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography>
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion> */}
-                  <Accordion
-                    disabled={datevalue}
-                  >
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#f9fbe7'
-                      }}
-                      expandIcon={<MdPublishedWithChanges size={25} style={flagNurse === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    // disabled={datevalue}
-                    >
-                      <Typography display="block" fontSize={18} >Return to ICU</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography>
-                        <Returntoicu />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-
-
-                  <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#f9fbe7'
-                      }}
-                      expandIcon={<MdPublishedWithChanges size={25} style={incedebnceflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography display="block" fontSize={18}>Incidence of Fall</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography component={'span'} variant={'body2'}>
-                        <Incidence />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                  <Accordion>
-                    <AccordionSummary
-                      style={{
-                        backgroundColor: '#f9fbe7'
-                      }}
-                      expandIcon={<MdPublishedWithChanges size={25} style={reintubateflag === 'Y' ? { color: green[500] } : { color: red[500] }} />}
-                      aria-controls="panel2a-content"
-                      id="panel2a-header"
-                    >
-                      <Typography display="block" fontSize={18}>ReIntubation Rate</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography>
-                        <Reintubation />
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
+                  {
+                    array.map((val, index) => {
+                      return <Accodation key={index} style={val.style} flagNurse={val.flag} nameheading={val.nameheading}>
+                        {val.comp}
+                      </Accodation>
+                    })
+                  }
+                  {/* <Accodation >
+                    <IntialassessmentNurse />
+                  </Accodation> */}
                 </Card>
               </div>
             </div>

@@ -84,7 +84,7 @@ const BedUtilizationIcu = () => {
                 const { success, message } = result.data
                 if (success === 1) {
                     succesNofity(message)
-                    // setfunc(dietdefaultsate)
+                    // setfunc(bedutilizationicudefaultsate)
                 } else if (success === 2) {
                     warningNofity(message)
                 } else {

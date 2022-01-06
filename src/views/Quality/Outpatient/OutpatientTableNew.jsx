@@ -40,7 +40,8 @@ const OutpatientTableNew = () => {
                         </div>
                         <div className="col-md-2">
                             <Typography variant="body2" gutterBottom className="my-0">
-                                Doctor Name                            </Typography>
+                                Doctor Name
+                            </Typography>
                         </div>
                         <div className="col-md-1">
                             <Typography variant="body2" gutterBottom className="my-0 text-center" >
