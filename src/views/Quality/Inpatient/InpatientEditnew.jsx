@@ -44,6 +44,7 @@ import BedutilizationWardNew from '../Wards/BedutilizationWardNew';
 import BedUtilizationIcu from '../InpatientICU/BedUtilizationIcu';
 import Accodation from './Accodation';
 import { COLOUR_ONE } from 'src/views/Constant/Constant';
+import { MdPublishedWithChanges } from "react-icons/md";
 
 const InpatientEditnew = () => {
   const { id } = useParams()
@@ -65,7 +66,8 @@ const InpatientEditnew = () => {
     sentriflag: '',
     dischargeflag: '',
     incedebnceflag: '',
-    reintubateflag: ''
+    reintubateflag: '',
+    bedoccupward_flag: ''
   })
 
   //  destructure
@@ -85,7 +87,8 @@ const InpatientEditnew = () => {
     sentriflag,
     dischargeflag,
     incedebnceflag,
-    reintubateflag
+    reintubateflag,
+    bedoccupward_flag
   } = flagsetvalue
 
   useEffect(() => {
@@ -168,7 +171,8 @@ const InpatientEditnew = () => {
         sentriflag: sentinal_flag,
         dischargeflag: discharge_flag,
         incedebnceflag: if_flag,
-        reintubateflag: reintubation_flag
+        reintubateflag: reintubation_flag,
+        bedoccupward_flag: bedoccupward_flag
       }
 
       setFlagvalue(setdata)
@@ -234,7 +238,6 @@ const InpatientEditnew = () => {
             <div className="col-md-9 justify-content-around">
               <div className="col-md-11 col-lg-12">
                 <Card sx={{ borderRadius: 8, boxShadow: 10 }}>
-
                   {
                     array.map((val, index) => {
                       return <Accodation key={index} style={val.style} flagNurse={val.flag} nameheading={val.nameheading}>

@@ -94,7 +94,7 @@ const Patientidentfctnerror = () => {
       const { success, message } = result.data
       if (success === 2) {
         succesNofity(message)
-        // setdistrue(true)
+        setdistrue(true)
 
       } else if (success === 1) {
         warningNofity(message)
