@@ -10,7 +10,6 @@ import moment from 'moment'
 const IntialAssessmentCasuality = () => {
 
     const { id } = useParams()
-    // console.log(id)
     const [value, setValue] = useState(0)
     //use state for enable fields on clicking edit button
     const [enable, Setenable] = useState(false)
@@ -21,13 +20,13 @@ const IntialAssessmentCasuality = () => {
         casuality_initialend: '',
         casuallity_remark: '',
     })
-    //Default State
-    const defaultstate = {
-        arrivedtime_casuality: '',
-        casuality_intialstart: '',
-        casuality_initialend: '',
-        casuallity_remark: '',
-    }
+    // //Default State
+    // const defaultstate = {
+    //     arrivedtime_casuality: '',
+    //     casuality_intialstart: '',
+    //     casuality_initialend: '',
+    //     casuallity_remark: '',
+    // }
 
     //destructing object
     const { arrivedtime_casuality, casuality_intialstart, casuality_initialend, casuallity_remark } = IntialCasualityData
@@ -65,7 +64,6 @@ const IntialAssessmentCasuality = () => {
             const { success, message } = result.data
             if (success === 1) {
                 succesNofity(message)
-                console.log(succesNofity(message))
                 Setenable(true)
                 // setIntialCasualityData(defaultstate)
             } else if (success === 0) {
@@ -91,7 +89,6 @@ const IntialAssessmentCasuality = () => {
     useEffect(() => {
         const getcasualinitailassessnurse = async () => {
             const result = await axioslogin.get(`initialassessmentcasuality/${id}`)
-            // console.log(result)
             const { success, data } = result.data
 
             if (success === 1) {

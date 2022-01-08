@@ -43,14 +43,14 @@ const BedUtilizationIcu = () => {
         noofnonventinurse
     } = setdta
 
-    const bedutilizationicudefaultsate = {
-        availableBedNumber: '',
-        numberofbedOccupied: '',
-        noofventilatedpatient: '',
-        noofnurse: '',
-        noofnonventipat: '',
-        noofnonventinurse: ''
-    }
+    // const bedutilizationicudefaultsate = {
+    //     availableBedNumber: '',
+    //     numberofbedOccupied: '',
+    //     noofventilatedpatient: '',
+    //     noofnurse: '',
+    //     noofnonventipat: '',
+    //     noofnonventinurse: ''
+    // }
 
     const postBedutilizationIcu = {
         boicu_avlbed: setdta.availableBedNumber,
@@ -154,7 +154,6 @@ const BedUtilizationIcu = () => {
                     noofnonventipat: nonvent_noofptnt,
                     noofnonventinurse: nonvent_noofnurse
                 }
-                const morining = 1
                 setfunc(frmData)
                 // Setenable(true)
                 setToggle(bedoccup_shiftflag === 'M' ? 1 : bedoccup_shiftflag === 'E' ? 2 : 3)

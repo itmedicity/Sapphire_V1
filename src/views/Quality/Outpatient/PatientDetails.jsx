@@ -1,19 +1,16 @@
 import { IconButton } from '@material-ui/core'
 import { Typography } from '@mui/material'
-import moment from 'moment'
+// import moment from 'moment'
 // import { useParams } from 'react-router'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import AddTaskRoundedIcon from '@mui/icons-material/AddTaskRounded';
 import { useEffect } from 'react'
-import { axioslogin } from 'src/views/Axios/Axios'
-import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
+
 import TextInput from 'src/views/Component/TextInput'
-import { userslno } from 'src/views/Constant/Constant'
+
 import { format } from 'date-fns';
 
 const PatientDetails = ({ value, key }) => {
-    console.log(value)
-    console.log(key)
 
 
     useEffect(() => {

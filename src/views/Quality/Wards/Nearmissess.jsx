@@ -1,19 +1,17 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
-import { useParams, useHistory } from 'react-router'
+import { useParams } from 'react-router'
 import { Select, FormControl, MenuItem, Card } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
 import TextInput from 'src/views/Component/TextInput'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
-import { useStyles } from 'src/views/CommonCode/MaterialStyle'
 import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 
 const Nearmissess = () => {
     const { id } = useParams()
-    const classes = useStyles()
     const [toggle, setToggle] = useState(0)
     const [distrue, setdistrue] = useState(true)
     const [value, setValue] = useState(0)
@@ -26,16 +24,9 @@ const Nearmissess = () => {
         remarks: ''
     })
     //default state
-    const defaultstate = {
-        nearmisses: '',
-        errordesc: '',
-        personresponsible: '',
-        actiontaken: '',
-        remarks: ''
-    }
+
     //destrutring object
     const {
-        nearmisses,
         errordesc,
         personresponsible,
         actiontaken,

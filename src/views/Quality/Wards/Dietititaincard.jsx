@@ -4,7 +4,6 @@ import { ToastContainer } from 'react-toastify'
 import { FormControl, MenuItem, Select } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
 import TextInput from 'src/views/Component/TextInput'
-import { userslno } from 'src/views/Constant/Constant'
 const Dietititaincard = ({
   setremarkdata,
   setactiontakendata,

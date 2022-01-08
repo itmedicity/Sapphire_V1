@@ -1,17 +1,14 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
-import PatientCard from '../Inpatient/PatientCard'
 import { ToastContainer } from 'react-toastify'
-import { useHistory, useParams } from 'react-router'
-import { Button, Card } from '@mui/material'
+import { useParams } from 'react-router'
+import { Card } from '@mui/material'
 import Dietititaincard from './Dietititaincard'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import { FaBaby } from 'react-icons/fa';
-import { MdPregnantWoman } from "react-icons/md";
-import { FcBusinesswoman } from "react-icons/fc";
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
@@ -24,10 +21,7 @@ import { MdOutlinePregnantWoman } from "react-icons/md";
 const Dietitian = () => {
 
   const { id } = useParams()// to get id 
-  const history = useHistory()
-  const RedirectToProfilePage = () => {
-    history.push(`/Home/InpatientEdit/${id}`)
-  }
+
   // to identify the colur
   const [dietdata, setDietdata] = useState({
     peadiatric: 0,
@@ -156,7 +150,7 @@ const Dietitian = () => {
       const result = await axioslogin.get(`dietian/${id}`)
       const { success, data } = result.data
       if (success === 1) {
-        const { diet_ysno, diet_remark, diet_errordesc, diet_prsnresponsible, diet_actntkn, inpt_slno, diet_pao_flag } = data[0]
+        const { diet_ysno, diet_remark, diet_errordesc, diet_prsnresponsible, diet_actntkn, diet_pao_flag } = data[0]
         setdietflag(diet_pao_flag)
         setDietdata({
           peadiatric: diet_pao_flag === '1' ? 1 : 0,
@@ -195,14 +189,13 @@ const Dietitian = () => {
 
   const [value, setValue] = useState(0)
   const { peadiatric, Adults, obstritcs } = dietdata
-  const dietdefaultsate = {
-    errordesc: '',
-    personresponsible: '',
-    actiontaken: '',
-    remarks: '',
-    dietian: '',
-    remarks: ''
-  }
+  // const dietdefaultsate = {
+  //   errordesc: '',
+  //   personresponsible: '',
+  //   actiontaken: '',
+  //   remarks: '',
+  //   dietian: ''
+  // }
 
 
   const editdietian = () => {

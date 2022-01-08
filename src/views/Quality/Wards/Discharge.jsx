@@ -1,8 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
-import PatientCard from '../Inpatient/PatientCard'
-import { useHistory, useParams } from 'react-router'
+import { useParams } from 'react-router'
 import { Card, Typography } from '@mui/material'
 import TextInput from 'src/views/Component/TextInput'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
@@ -12,12 +11,9 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import moment from 'moment'
 const Discharge = () => {
     const { id } = useParams()
-    const history = useHistory()
-    const RedirectToProfilePage = () => {
-        history.push(`/Home/InpatientEdit/${id}`)
-    }
+
     const [distrue, setdistrue] = useState(false)
-    const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
+    // const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
     const [value, setValue] = useState(0)
 
     //   setting intial state
@@ -30,15 +26,6 @@ const Discharge = () => {
         patent_from_unit: ''
     })
 
-    //   default state
-    const defaultstate = {
-        dis_advice_time: '',
-        dis_sumrec_time: '',
-        summ_prep_time: '',
-        sumhand_patent: '',
-        date_dis: '',
-        patent_from_unit: ''
-    }
     //   destructing object
     const { dis_advice_time,
         dis_sumrec_time,

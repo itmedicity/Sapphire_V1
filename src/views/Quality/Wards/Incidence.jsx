@@ -26,18 +26,10 @@ const Incidence = () => {
         remarks: ''
     })
 
-    //default state
-    const defaultstate = {
-        incidence: '',
-        errordesc: '',
-        personresponsible: '',
-        actiontaken: '',
-        remarks: ''
-    }
+
 
     //destrutring object
     const {
-        incidence,
         errordesc,
         personresponsible,
         actiontaken,

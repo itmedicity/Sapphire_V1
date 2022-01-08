@@ -1,14 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
-import PatientCard from '../Inpatient/PatientCard'
-import { useHistory, useParams } from 'react-router'
+import { useParams } from 'react-router'
 import { MenuItem, Card } from '@mui/material'
 import Actiontaken from 'src/views/CommonCode/Actiontaken'
 import TextInput from 'src/views/Component/TextInput'
 import { FormControl, Select } from '@material-ui/core'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
-import { useStyles } from 'src/views/CommonCode/MaterialStyle'
 import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
@@ -27,18 +25,9 @@ const Patientidentfctnerror = () => {
     actiontaken: '',
     remarks: ''
   })
-  //default state
-  const defaultstate = {
-    patientidentification: '',
-    errordesc: '',
-    personresponsible: '',
-    actiontaken: '',
-    remarks: ''
 
-  }
   //destrutring object
   const {
-    patientidentification,
     errordesc,
     personresponsible,
     actiontaken,

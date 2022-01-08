@@ -1,24 +1,24 @@
 import { Card } from '@mui/material'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import { ToastContainer } from 'react-toastify'
 import { useParams, useHistory } from 'react-router'
 import SessionCheck from 'src/views/Axios/SessionCheck'
-import { PayrolMasterContext } from 'src/Context/MasterContext'
-import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
+// import { PayrolMasterContext } from 'src/Context/MasterContext'
+// import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import DoctornameSelect from 'src/views/CommonCode/DoctornameSelect'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import TextInput from 'src/views/Component/TextInput'
-import { axioslogin } from 'src/views/Axios/Axios'
+// import { axioslogin } from 'src/views/Axios/Axios'
 
 const ReturntoCasuality = () => {
-    const { id } = useParams()
-    const history = useHistory();
-    const toback = () => {
-        history.push(`/Home/CasualitypatientList`)
-    }
+    // const { id } = useParams()
+    // const history = useHistory();
+    // const toback = () => {
+    //     history.push(`/Home/CasualitypatientList`)
+    // }
 
-    const [enable, setenable] = useState(false)
-    const [value, setvalue] = useState(0)
+    // const [enable, setenable] = useState(false)
+    // const [value, setvalue] = useState(0)
     return (
         <Fragment>
             <SessionCheck />

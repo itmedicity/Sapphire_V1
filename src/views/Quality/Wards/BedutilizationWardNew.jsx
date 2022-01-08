@@ -40,13 +40,13 @@ const BedutilizationWardNew = () => {
         noofPatient,
 
     } = setdta
-    const dietdefaultsate = {
-        availableBedNumber: '',
-        numberofbedOccupied: '',
-        noofNurses: '',
-        noofPatient: '',
+    // const dietdefaultsate = {
+    //     availableBedNumber: '',
+    //     numberofbedOccupied: '',
+    //     noofNurses: '',
+    //     noofPatient: '',
 
-    }
+    // }
     const postBedutilizationWard = {
         bow_availbed: setdta.availableBedNumber,
         bow_noofbedoccup: setdta.numberofbedOccupied,
@@ -139,7 +139,7 @@ const BedutilizationWardNew = () => {
                     noofPatient: bow_noofpatient,
 
                 }
-                const morining = 1
+                // const morining = 1
                 setfunc(frmData)
                 // Setenable(true)
                 setToggle(bow_flag === 'M' ? 1 : bow_flag === 'E' ? 2 : 3)

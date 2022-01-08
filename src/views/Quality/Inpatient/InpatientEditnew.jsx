@@ -1,24 +1,11 @@
 import {
-  Accordion, AccordionDetails, AccordionSummary, Card,
-  CardHeader, Divider, Typography
+
+  Card,
+  CardHeader, Divider
 } from '@mui/material'
 import React, { Fragment, useEffect, useState } from 'react'
 import PatientCardNew from './PatientCardNew';
-import InitialAssesmentNurseNew from '../InitialAssesment/InitialAssesmentNurseNew';
-import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import BloodtypeSharpIcon from '@mui/icons-material/BloodtypeSharp';
-import SelfImprovementSharpIcon from '@mui/icons-material/SelfImprovementSharp';
-import HomeRepairServiceSharpIcon from '@mui/icons-material/HomeRepairServiceSharp';
-import ContactPhoneSharpIcon from '@mui/icons-material/ContactPhoneSharp';
-import AssessmentSharpIcon from '@mui/icons-material/AssessmentSharp';
-import EmojiFoodBeverageSharpIcon from '@mui/icons-material/EmojiFoodBeverageSharp';
-import RuleSharpIcon from '@mui/icons-material/RuleSharp';
-import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
-import ReportIcon from '@mui/icons-material/Report';
-import EventBusyIcon from '@mui/icons-material/EventBusy';
 import Bloodcomponents from '../Wards/Bloodcomponents';
-import SaveIcon from '@mui/icons-material/Save';
 import IntialassessmentNurse from '../InitialAssesment/IntialassessmentNurse';
 import InitialassesmentDoctor from '../InitialAssesment/InitialassessmentDoctor';
 import EquipmentUtilization from '../InpatientICU/EquipmentUtilization';
@@ -39,7 +26,7 @@ import moment from 'moment'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import { differenceInHours } from 'date-fns'
 import Reintubation from '../InpatientICU/Reintubation';
-import { green, pink, red } from '@mui/material/colors';
+// import { green, pink, red } from '@mui/material/colors';
 import BedutilizationWardNew from '../Wards/BedutilizationWardNew';
 import BedUtilizationIcu from '../InpatientICU/BedUtilizationIcu';
 import Accodation from './Accodation';
