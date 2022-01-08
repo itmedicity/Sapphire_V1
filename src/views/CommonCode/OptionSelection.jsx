@@ -2,7 +2,7 @@ import { FormControl, MenuItem, Select } from '@mui/material'
 import React, { Fragment, memo, useContext } from 'react'
 import { PayrolMasterContext } from 'src/Context/MasterContext'
 
-const OptionSelection = ({ disablee, style }) => {
+const OptionSelection = ({ style }) => {
 
   const { selectOption, updateOption } = useContext(PayrolMasterContext)
 
@@ -22,7 +22,7 @@ const OptionSelection = ({ disablee, style }) => {
           style={style}
           onChange={(e) => updateOption(e.target.value)}
           defaultValue={0}
-          disabled={disablee}
+        // disabled={disablee}
         >
           <MenuItem value="0">Selected Option</MenuItem>
           <MenuItem value="1">Done</MenuItem>
