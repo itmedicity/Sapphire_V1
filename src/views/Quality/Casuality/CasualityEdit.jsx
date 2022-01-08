@@ -2,12 +2,10 @@ import { Accordion, AccordionDetails, AccordionSummary, Card, CardHeader, Divide
 import React, { Fragment, useState, useEffect } from 'react'
 import { useParams } from 'react-router';
 import PatientCardNew from '../Inpatient/PatientCardNew'
-import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import IntialAssessmentCasuality from './IntialAssessmentCasuality';
 import ReturntoCasuality from './ReturntoCasuality';
 import { MdPublishedWithChanges } from "react-icons/md";
-import { green, pink, red } from '@mui/material/colors';
+import { green, red } from '@mui/material/colors';
 import { axioslogin } from 'src/views/Axios/Axios';
 
 const CasualityEdit = () => {
@@ -27,21 +25,20 @@ const CasualityEdit = () => {
   useEffect(() => {
     ///complete or Pending
     const flagdetails = async () => {
-      const result = await axioslogin.get(`/common/getcasflag/casflgdetl/${id}`)
-      console.log(result)
-      const { success, data } = result.data
-      const {
-        casualityian_flag,
-        inpt_slno
-      } = data[0]
+      //   const result = await axioslogin.get(`/common/getcasflag/casflgdetl/${id}`)
+      //  const { success, data } = result.data
+      //   const {
+      //     casualityian_flag,
+      //     inpt_slno
+      //   } = data[0]
 
-      var setdata = {
-        casulflag: casualityian_flag,
-        inptslno: inpt_slno
+      //   var setdata = {
+      //     casulflag: casualityian_flag,
+      //     inptslno: inpt_slno
 
-      }
+      //   }
 
-      setFlagvalue(setdata)
+      //   setFlagvalue(setdata)
     }
     flagdetails()
   }, [setFlagvalue])

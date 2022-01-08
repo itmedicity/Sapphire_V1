@@ -1,7 +1,5 @@
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material'
 import React, { Fragment } from 'react'
-import IntialassessmentNurse from '../InitialAssesment/IntialassessmentNurse';
-import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
 import { green, red } from '@mui/material/colors';
 import { MdPublishedWithChanges } from "react-icons/md";
 

@@ -9,12 +9,17 @@ import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
+import Modelcommon from 'src/views/CommonCode/Modelcommon'
 
 const HandoverComunication = () => {
+
   const { id } = useParams()
   const [toggle, setToggle] = useState(0)
   const [distrue, setdistrue] = useState(false)
   const [value, setValue] = useState(0)
+  const [userid, setuserid] = useState({
+    us_code: ''
+  })
 
   const [actiondata, setactiontaken] = useState({
     handover: '',
@@ -55,7 +60,8 @@ const HandoverComunication = () => {
     ce_errordesc: errordesc,
     ce_prsnresponsible: personresponsible,
     ce_actntkn: actiontaken,
-    ce_remark: remarks
+    ce_remark: remarks,
+    user_save_code: userid
 
   }
 
@@ -66,42 +72,59 @@ const HandoverComunication = () => {
     ce_errordesc: errordesc,
     ce_prsnresponsible: personresponsible,
     ce_actntkn: actiontaken,
-    ce_remark: remarks
+    ce_remark: remarks,
+    user_save_code: userid
 
   }
 
   const submitFormData = async (e) => {
     e.preventDefault()
-    if (value === 0) {
-      const result = await axioslogin.post('/communicationerror', postData)
-      const { success, message } = result.data
 
-      if (success === 1) {
-        succesNofity(message)
-        setdistrue(true)
-        //setactiontaken(defaultstate)
-      } else if (success === 2) {
-        warningNofity(message)
-      } else {
-        errorNofity('Error Occured!!!Please Contact EDP')
+    const result = await axioslogin.get(`/common/user/${userid}`)
+    const { success, data, message } = result.data
+    if (success === 1) {
+      const { us_code } = data[0]
+      const frmdataa = {
+        us_code: us_code
       }
+      setuserid(frmdataa)
+
+      if (value === 0) {
+        const result = await axioslogin.post('/communicationerror', postData)
+        const { success, message } = result.data
+
+        if (success === 1) {
+          succesNofity(message)
+          setdistrue(true)
+          //setactiontaken(defaultstate)
+        } else if (success === 2) {
+          warningNofity(message)
+        } else {
+          errorNofity('Error Occured!!!Please Contact EDP')
+        }
+      }
+      else {
+        const result = await axioslogin.patch('/communicationerror', postDataEdit)
+        const { success, message } = result.data
+        if (success === 2) {
+          succesNofity(message)
+          setdistrue(true)
+
+        } else if (success === 1) {
+          warningNofity(message)
+        } else {
+          errorNofity('Error Occured!!!Please Contact EDP')
+        }
+      }
+
+    }
+    else if (success === 0) {
+      warningNofity(message)
     }
     else {
-      const result = await axioslogin.patch('/communicationerror', postDataEdit)
-      const { success, message } = result.data
-      if (success === 2) {
-        succesNofity(message)
-        setdistrue(true)
-
-      } else if (success === 1) {
-        warningNofity(message)
-      } else {
-        errorNofity('Error Occured!!!Please Contact EDP')
-      }
+      errorNofity('Error Occured!!! Please Contact EDP')
     }
-
   }
-
   useEffect(() => {
     const handovercommunictn = async () => {
       const result = await axioslogin.get(`communicationerror/${id}`)
@@ -138,14 +161,28 @@ const HandoverComunication = () => {
 
 
 
+  // for model close and open 
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = (e) => {
+    e.preventDefault()
+    setOpen(true);
+
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
 
 
 
   return (
     <Fragment>
       <SessionCheck />
+      <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
       <ToastContainer />
-      <form onSubmit={submitFormData}>
+      <form onSubmit={handleClickOpen}>
         <Card className="card-body">
           <div className="col-md-12">
             <div className="row">

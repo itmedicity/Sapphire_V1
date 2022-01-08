@@ -1,9 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
-import PatientCard from '../Inpatient/PatientCard'
 import { ToastContainer } from 'react-toastify'
-import { useHistory, useParams } from 'react-router'
-import { Button, Card } from '@mui/material'
+import { useParams } from 'react-router'
+import { Card } from '@mui/material'
 import Nurseratiocard from './Nurseratiocard'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import { userslno } from 'src/views/Constant/Constant'
@@ -30,10 +29,7 @@ const NursePatientratio = () => {
   const [value, setValue] = useState(0)
 
   // const [distrue, setdistrue] = useState(false)
-  const history = useHistory()
-  const RedirectToProfilePage = () => {
-    history.push(`/Home/InpatientEdit/${id}`)
-  }
+
   const [diestflag, setdietflag] = useState('')
   const [setdta, setfunc] = useState({
     inpt_slno: id,
@@ -48,11 +44,11 @@ const NursePatientratio = () => {
     noofPatient,
     nursePatientratio
   } = setdta
-  const dietdefaultsate = {
-    noofNurses: '',
-    noofPatient: '',
-    nursePatientratio: ''
-  }
+  // const dietdefaultsate = {
+  //   noofNurses: '',
+  //   noofPatient: '',
+  //   nursePatientratio: ''
+  // }
 
   const postnursepatientratio = {
     npr_noofnurse: setdta.noofNurses,
@@ -145,7 +141,7 @@ const NursePatientratio = () => {
             noofPatient: val.npr_noofpatient,
             nursePatientratio: val.npr_noofnurse,
           }
-          const morining = 1
+          // const morining = 1
           setfunc(frmData)
           // Setenable(true)
           setToggle(val.nr_shift_flag === 'M' ? 1 : val.nr_shift_flag === 'E' ? 2 : 3)

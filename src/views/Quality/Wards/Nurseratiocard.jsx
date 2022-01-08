@@ -3,7 +3,7 @@ import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
 import TextInput from 'src/views/Component/TextInput'
 import { userslno } from 'src/views/Constant/Constant'
-import { Card } from '@mui/material'
+
 
 const Nurseratiocard = ({ setfunc, setdta, id, disabled }) => {
     const [nurseratioData, setnurseratioData] = useState({
