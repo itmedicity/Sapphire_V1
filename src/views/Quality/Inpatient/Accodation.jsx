@@ -6,10 +6,9 @@ import { green, red } from '@mui/material/colors';
 import { MdPublishedWithChanges } from "react-icons/md";
 
 const Accodation = ({ children, style, flagNurse, nameheading }) => {
-    console.log(flagNurse)
     return (
         <Fragment>
-            <Accordion>
+            <Accordion >
                 <AccordionSummary
                     style={style}
                     expandIcon={<MdPublishedWithChanges size={25} style={flagNurse === 'Y' ? { color: green[500] } : { color: red[500] }} />}

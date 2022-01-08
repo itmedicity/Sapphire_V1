@@ -1,39 +1,43 @@
 import React, { Fragment, useState, useContext, useEffect } from 'react'
-import { useHistory, useParams } from 'react-router'
+import { useParams } from 'react-router'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import TextInput from 'src/views/Component/TextInput'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
+import { errorNofity, infoNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import BloodGroupSelect from 'src/views/CommonCode/BloodGroupSelect'
 import { PayrolMasterContext } from 'src/Context/MasterContext'
 import { userslno } from 'src/views/Constant/Constant'
-import { Card, Chip, IconButton } from '@mui/material'
+import { Card, Typography } from '@mui/material'
 import OptionSelection from 'src/views/CommonCode/OptionSelection'
-import { MdOutlineAddTask } from 'react-icons/md'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
+import BloodComponentSelect from 'src/views/CommonCode/BloodComponentSelect'
+import Accodation from '../Inpatient/Accodation';
+import BloodcomponentTable from './BloodcomponentTable'
 import moment from 'moment'
 
 const Bloodcomponents = () => {
   const { id } = useParams()
-  const history = useHistory()
 
-  //select box disable
-  const [distrue, setdistrue] = useState(false)
-  // const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
+  //table data append
+  const [bldcomptableData, setbldcomptabledata] = useState(0)
 
-  //use state for enable fields on clicking edit button
-  const [enable, Setenable] = useState(false)
-  // usestate for option selection
-  const [disablee, setdisablee] = useState(false)
-  const [value, setValue] = useState(0)
+  // usestate for updation
+  const [blooddataupdation, setblooddataupdation] = useState(0)
 
-
-  const [wasted, setWasted] = useState({
+  const [tabledata, settabledata] = useState([{
+    bld_slno: '',
+    bagreq_time: '',
+    bagrec_time: '',
+    noofbrdrequired: '',
     noofbagreceived: '',
     noofprdct_used: '',
-
-  })
+    noofprdct_wasted: '',
+    reactn_occ: '',
+    remark: '',
+    bldcomponent_name: '',
+    bldmast_name: ''
+  }])
 
   // setting Intial state
   const [bloodcomponentData, setBloodcomponentData] = useState({
@@ -69,10 +73,7 @@ const Bloodcomponents = () => {
   } = bloodcomponentData
 
   // select BloodGroupSelect
-  const { selectBloodGroup, updateBloodGroup } = useContext(PayrolMasterContext)
-
-  //select reaction occured option
-  const { selectOption, updateOption } = useContext(PayrolMasterContext)
+  const { selectBloodGroup, updateBloodGroup, selectOption, updateOption, selectBloodComponent, updateBloodComponent } = useContext(PayrolMasterContext)
 
   //getting data from the form
   const updateFormData = (e) => {
@@ -84,6 +85,7 @@ const Bloodcomponents = () => {
     inpt_slno: id,
     user_slno: userslno(),
     bldmst_slno: selectBloodGroup,
+    bldcomp_slno: selectBloodComponent,
     bagrequested: noofbrdrequired,
     bagreq_time: requesteddatetime,
     bagreceived: noofbagreceived,
@@ -95,9 +97,10 @@ const Bloodcomponents = () => {
   }
 
   const postDataEdit = {
-    inpt_slno: value,
+    inpt_slno: blooddataupdation,
     user_slno: userslno(),
     bldmst_slno: selectBloodGroup,
+    bldcomp_slno: selectBloodComponent,
     bagrequested: noofbrdrequired,
     bagreq_time: requesteddatetime,
     bagreceived: noofbagreceived,
@@ -111,17 +114,16 @@ const Bloodcomponents = () => {
   //saving form data
   const submitFormData = async (e) => {
     e.preventDefault()
-    if (value === 0) {
+    if (blooddataupdation === 0) {
       const result = await axioslogin.post('/bloodcomponents', postData)
       const { success, message } = result.data
       if (success === 1) {
         succesNofity(message)
-        Setenable(true)
-        setdistrue(true)
-        setdisablee(true)
-        // setBloodcomponentData(defaultstate)
-        //updateBloodGroup(0)
-        //updateOption(0)
+        setBloodcomponentData(defaultstate)
+        updateBloodGroup(0)
+        updateBloodComponent(0)
+        updateOption(0)
+
       } else if (success === 2) {
         warningNofity(message)
       } else {
@@ -129,20 +131,27 @@ const Bloodcomponents = () => {
       }
     }
     else {
+      console.log("gggg")
+      console.log(postDataEdit)
       const result = await axioslogin.patch('/bloodcomponents', postDataEdit)
       const { success, message } = result.data
-      if (success === 1) {
+      if (success === 2) {
         succesNofity(message)
-        Setenable(true)
-        setdistrue(true)
-        setdisablee(true)
-      } else if (success === 2) {
+        setBloodcomponentData(defaultstate)
+        updateBloodGroup(0)
+        updateBloodComponent(0)
+        updateOption(0)
+      }
+      else if (success === 1) {
         warningNofity(message)
-      } else {
-        errorNofity('Error Occured!!!Please Contact EDP')
+      }
+      else {
+        errorNofity('Error Occured!!! Please contact Edp')
       }
     }
   }
+
+  //validation
   useEffect(() => {
     if (noofprdct_wasted != '') {
       const diff = noofbagreceived - noofprdct_used
@@ -152,49 +161,38 @@ const Bloodcomponents = () => {
     }
   }, [noofprdct_wasted])
 
+  // for value appending to the field
   useEffect(() => {
-
-    const bloodcomponent = async () => {
-      const result = await axioslogin.get(`bloodcomponents/${id}`)
+    const bloodcompappend = async (bldcomptableData) => {
+      const result = await axioslogin.get(`bloodcomponents/getbloodcomponentappend/${bldcomptableData}`)
       const { success, data } = result.data
       if (success === 1) {
-        Setenable(true)
-        setdistrue(true)
-        setdisablee(true)
-        const { inpt_slno, bldmst_slno, bagrequested, bagreq_time, bagreceived, bagrec_time, bldprduct_used, bldprduct_wasted, reactn_occ, remark } = data[0]
-        updateBloodGroup(bldmst_slno)
-        updateOption(reactn_occ)
-        const frmData = {
-          noofbrdrequired: bagrequested,
+        const { bld_slno, bagreq_time, bagrec_time, bagrequested, bagreceived, bldprduct_used, bldprduct_wasted,
+          reactn_occ, remark, bldcomp_slno, bldmst_slno } = data[0]
+        const d1 = {
+          bld_slno: bld_slno,
           requesteddatetime: moment(bagreq_time).format("YYYY-MM-DD[T]HH:mm:ss"),
+          recieved_datetime: moment(bagrec_time).format("YYYY-MM-DD[T]HH:mm:ss"),
+          // requesteddatetime: bagreq_time,
+          // recieved_datetime: bagrec_time,
+          noofbrdrequired: bagrequested,
           noofbagreceived: bagreceived,
           noofprdct_used: bldprduct_used,
-          recieved_datetime: moment(bagrec_time).format("YYYY-MM-DD[T]HH:mm:ss"),
           noofprdct_wasted: bldprduct_wasted,
           remarks: remark,
         }
-        setBloodcomponentData(frmData)
-        setValue(inpt_slno)
-      }
-      else if (success === 2) {
-        Setenable(false)
-        setdistrue(false)
-        setdisablee(false)
-        setValue(0)
-      }
-      else {
-        // warningNofity("Error Occured!!!Please Contact EDP")
+        updateBloodComponent(bldcomp_slno)
+        updateOption(reactn_occ)
+        updateBloodGroup(bldmst_slno)
+        setblooddataupdation(bld_slno)
+        setBloodcomponentData(d1)
       }
     }
-    bloodcomponent()
-  }, [id
-    // noofprdct_wasted
-  ])
-  const editbloodcompnt = () => {
-    Setenable(false)
-    setdistrue(false)
-    setdisablee(false)
-  }
+    if (bldcomptableData !== 0) {
+      bloodcompappend(bldcomptableData)
+    }
+  }, [bldcomptableData])
+
   return (
     <Fragment>
       <SessionCheck />
@@ -203,9 +201,8 @@ const Bloodcomponents = () => {
         <Card className="card-body">
           <div className="col-md-12">
             <div className="row">
-              <div className="col-md-3 pt-2">
+              <div className="col-md-4 pt-2">
                 <BloodGroupSelect
-                  distrue={distrue}
                   style={{
                     minHeight: 10,
                     maxHeight: 27,
@@ -214,7 +211,17 @@ const Bloodcomponents = () => {
                   }}
                 />
               </div>
-              <div className="col-md-3 pt-2">
+              <div className="col-md-4 pt-2">
+                <BloodComponentSelect
+                  style={{
+                    minHeight: 10,
+                    maxHeight: 27,
+                    paddingTop: 0,
+                    paddingBottom: 4,
+                  }}
+                />
+              </div>
+              <div className="col-md-4 pt-2">
                 <TextInput
                   type="number"
                   classname="form-control form-control-sm"
@@ -222,7 +229,6 @@ const Bloodcomponents = () => {
                   value={noofbrdrequired}
                   name="noofbrdrequired"
                   changeTextValue={(e) => updateFormData(e)}
-                  disabled={enable}
                 />
               </div>
               <div className="col-md-3 pt-2">
@@ -230,7 +236,7 @@ const Bloodcomponents = () => {
                   Requested Date/Time
                 </label>
               </div>
-              <div className="col-md-2 pt-2 pl-0">
+              <div className="col-md-3 pt-2 pl-0">
                 <TextInput
                   type="datetime-local"
                   classname="form-control form-control-sm"
@@ -238,33 +244,6 @@ const Bloodcomponents = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={requesteddatetime}
                   name="requesteddatetime"
-                  disabled={enable}
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-3 pt-2">
-                <TextInput
-                  type="number"
-                  classname="form-control form-control-sm"
-                  Placeholder="No. of Bag Received"
-                  changeTextValue={(e) => updateFormData(e)}
-                  value={noofbagreceived}
-                  name="noofbagreceived"
-                  disabled={enable}
-                  max={noofbrdrequired}
-                />
-              </div>
-              <div className="col-md-3 pt-2">
-                <TextInput
-                  type="number"
-                  classname="form-control form-control-sm"
-                  Placeholder="No. Of Product Used"
-                  changeTextValue={(e) => updateFormData(e)}
-                  value={noofprdct_used}
-                  name="noofprdct_used"
-                  disabled={enable}
-                  max={noofbagreceived}
                 />
               </div>
               <div className="col-md-3 pt-2">
@@ -272,7 +251,7 @@ const Bloodcomponents = () => {
                   Received Date/Time
                 </label>
               </div>
-              <div className="col-md-2 pt-2 pl-0">
+              <div className="col-md-3 pt-2 pl-0">
                 <TextInput
                   id="number"
                   type="datetime-local"
@@ -281,13 +260,34 @@ const Bloodcomponents = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={recieved_datetime}
                   name="recieved_datetime"
-                  disabled={enable}
                   min={requesteddatetime}
                 />
               </div>
             </div>
             <div className="row">
-              <div className="col-md-3 pt-2 pr-0">
+              <div className="col-md-4 pt-2">
+                <TextInput
+                  type="number"
+                  classname="form-control form-control-sm"
+                  Placeholder="No. of Bag Received"
+                  changeTextValue={(e) => updateFormData(e)}
+                  value={noofbagreceived}
+                  name="noofbagreceived"
+                  max={noofbrdrequired}
+                />
+              </div>
+              <div className="col-md-4 pt-2">
+                <TextInput
+                  type="number"
+                  classname="form-control form-control-sm"
+                  Placeholder="No. Of Product Used"
+                  changeTextValue={(e) => updateFormData(e)}
+                  value={noofprdct_used}
+                  name="noofprdct_used"
+                  max={noofbagreceived}
+                />
+              </div>
+              <div className="col-md-4 pt-2 pr-0">
                 <TextInput
                   type="number"
                   classname="form-control form-control-sm"
@@ -295,14 +295,13 @@ const Bloodcomponents = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={noofprdct_wasted}
                   name="noofprdct_wasted"
-                  disabled={enable}
-
-                // max={noofprdct_used}
                 />
               </div>
-              <div className="col-md-3 pt-2">
+            </div>
+            <div className="row">
+              <div className="col-md-4 pt-2">
                 <OptionSelection
-                  disablee={disablee}
+                  // disablee={disablee}
                   style={{
                     minHeight: 10,
                     maxHeight: 27,
@@ -311,7 +310,7 @@ const Bloodcomponents = () => {
                   }}
                 />
               </div>
-              <div className="col-md-5 pt-2">
+              <div className="col-md-8 pt-2">
                 <TextInput
                   type="text"
                   classname="form-control form-control-sm"
@@ -319,24 +318,29 @@ const Bloodcomponents = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={remarks}
                   name="remarks"
-                  disabled={enable}
+                // disabled={enable}
                 />
               </div>
             </div>
           </div>
+          <Accodation style={
+            {
+              backgroundColor: '#EEF4F7',
+              height: '10%',
+
+            }}
+          >
+            <BloodcomponentTable settabledata={settabledata} tabledata={tabledata} setbldcomptabledata={setbldcomptabledata}
+            />
+          </Accodation>
         </Card>
-        <div className="card-footer"
-        // style={{
-        //   backgroundColor: '#b6b8c3',
-        // }}
-        >
+        <div className="card-footer" >
           <div className="col-md-12">
-            <FooterClosebtn
-              edit={editbloodcompnt} />
+            <FooterClosebtn />
           </div>
         </div>
       </form>
-    </Fragment>
+    </Fragment >
   )
 }
 export default Bloodcomponents

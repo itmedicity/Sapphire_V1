@@ -10,6 +10,8 @@ const MasterContext = ({ children }) => {
     const [selectEquipment, updateEquipment] = useState(0)
     //BloodGroup selection
     const [selectBloodGroup, updateBloodGroup] = useState(0)
+    //BloodComponent selection
+    const [selectBloodComponent, updateBloodComponent] = useState(0)
     //option Selection 
     const [selectOption, updateOption] = useState(0)
 
@@ -20,6 +22,8 @@ const MasterContext = ({ children }) => {
         updateEquipment,
         selectBloodGroup,
         updateBloodGroup,
+        selectBloodComponent,
+        updateBloodComponent,
         selectOption,
         updateOption
 
