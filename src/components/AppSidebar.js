@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React
+  // { useEffect, useState } 
+  from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react'
@@ -14,7 +16,7 @@ import 'simplebar/dist/simplebar.min.css'
 
 // sidebar nav config
 import navigation from '../_nav'
-import { axioslogin } from 'src/views/Axios/Axios'
+// import { axioslogin } from 'src/views/Axios/Axios'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()

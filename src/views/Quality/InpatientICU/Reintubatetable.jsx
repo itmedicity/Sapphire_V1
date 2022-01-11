@@ -1,13 +1,8 @@
 import MaterialTable from 'material-table';
-import React, { Fragment, useEffect, memo, useState } from 'react';
-import { tableIcons } from 'src/views/Constant/MaterialIcon';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import { axioslogin } from 'src/views/Axios/Axios';
+import React, { Fragment, memo, useState } from 'react';
 import { useHistory } from 'react-router';
-import { warningNofity } from 'src/views/CommonCode/Commonfunc';
 
 const Reintubatetable = () => {
-
     const [data, setTableData] = useState();
     const history = useHistory();
     const title = [
@@ -67,4 +62,4 @@ const Reintubatetable = () => {
     )
 }
 
-export default Reintubatetable
+export default memo(Reintubatetable)

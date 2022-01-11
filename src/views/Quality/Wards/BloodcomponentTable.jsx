@@ -1,6 +1,6 @@
 import { Card, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import moment from 'moment';
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { useParams } from 'react-router'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { tableIcons } from 'src/views/Constant/MaterialIcon';
@@ -15,8 +15,8 @@ const BloodcomponentTable = ({ settabledata, tabledata, setbldcomptabledata }) =
             const result = await axioslogin.get(`bloodcomponents/${id}`)
             const { success, data } = result.data
             if (success === 1) {
-                const { bld_slno, bagreq_time, bagrec_time, bagrequested, bagreceived, bldprduct_used, bldprduct_wasted,
-                    reactn_occ, remark, bldcomponent_name, bldmast_name } = data
+                // const { bld_slno, bagreq_time, bagrec_time, bagrequested, bagreceived, bldprduct_used, bldprduct_wasted,
+                //     reactn_occ, remark, bldcomponent_name, bldmast_name } = data
                 const formtable = data.map((val) => {
                     const d1 = {
                         bld_slno: val.bld_slno,

@@ -9,12 +9,20 @@ import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/C
 import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
 import moment from 'moment'
+import Modelcommon from 'src/views/CommonCode/Modelcommon'
+import { differenceInMinutes } from 'date-fns'
 const Discharge = () => {
     const { id } = useParams()
 
     const [distrue, setdistrue] = useState(false)
     // const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
     const [value, setValue] = useState(0)
+
+
+    // for user validation
+    const [userid, setuserid] = useState({
+        us_code: ''
+    })
 
     //   setting intial state
     const [dischargeData, setdischargeData] = useState({
@@ -49,7 +57,12 @@ const Discharge = () => {
         summary_handoverptnt: sumhand_patent,
         dis_date: date_dis,
         patnt_leav: patent_from_unit,
+        timediff_leave_advice: differenceInMinutes(new Date(patent_from_unit), new Date(dis_advice_time)),
+
+
+
         user_slno: userslno(),
+        user_code_save: userid,
     }
     const postDataEdit = {
         inpt_slno: value,
@@ -59,36 +72,53 @@ const Discharge = () => {
         summary_handoverptnt: sumhand_patent,
         dis_date: date_dis,
         patnt_leav: patent_from_unit,
+        timediff_leave_advice: differenceInMinutes(new Date(patent_from_unit), new Date(dis_advice_time)),
         user_slno: userslno(),
+        user_code_save: userid,
     }
 
     //saving form data
     const submitFormData = async (e) => {
         e.preventDefault()
-        if (value === 0) {
-            const result = await axioslogin.post('/Discharge', postData)
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNofity(message)
-                setdistrue(true)
-                // setdischargeData(defaultstate)
-            } else if (success === 2) {
-                warningNofity(message)
-            } else {
-                errorNofity('Error Occured!!!Please Contact EDP')
+        const result = await axioslogin.get(`/common/user/${userid}`)
+        const { success, data, message } = result.data
+        if (success === 2) {
+            const { us_code } = data[0]
+            const frmdataa = {
+                us_code: us_code
+            }
+            setuserid(frmdataa)
+            if (value === 0) {
+                const result = await axioslogin.post('/Discharge', postData)
+                const { success, message } = result.data
+                if (success === 1) {
+                    succesNofity(message)
+                    setdistrue(true)
+                    // setdischargeData(defaultstate)
+                } else if (success === 2) {
+                    warningNofity(message)
+                } else {
+                    errorNofity('Error Occured!!!Please Contact EDP')
+                }
+            }
+            else {
+                const result = await axioslogin.patch('/Discharge', postDataEdit)
+                const { success, message } = result.data
+                if (success === 2) {
+                    succesNofity(message)
+                    setdistrue(true)
+                } else if (success === 1) {
+                    warningNofity(message)
+                } else {
+                    errorNofity('Error Occured!!!Please Contact EDP')
+                }
             }
         }
+        else if (success === 0) {
+            warningNofity(message)
+        }
         else {
-            const result = await axioslogin.patch('/Discharge', postDataEdit)
-            const { success, message } = result.data
-            if (success === 2) {
-                succesNofity(message)
-                setdistrue(true)
-            } else if (success === 1) {
-                warningNofity(message)
-            } else {
-                errorNofity('Error Occured!!!Please Contact EDP')
-            }
+            errorNofity('Error Occured !!! Please contact Edp')
         }
     }
     useEffect(() => {
@@ -127,11 +157,24 @@ const Discharge = () => {
     const editdischarge = () => {
         setdistrue(false)
     }
+    //for model close and open
+    const [open, setOpen] = useState(false)
+
+    const handleClickOpen = (e) => {
+        e.preventDefault()
+        setOpen(true);
+    };
+    const handClose = () => {
+        setOpen(false);
+    };
+
+
     return (
         <Fragment>
             <SessionCheck />
             <ToastContainer />
-            <form onSubmit={submitFormData}>
+            <Modelcommon open={open} handClose={handClose} submit={submitFormData} setuserid={setuserid} />
+            <form onSubmit={handleClickOpen}>
                 <Card className="card-body">
                     <div className="col-md-12">
                         <div className="row">
@@ -148,26 +191,8 @@ const Discharge = () => {
                                     value={dis_advice_time}
                                     name="dis_advice_time"
                                     disabled={distrue}
-
                                 />
                             </div>
-                            <div className="col-md-3">
-                                <Typography fontSize={16} noWrap={true} >Discharge Summary Received Time</Typography>
-                            </div>
-                            <div className="col-md-3 pb-1">
-                                <TextInput
-                                    id="test"
-                                    type="datetime-local"
-                                    classname="form-control form-control-sm"
-                                    changeTextValue={(e) => updateFormData(e)}
-                                    value={dis_sumrec_time}
-                                    name="dis_sumrec_time"
-                                    disabled={distrue}
-                                    min={dis_advice_time}
-                                />
-                            </div>
-                        </div>
-                        <div className="row">
                             <div className="col-md-3">
                                 <Typography fontSize={16} noWrap={true} >Summary Prepare Time</Typography>
                             </div>
@@ -183,7 +208,24 @@ const Discharge = () => {
                                     min={dis_advice_time}
                                 />
                             </div>
+                        </div>
+                        <div className="row">
 
+                            <div className="col-md-3">
+                                <Typography fontSize={16} noWrap={true} >Discharge Summary Received Time</Typography>
+                            </div>
+                            <div className="col-md-3 pb-1">
+                                <TextInput
+                                    id="test"
+                                    type="datetime-local"
+                                    classname="form-control form-control-sm"
+                                    changeTextValue={(e) => updateFormData(e)}
+                                    value={dis_sumrec_time}
+                                    name="dis_sumrec_time"
+                                    disabled={distrue}
+                                    min={dis_advice_time}
+                                />
+                            </div>
                             <div className="col-md-3">
                                 <Typography fontSize={16} noWrap={true} >Summary HandOver to Patient</Typography>
                             </div>

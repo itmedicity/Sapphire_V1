@@ -1,4 +1,4 @@
-import { IconButton, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import React, { Fragment } from 'react'
 
 const OutpatientTableNew = () => {

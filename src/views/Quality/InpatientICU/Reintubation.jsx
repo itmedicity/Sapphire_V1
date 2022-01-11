@@ -9,14 +9,12 @@ import moment from 'moment'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
-import Reintubatetable from './Reintubatetable'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { tableIcons } from 'src/views/Constant/MaterialIcon';
 
 
@@ -34,18 +32,16 @@ const Reintubation = () => {
         exudate: ''
     }])
 
-
-
     const [reintubate, setReintubate] = useState({
         intubatedrate: '',
         extubatedrate: '0000:00:00 00:00:00'
     })
 
-    //defaultb state
-    const defaultstate = {
-        intubatedrate: '',
-        extubatedrate: "0000:00:00 00:00:00",
-    }
+    // /    //defaultb state
+    //     const defaultstate = {
+    //         intubatedrate: '',
+    //         extubatedrate: "0000:00:00 00:00:00",
+    //     }
 
     const {
         intubatedrate,
@@ -95,8 +91,6 @@ const Reintubation = () => {
                 const { intubated_date,
                     extubated_date,
                     ip_reintubation_slno,
-                    inpt_slno,
-                    reintubate_flag
                 } = data[0]
 
                 const formtable = [{
@@ -126,9 +120,6 @@ const Reintubation = () => {
                     setreDatevalue(true)
                     setexDatevalue(false)
                 }
-
-
-
 
                 // if (datetime === null) {
                 //     // setreDatevalue(false)
@@ -218,7 +209,7 @@ const Reintubation = () => {
                                             {
                                                 tabledata.map((val) => {
 
-                                                    < TableRow
+                                                    return (< TableRow
                                                         key={val.slno}
                                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                     >
@@ -233,8 +224,11 @@ const Reintubation = () => {
                                                         {/* <TableCell align="center">
                                                             <MdDelete size={20} />
                                                  </TableCell> */}
-                                                    </TableRow>
-                                                })
+                                                    </TableRow>)
+                                                }
+
+                                                )
+
                                             }
                                         </TableBody>
                                     </Table>

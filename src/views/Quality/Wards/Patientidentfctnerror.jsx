@@ -10,6 +10,7 @@ import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
+import Modelcommon from 'src/views/CommonCode/Modelcommon'
 // import { useStyles } from 'src/views/CommonCode/MaterialStyle'
 
 const Patientidentfctnerror = () => {
@@ -17,6 +18,12 @@ const Patientidentfctnerror = () => {
   const [distrue, setdistrue] = useState(true)
   const [toggle, setToggle] = useState(0)
   const [value, setValue] = useState(0)
+  const [userid, setuserid] = useState({
+    us_code: ''
+  })
+
+  //for model
+  const [open, setOpen] = useState(false);
 
   const [patientidentdata, setpatientidentdata] = useState({
     patientidentification: '',
@@ -48,7 +55,8 @@ const Patientidentfctnerror = () => {
     pie_errordesc: errordesc,
     pie_prsnresponsible: personresponsible,
     pie_actntkn: actiontaken,
-    pie_remark: remarks
+    pie_remark: remarks,
+    user_code_save: userid
 
   }
 
@@ -59,37 +67,52 @@ const Patientidentfctnerror = () => {
     pie_errordesc: errordesc,
     pie_prsnresponsible: personresponsible,
     pie_actntkn: actiontaken,
-    pie_remark: remarks
+    pie_remark: remarks,
+    user_code_save: userid
 
   }
   const submitFormData = async (e) => {
     e.preventDefault()
-    if (value === 0) {
-      const result = await axioslogin.post('/patientIdenticationError', postData)
-      const { success, message } = result.data
-      if (success === 1) {
-        succesNofity(message)
-        setdistrue(true)
-        //setactiontaken(defaultstate)
-      } else if (success === 2) {
-        warningNofity(message)
-      } else {
-        errorNofity('Error Occured!!!Please Contact EDP')
+    const result = await axioslogin(`/common/user/${userid}`)
+    const { success, data, message } = result.data
+    if (success === 1) {
+      const { us_code } = data[0]
+      const frmdataa = {
+        us_code: us_code
+      }
+      setuserid(frmdataa)
+      if (value === 0) {
+        const result = await axioslogin.post('/patientIdenticationError', postData)
+        const { success, message } = result.data
+        if (success === 1) {
+          succesNofity(message)
+          setdistrue(true)
+          //setactiontaken(defaultstate)
+        } else if (success === 2) {
+          warningNofity(message)
+        } else {
+          errorNofity('Error Occured!!!Please Contact EDP')
+        }
+      }
+
+      else {
+        const result = await axioslogin.patch('/patientIdenticationError', postDataEdit)
+        const { success, message } = result.data
+        if (success === 2) {
+          succesNofity(message)
+          setdistrue(true)
+
+        } else if (success === 1) {
+          warningNofity(message)
+        } else {
+          errorNofity('Error Occured!!!Please Contact EDP')
+        }
       }
     }
-
-    else {
-      const result = await axioslogin.patch('/patientIdenticationError', postDataEdit)
-      const { success, message } = result.data
-      if (success === 2) {
-        succesNofity(message)
-        setdistrue(true)
-
-      } else if (success === 1) {
-        warningNofity(message)
-      } else {
-        errorNofity('Error Occured!!!Please Contact EDP')
-      }
+    else if (success === 0) {
+      warningNofity(message)
+    } else {
+      errorNofity('Error Occured!!! Plaese contact Edp')
     }
 
   }
@@ -126,13 +149,26 @@ const Patientidentfctnerror = () => {
   const editpatientidentification = () => {
     setdistrue(false)
   }
+  // for model
+
+  const handleClickOpen = (e) => {
+    e.preventDefault()
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
+
 
   return (
     <Fragment>
       <SessionCheck />
       <ToastContainer />
+      <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
       <form
-        onSubmit={submitFormData}
+        onSubmit={handleClickOpen}
       >
         <Card className="card-body">
           <div className="col-md-12">

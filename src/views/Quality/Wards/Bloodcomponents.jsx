@@ -4,26 +4,34 @@ import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import TextInput from 'src/views/Component/TextInput'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { errorNofity, infoNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
+import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import BloodGroupSelect from 'src/views/CommonCode/BloodGroupSelect'
 import { PayrolMasterContext } from 'src/Context/MasterContext'
 import { userslno } from 'src/views/Constant/Constant'
-import { Card, Typography } from '@mui/material'
+import { Card } from '@mui/material'
 import OptionSelection from 'src/views/CommonCode/OptionSelection'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import BloodComponentSelect from 'src/views/CommonCode/BloodComponentSelect'
 import Accodation from '../Inpatient/Accodation';
 import BloodcomponentTable from './BloodcomponentTable'
 import moment from 'moment'
+import Modelcommon from 'src/views/CommonCode/Modelcommon'
 
 const Bloodcomponents = () => {
   const { id } = useParams()
+
+  const [userid, setuserid] = useState({
+    us_code: ''
+  })
 
   //table data append
   const [bldcomptableData, setbldcomptabledata] = useState(0)
 
   // usestate for updation
   const [blooddataupdation, setblooddataupdation] = useState(0)
+
+  //for model
+  const [open, setOpen] = useState(false);
 
   const [tabledata, settabledata] = useState([{
     bld_slno: '',
@@ -94,6 +102,7 @@ const Bloodcomponents = () => {
     bldprduct_wasted: noofprdct_wasted,
     reactn_occ: selectOption,
     remark: remarks,
+
   }
 
   const postDataEdit = {
@@ -109,51 +118,70 @@ const Bloodcomponents = () => {
     bldprduct_wasted: noofprdct_wasted,
     reactn_occ: selectOption,
     remark: remarks,
+
   }
 
   //saving form data
   const submitFormData = async (e) => {
     e.preventDefault()
-    if (blooddataupdation === 0) {
-      const result = await axioslogin.post('/bloodcomponents', postData)
-      const { success, message } = result.data
-      if (success === 1) {
-        succesNofity(message)
-        setBloodcomponentData(defaultstate)
-        updateBloodGroup(0)
-        updateBloodComponent(0)
-        updateOption(0)
+    const result = await axioslogin.get(`/common/user/${userid}`)
+    const { success, data, message } = result.data
+    if (success === 1) {
+      const { us_code } = data[0]
+      const frmdataa = {
+        us_code: us_code
+      }
+      setuserid(frmdataa)
+      if (blooddataupdation === 0) {
+        const result = await axioslogin.post('/bloodcomponents', postData)
+        const { success, message } = result.data
+        if (success === 1) {
+          succesNofity(message)
+          setBloodcomponentData(defaultstate)
+          updateBloodGroup(0)
+          updateBloodComponent(0)
+          updateOption(0)
 
-      } else if (success === 2) {
-        warningNofity(message)
-      } else {
-        errorNofity('Error Occured!!!Please Contact EDP')
-      }
-    }
-    else {
-      console.log("gggg")
-      console.log(postDataEdit)
-      const result = await axioslogin.patch('/bloodcomponents', postDataEdit)
-      const { success, message } = result.data
-      if (success === 2) {
-        succesNofity(message)
-        setBloodcomponentData(defaultstate)
-        updateBloodGroup(0)
-        updateBloodComponent(0)
-        updateOption(0)
-      }
-      else if (success === 1) {
-        warningNofity(message)
+        } else if (success === 2) {
+          warningNofity(message)
+        } else {
+          errorNofity('Error Occured!!!Please Contact EDP')
+        }
       }
       else {
-        errorNofity('Error Occured!!! Please contact Edp')
+        console.log("gggg")
+        console.log(postDataEdit)
+        const result = await axioslogin.patch('/bloodcomponents', postDataEdit)
+        const { success, message } = result.data
+        if (success === 2) {
+          succesNofity(message)
+          setBloodcomponentData(defaultstate)
+          updateBloodGroup(0)
+          updateBloodComponent(0)
+          updateOption(0)
+        }
+
+        else if (success === 1) {
+          warningNofity(message)
+        }
+        else {
+          errorNofity('Error Occured!!! Please contact Edp')
+        }
       }
+    }
+
+    else if (success === 0) {
+      warningNofity(message)
+    }
+    else {
+      errorNofity('Error Occured!!! Please Contact Edp')
     }
   }
 
   //validation
   useEffect(() => {
-    if (noofprdct_wasted != '') {
+
+    if (noofprdct_wasted !== '') {
       const diff = noofbagreceived - noofprdct_used
       if (noofprdct_wasted > diff) {
         warningNofity('Wasted must be  less than difference between received and used blood products')
@@ -191,13 +219,24 @@ const Bloodcomponents = () => {
     if (bldcomptableData !== 0) {
       bloodcompappend(bldcomptableData)
     }
-  }, [bldcomptableData])
+  }, [bldcomptableData, updateBloodComponent, updateOption, updateBloodGroup])
+
+  const handleClickOpen = (e) => {
+    e.preventDefault()
+    setOpen(true);
+
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Fragment>
       <SessionCheck />
       <ToastContainer />
-      <form onSubmit={submitFormData}>
+      <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
+      {/* <form onSubmit={submitFormData}> */}
+      <form onSubmit={handleClickOpen}>
         <Card className="card-body">
           <div className="col-md-12">
             <div className="row">

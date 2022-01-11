@@ -60,7 +60,7 @@ const Dietititaincard = ({
           </FormControl>
         </div>
         <div className="col-md-9 pt-2">
-          {donenotdone == 2 ? (
+          {donenotdone === 2 ? (
             <Actiontaken setfunc={setactiontakendata} handover={actiontakendata} distrue={distrue} />
           ) : (
             <TextInput type="text"

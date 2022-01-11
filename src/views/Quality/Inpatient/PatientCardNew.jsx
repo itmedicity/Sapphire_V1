@@ -1,4 +1,4 @@
-import { Avatar, Card, CardActionArea, CardContent, CardMedia, Divider, List, ListItem, ListItemAvatar, ListItemText, Stack, Typography } from '@mui/material'
+import { Avatar, Card, CardActionArea, CardContent, CardMedia, Stack, Typography } from '@mui/material'
 import React, { Fragment, useEffect, useState, memo } from 'react'
 import { useParams } from 'react-router-dom'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -25,7 +25,7 @@ const PatientCardNew = () => {
     bdc_no,
     rcc_desc,
     ptc_sex,
-    inpt_flag,
+
   } = data
 
   useEffect(() => {
