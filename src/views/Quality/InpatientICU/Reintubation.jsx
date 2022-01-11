@@ -191,21 +191,11 @@ const Reintubation = () => {
                                                 <TableCell align="center">Sl No</TableCell>
                                                 <TableCell align="center">Start Date</TableCell>
                                                 <TableCell align="center">End Date</TableCell>
-                                                {/* <TableCell align="center">
-                                                    <DeleteForeverOutlinedIcon size={20} />
 
-                                                </TableCell> */}
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {/* <TableRow>
-                                                <TableCell component="th" scope="row" align="center" >
-                                                    {tabledata.slno}
-                                                </TableCell>
-                                                <TableCell align="center">{tabledata.incudate}</TableCell>
-                                                <TableCell align="center">{tabledata.exudate}</TableCell>
 
-                                            </TableRow> */}
                                             {
                                                 tabledata.map((val) => {
 

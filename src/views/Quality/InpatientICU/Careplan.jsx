@@ -83,6 +83,7 @@ const Careplan = () => {
                 if (success === 1) {
                     succesNofity(message)
                     setdistrue(true)
+                    setOpen(false)
 
                 } else if (success === 2) {
                     warningNofity(message)
@@ -96,6 +97,7 @@ const Careplan = () => {
                 if (success === 2) {
                     succesNofity(message)
                     setdistrue(true)
+                    setOpen(false)
 
                 } else if (success === 1) {
                     warningNofity(message)

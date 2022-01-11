@@ -141,6 +141,7 @@ const Bloodcomponents = () => {
           updateBloodGroup(0)
           updateBloodComponent(0)
           updateOption(0)
+          setOpen(false)
 
         } else if (success === 2) {
           warningNofity(message)
@@ -149,8 +150,6 @@ const Bloodcomponents = () => {
         }
       }
       else {
-        console.log("gggg")
-        console.log(postDataEdit)
         const result = await axioslogin.patch('/bloodcomponents', postDataEdit)
         const { success, message } = result.data
         if (success === 2) {
@@ -159,6 +158,7 @@ const Bloodcomponents = () => {
           updateBloodGroup(0)
           updateBloodComponent(0)
           updateOption(0)
+          setOpen(false)
         }
 
         else if (success === 1) {

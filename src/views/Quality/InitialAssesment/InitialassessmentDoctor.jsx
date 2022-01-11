@@ -91,6 +91,7 @@ const InitialassesmentDoctor = () => {
         if (success === 1) {
           succesNofity(message)
           Setenable(true)
+          setOpen(false);
 
         } else if (success === 0) {
           warningNofity(message)
@@ -104,6 +105,7 @@ const InitialassesmentDoctor = () => {
         if (success === 2) {
           succesNofity(message)
           Setenable(true)
+          setOpen(false);
         } else if (success === 1) {
           warningNofity(message)
         } else {

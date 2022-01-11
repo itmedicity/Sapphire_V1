@@ -91,6 +91,7 @@ const Sentinalevent = () => {
                 if (success === 1) {
                     succesNofity(message)
                     setdistrue(true)
+                    setOpen(false)
                     // setsentinentdata(defaultstate)
                 } else if (success === 2) {
                     warningNofity(message)
@@ -104,6 +105,7 @@ const Sentinalevent = () => {
                 if (success === 2) {
                     succesNofity(message)
                     // setdistrue(true)
+                    setOpen(false)
 
                 } else if (success === 1) {
                     warningNofity(message)
