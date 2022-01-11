@@ -145,7 +145,9 @@ const NursePatientratio = () => {
           setfunc(frmData)
           // Setenable(true)
           setToggle(val.nr_shift_flag === 'M' ? 1 : val.nr_shift_flag === 'E' ? 2 : 3)
+          return 1;
         })
+
       }
       else if (success === 0) {
         const frmData = {

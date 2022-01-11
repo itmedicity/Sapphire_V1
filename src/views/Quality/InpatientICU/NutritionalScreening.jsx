@@ -25,16 +25,16 @@ const NutritionalScreening = () => {
             remarks: ''
         })
     //default state
-    const defaultstate = {
-        nutritionalScreening: '',
-        errordesc: '',
-        personresponsible: '',
-        actiontaken: '',
-        remarks: ''
-    }
+    // const defaultstate = {
+    //     nutritionalScreening: '',
+    //     errordesc: '',
+    //     personresponsible: '',
+    //     actiontaken: '',
+    //     remarks: ''
+    // }
     //destrutring object
     const {
-        nutritionalScreening,
+
         errordesc,
         personresponsible,
         actiontaken,

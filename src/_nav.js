@@ -5,9 +5,7 @@ import {
   IoDocumentAttachOutline,
   IoPeopleOutline,
 } from 'react-icons/io5'
-import { GoDiff } from "react-icons/go";
-import { IoIosGitNetwork } from "react-icons/io";
-import { VscMortarBoard, VscLaw, VscFeedback } from "react-icons/vsc";
+
 import { CNavGroup, CNavItem } from '@coreui/react'
 import InPatientList from './Menus/Inpatienlist';
 import OutPatientList from './Menus/OutPatientList';

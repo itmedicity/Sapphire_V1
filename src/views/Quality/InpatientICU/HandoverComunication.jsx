@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { useHistory, useParams } from 'react-router'
+import { useParams } from 'react-router'
 import { ToastContainer } from 'react-toastify'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { Select, FormControl, MenuItem, Card } from '@mui/material'
@@ -29,17 +29,17 @@ const HandoverComunication = () => {
     remarks: ''
   })
   //default state
-  const defaultstate = {
-    handover: '',
-    errordesc: '',
-    personresponsible: '',
-    actiontaken: '',
-    remarks: ''
+  // const defaultstate = {
+  //   handover: '',
+  //   errordesc: '',
+  //   personresponsible: '',
+  //   actiontaken: '',
+  //   remarks: ''
 
-  }
+  // }
   //destrutring object
   const {
-    handover,
+
     errordesc,
     personresponsible,
     actiontaken,

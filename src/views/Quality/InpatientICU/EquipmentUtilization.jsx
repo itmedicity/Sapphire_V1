@@ -11,6 +11,7 @@ import { userslno } from 'src/views/Constant/Constant'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import moment from 'moment'
+import Modelcommon from 'src/views/CommonCode/Modelcommon'
 
 const EquipmentUtilization = () => {
     const { id } = useParams()
@@ -20,16 +21,23 @@ const EquipmentUtilization = () => {
     const [value, setvalue] = useState(0)
     // equipment select box
     const [distrue, setdistrue] = useState(false)
+
+    //for userid check
+    const [userid, setuserid] = useState({
+        us_code: ''
+    })
+
+
     //setting Intial State
     const [equipmentutiliztinData, setEquipmentUtilization] = useState({
         start_utilization: '',
         end_utilization: ''
     })
     //default state
-    const defaultstate = {
-        start_utilization: '',
-        end_utilization: ''
-    }
+    // const defaultstate = {
+    //     start_utilization: '',
+    //     end_utilization: ''
+    // }
     //destrutring object
     const {
         start_utilization,
@@ -50,7 +58,8 @@ const EquipmentUtilization = () => {
         user_slno: userslno(),
         euipment_slno: selectEquipment,
         eu_starttime: start_utilization,
-        eu_endtime: end_utilization
+        eu_endtime: end_utilization,
+        user_code_save: userid
     }
     //edit
     const postDataEdit = {
@@ -58,39 +67,58 @@ const EquipmentUtilization = () => {
         user_slno: userslno(),
         euipment_slno: selectEquipment,
         eu_starttime: start_utilization,
-        eu_endtime: end_utilization
+        eu_endtime: end_utilization,
+        user_code_save: userid,
     }
     //saving form data
     const submitFormData = async (e) => {
         e.preventDefault()
-        if (value === 0) {
-            const result = await axioslogin.post('/equipmentUtilization', postData)
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNofity(message)
-                setenable(true)
-                setdistrue(true)
-
-            } else if (success === 0) {
-                warningNofity(message)
-            } else {
-                errorNofity('Error Occured!!!Please Contact EDP')
+        const result = await axioslogin.get(`/common/user/${userid}`)
+        const { success, data, message } = result.data
+        if (success === 2) {
+            const { us_code } = data[0]
+            const frmdataa = {
+                us_code: us_code
             }
+            setuserid(frmdataa)
+
+
+            if (value === 0) {
+                const result = await axioslogin.post('/equipmentUtilization', postData)
+                const { success, message } = result.data
+                if (success === 1) {
+                    succesNofity(message)
+                    setenable(true)
+                    setdistrue(true)
+
+                } else if (success === 0) {
+                    warningNofity(message)
+                } else {
+                    errorNofity('Error Occured!!!Please Contact EDP')
+                }
+            }
+            else {
+                const result = await axioslogin.patch('/equipmentUtilization', postDataEdit)
+                const { success, message } = result.data
+                if (success === 2) {
+                    succesNofity(message)
+                    setenable(true)
+                    setdistrue(true)
+
+                } else if (success === 1) {
+                    warningNofity(message)
+                } else {
+                    errorNofity('Error Occured!!!Please Contact EDP')
+                }
+            }
+        }
+        else if (success === 0) {
+            warningNofity(message)
         }
         else {
-            const result = await axioslogin.patch('/equipmentUtilization', postDataEdit)
-            const { success, message } = result.data
-            if (success === 2) {
-                succesNofity(message)
-                setenable(true)
-                setdistrue(true)
-
-            } else if (success === 1) {
-                warningNofity(message)
-            } else {
-                errorNofity('Error Occured!!!Please Contact EDP')
-            }
+            errorNofity('Error Occured !!! Plaese Contact Edp')
         }
+
     }
     useEffect(() => {
         const equipmentutilzation = async () => {
@@ -124,17 +152,28 @@ const EquipmentUtilization = () => {
             }
         }
         equipmentutilzation()
-    }, [id])
+    }, [id, updateEquipment])
     //edit option
     const editequipmentutilization = () => {
         setenable(false)
         setdistrue(false)
     }
+
+    //for model close and open
+    const [open, setOpen] = useState(false)
+    const handleClickOpen = (e) => {
+        e.preventDefault()
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
     return (
         <Fragment>
             <SessionCheck />
             <ToastContainer />
-            <form onSubmit={submitFormData}>
+            <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
+            <form onSubmit={handleClickOpen}>
                 <Card className="card-body">
                     <div className="col-md-12">
                         <div className="row">

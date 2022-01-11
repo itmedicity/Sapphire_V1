@@ -2,7 +2,7 @@ import React, { Fragment, useState, useContext, useEffect } from 'react'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 // import PatientCard from '../Inpatient/PatientCard'
 import { ToastContainer } from 'react-toastify'
-import { useParams, useHistory } from 'react-router'
+import { useParams } from 'react-router'
 import DoctornameSelect from 'src/views/CommonCode/DoctornameSelect'
 import TextInput from 'src/views/Component/TextInput'
 import { axioslogin } from 'src/views/Axios/Axios'
@@ -17,10 +17,8 @@ import moment from 'moment'
 const Returntoicu = () => {
   const { id } = useParams()
   const classes = useStyles()
-  const history = useHistory()
-  const RedirectToProfilePage = () => {
-    history.push(`/Home/InpatientEdit/${id}`)
-  }
+
+
   const [enable, setenable] = useState(false)
   const [value, setvalue] = useState(0)
   //setting initial state
@@ -33,13 +31,13 @@ const Returntoicu = () => {
     prevcomplaint: '',
     remark: ''
   })
-  //defaultb state
-  const defaultstate = {
-    datetime: '',
-    prsntcomplaint: '',
-    prevcomplaint: '',
-    remark: '',
-  }
+  // //defaultb state
+  // const defaultstate = {
+  //   datetime: '',
+  //   prsntcomplaint: '',
+  //   prevcomplaint: '',
+  //   remark: '',
+  // }
 
   //destrutring object
   const {
@@ -119,7 +117,7 @@ const Returntoicu = () => {
 
         const { do_code, inpt_slno, prsnt_complaint,
           prvious_complaint, remark,
-          rtnicu_datetime, rticu_flag, user_slno
+          rtnicu_datetime
         } = data[0]
         const frmData = {
           datetime: moment(rtnicu_datetime).format("YYYY-MM-DD[T]HH:mm:ss"),

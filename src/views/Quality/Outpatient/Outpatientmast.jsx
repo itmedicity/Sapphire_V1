@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React, { Fragment, memo, useEffect, useMemo, useState } from 'react'
 import { axioslogin } from 'src/views/Axios/Axios';
-import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc';
+import { errorNofity } from 'src/views/CommonCode/Commonfunc';
 
 import OutpatientTableNew from './OutpatientTableNew';
 import PatientDetails from './PatientDetails';
@@ -20,7 +20,7 @@ const Outpatientmast = () => {
     useEffect(() => {
         const getPatientList = async () => {
             // console.log("rini")
-            const id = 'P001'
+            // const id = 'P001'
             const result = await axioslogin.get(`/op_indicator/${'P001'}`);
             // console.log(result)
             const { success, data } = result.data
@@ -41,7 +41,7 @@ const Outpatientmast = () => {
                 })
                 // console.log(frmdata)
                 const result = await axioslogin.post(`/op_indicator`, frmdata)
-                const { success, message } = result.data
+                const { success } = result.data
                 if (success === 1) {
                     const result = await axioslogin.get(`/op_indicator/${'P001'}`);
                     console.log(result)

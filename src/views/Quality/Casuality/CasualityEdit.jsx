@@ -1,15 +1,14 @@
 import { Accordion, AccordionDetails, AccordionSummary, Card, CardHeader, Divider, Typography } from '@mui/material'
 import React, { Fragment, useState, useEffect } from 'react'
-import { useParams } from 'react-router';
+// import { useParams } from 'react-router';
 import PatientCardNew from '../Inpatient/PatientCardNew'
 import IntialAssessmentCasuality from './IntialAssessmentCasuality';
 import ReturntoCasuality from './ReturntoCasuality';
 import { MdPublishedWithChanges } from "react-icons/md";
 import { green, red } from '@mui/material/colors';
-import { axioslogin } from 'src/views/Axios/Axios';
 
 const CasualityEdit = () => {
-  const { id } = useParams()
+
   const [flagsetvalue, setFlagvalue] = useState({
     casulflag: ''
   })

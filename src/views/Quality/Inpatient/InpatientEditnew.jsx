@@ -23,7 +23,7 @@ import Returntoicu from '../InpatientICU/Returntoicu';
 import { axioslogin } from 'src/views/Axios/Axios';
 import { useParams } from 'react-router';
 import moment from 'moment'
-import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
+import { warningNofity } from 'src/views/CommonCode/Commonfunc'
 import { differenceInHours } from 'date-fns'
 import Reintubation from '../InpatientICU/Reintubation';
 // import { green, pink, red } from '@mui/material/colors';
@@ -31,7 +31,7 @@ import BedutilizationWardNew from '../Wards/BedutilizationWardNew';
 import BedUtilizationIcu from '../InpatientICU/BedUtilizationIcu';
 import Accodation from './Accodation';
 import { COLOUR_ONE } from 'src/views/Constant/Constant';
-import { MdPublishedWithChanges } from "react-icons/md";
+
 
 const InpatientEditnew = () => {
   const { id } = useParams()
@@ -75,7 +75,7 @@ const InpatientEditnew = () => {
     dischargeflag,
     incedebnceflag,
     reintubateflag,
-    bedoccupward_flag
+
   } = flagsetvalue
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const InpatientEditnew = () => {
       const { success, data } = result.data
       if (success === 1) {
         const { shift_frm_icu,
-          inpt_slno
+
         } = data[0]
         const datetime = moment(shift_frm_icu).format("YYYY-MM-DD[T]HH:mm:ss")
         const currdate = moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss")
@@ -96,6 +96,7 @@ const InpatientEditnew = () => {
         } else {
           setDatevalue(true)
         }
+
       }
       else if (success === 2) {
       }
@@ -116,10 +117,10 @@ const InpatientEditnew = () => {
     ///complete or Pending
     const flagdetail = async () => {
       const result = await axioslogin.get(`/common/getflgdetl/fgdetil/${id}`)
-      const { success, data } = result.data
+      const { data } = result.data
 
       const {
-        bedoccupicu_flag,
+        // bedoccupicu_flag,
         bedoccupward_flag,
         bloodcomponent_flag,
         communicationerror_flag,
@@ -129,17 +130,17 @@ const InpatientEditnew = () => {
         ia_doctor_flag,
         ia_nurse_flag,
         if_flag,
-        inpt_flag,
-        inpt_slno,
+        // inpt_flag,
+        // inpt_slno,
         nearmisses_flag,
         nrs_care_flag,
         nrse_ptnt_ratio,
         nut_screen_flag,
-        nutritionneed_flaG,
-        patientcare_flag,
+        // nutritionneed_flaG,
+        // patientcare_flag,
         pie_flag,
         reintubation_flag,
-        return_to_icu_flag,
+        // return_to_icu_flag,
         sentinal_flag
       } = data[0]
 
@@ -168,23 +169,24 @@ const InpatientEditnew = () => {
   }, [setFlagvalue])
 
   const array = [
-    { comp: <IntialassessmentNurse />, style: { backgroundColor: COLOUR_ONE }, flag: flagNurse, nameheading: 'Intial Assement nurse' },
-    { comp: <InitialassesmentDoctor />, style: { backgroundColor: '#fce4ec' }, flag: flagDoctor, nameheading: 'Intial Assement Doctor' },
+    { comp: <IntialassessmentNurse />, style: { backgroundColor: COLOUR_ONE }, flag: flagNurse, nameheading: 'Initial Assessment Nurse' },
+    { comp: <InitialassesmentDoctor />, style: { backgroundColor: '#fce4ec' }, flag: flagDoctor, nameheading: 'Initial Assessment Doctor' },
     { comp: <Bloodcomponents />, style: { backgroundColor: '#f3e5f5' }, flag: blodcompflag, nameheading: 'Blood Component' },
     { comp: <Careplan />, style: { backgroundColor: '#ede7f6' }, flag: careflag, nameheading: 'Care Plan' },
-    { comp: <EquipmentUtilization />, style: { backgroundColor: '#e8eaf6' }, flag: eqpmutiltnfalg, nameheading: 'Equipment Utilization' },
-    { comp: <HandoverComunication />, style: { backgroundColor: '#e3f2fd' }, flag: HandoverComflag, nameheading: 'Handover Communication' },
-    { comp: <NutritionalScreening />, style: { backgroundColor: '#e1f5fe' }, flag: nutrscreenflag, nameheading: 'Nutritional Screening ' },
-    { comp: <Dietitian />, style: { backgroundColor: '#e0f7fa' }, flag: dietetian, nameheading: 'Dietitian' },
+    { comp: <HandoverComunication />, style: { backgroundColor: '#e3f2fd' }, flag: HandoverComflag, nameheading: 'HandOver Communication' },
     { comp: <Nearmissess />, style: { backgroundColor: '#e0f2f1' }, flag: nearmis, nameheading: 'Near Misses' },
-    { comp: <NursePatientratio />, style: { backgroundColor: '#e8f5e9' }, flag: nusrptntrati, nameheading: 'Nurse Patient Ratio' },
     { comp: <Patientidentfctnerror />, style: { backgroundColor: '#f9fbe7' }, flag: patientiderrflag, nameheading: 'Patient Identification Error' },
     { comp: <Sentinalevent />, style: { backgroundColor: '#f9fbe7' }, flag: sentriflag, nameheading: 'Sentinal Event' },
+    { comp: <Incidence />, style: { backgroundColor: '#e0f7fa' }, flag: incedebnceflag, nameheading: 'Incidence Fall' },
     { comp: <Discharge />, style: { backgroundColor: '#f9fbe7' }, flag: dischargeflag, nameheading: 'Discharge' },
+
+    { comp: <EquipmentUtilization />, style: { backgroundColor: '#e8eaf6' }, flag: eqpmutiltnfalg, nameheading: 'Equipment Utilization' },
+    { comp: <NutritionalScreening />, style: { backgroundColor: '#e1f5fe' }, flag: nutrscreenflag, nameheading: 'Nutritional Screening ' },
+    { comp: <Dietitian />, style: { backgroundColor: '#e0f7fa' }, flag: dietetian, nameheading: 'Dietitian' },
+    { comp: <NursePatientratio />, style: { backgroundColor: '#e8f5e9' }, flag: nusrptntrati, nameheading: 'Nurse Patient Ratio' },
     { comp: <BedutilizationWardNew />, style: { backgroundColor: '#f9fbe7' }, flag: dischargeflag, nameheading: 'Bed Utilization Ward' },
     { comp: <BedUtilizationIcu />, style: { backgroundColor: '#e0f7fa' }, flag: dischargeflag, nameheading: 'Bed Utilization ICU' },
     { comp: <Returntoicu />, style: { backgroundColor: '#e0f7fa' }, flag: dietetian, nameheading: 'Return To ICU' },
-    { comp: <Incidence />, style: { backgroundColor: '#e0f7fa' }, flag: incedebnceflag, nameheading: 'Incidence Fall' },
     { comp: <Reintubation />, style: { backgroundColor: '#e0f7fa' }, flag: reintubateflag, nameheading: 'Reintubation Flag' },
 
   ]

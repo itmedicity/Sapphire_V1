@@ -9,14 +9,20 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
+import Modelcommon from 'src/views/CommonCode/Modelcommon'
 
 const Incidence = () => {
     const { id } = useParams()
 
     const [toggle, setToggle] = useState(0)
-
     const [distrue, setdistrue] = useState(false)
     const [value, setValue] = useState(0)
+    //userid check
+    const [userid, setuserid] = useState({
+        us_code: ''
+    })
+    //for model
+    const [open, setOpen] = useState(false);
 
     const [incidencedata, setincidencedata] = useState({
         incidence: '',
@@ -25,9 +31,6 @@ const Incidence = () => {
         actiontaken: '',
         remarks: ''
     })
-
-
-
     //destrutring object
     const {
         errordesc,
@@ -49,7 +52,8 @@ const Incidence = () => {
         if_errordesc: errordesc,
         if_personresponsible: personresponsible,
         if_actntkn: actiontaken,
-        if_remark: remarks
+        if_remark: remarks,
+        user_code_save: userid
     }
 
     const postDataEdit = {
@@ -59,34 +63,51 @@ const Incidence = () => {
         if_errordesc: errordesc,
         if_personresponsible: personresponsible,
         if_actntkn: actiontaken,
-        if_remark: remarks
+        if_remark: remarks,
+        user_code_save: userid
     }
     const submitFormData = async (e) => {
         e.preventDefault()
-        if (value === 0) {
-            const result = await axioslogin.post('/incidencefall', postData)
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNofity(message)
-                setdistrue(true)
-                // setsentinentdata(defaultstate)
-            } else if (success === 2) {
-                warningNofity(message)
-            } else {
-                errorNofity('Error Occured!!!Please Contact EDP')
+        const result = await axioslogin(`/common/user/${userid}`)
+        const { success, data, message } = result.data
+        if (success === 1) {
+            const { us_code } = data[0]
+            const frmdataa = {
+                us_code: us_code
+            }
+            setuserid(frmdataa)
+            if (value === 0) {
+                const result = await axioslogin.post('/incidencefall', postData)
+                const { success, message } = result.data
+                if (success === 1) {
+                    succesNofity(message)
+                    setdistrue(true)
+                    // setsentinentdata(defaultstate)
+                } else if (success === 2) {
+                    warningNofity(message)
+                } else {
+                    errorNofity('Error Occured!!!Please Contact EDP')
+                }
+            }
+            else {
+                const result = await axioslogin.patch('/incidencefall', postDataEdit)
+                const { success, message } = result.data
+                if (success === 2) {
+                    succesNofity(message)
+                    setdistrue(true)
+                } else if (success === 1) {
+                    warningNofity(message)
+                } else {
+                    errorNofity('Error Occured!!!Please Contact EDP')
+                }
             }
         }
+        else if (success === 0) {
+            warningNofity(message)
+
+        }
         else {
-            const result = await axioslogin.patch('/incidencefall', postDataEdit)
-            const { success, message } = result.data
-            if (success === 2) {
-                succesNofity(message)
-                setdistrue(true)
-            } else if (success === 1) {
-                warningNofity(message)
-            } else {
-                errorNofity('Error Occured!!!Please Contact EDP')
-            }
+            errorNofity('Error occured!!! Plaese Contact Edp')
         }
 
     }
@@ -123,13 +144,22 @@ const Incidence = () => {
     const editincidence = () => {
         setdistrue(false)
     }
+    //for model
+    const handleClickOpen = (e) => {
+        e.preventDefault()
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
 
 
     return (
         <Fragment>
             <SessionCheck />
             <ToastContainer />
-            <form onSubmit={submitFormData}>
+            <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
+            <form onSubmit={handleClickOpen}>
                 <Card className="card-body">
                     <div className="col-md-12">
                         <div className="row">

@@ -129,7 +129,7 @@ const BedutilizationWardNew = () => {
             const { success, data } = result.data
             if (success === 1) {
                 Setenable(true)
-                const { inpt_slno, bow_availbed, bow_bednurseratio, bow_flag, bow_noofbedoccup, bow_noofnurse, bow_noofpatient } = data[0]
+                const { inpt_slno, bow_availbed, bow_flag, bow_noofbedoccup, bow_noofnurse, bow_noofpatient } = data[0]
                 // data.map((val) => {
                 const frmData = {
                     id: inpt_slno,
