@@ -9,12 +9,16 @@ import TextInput from 'src/views/Component/TextInput'
 import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
+import Modelcommon from 'src/views/CommonCode/Modelcommon'
 
 const NutritionalScreening = () => {
     const { id } = useParams()
     const [toggle, setToggle] = useState(0)
     const [distrue, setdistrue] = useState(true)
     const [value, setValue] = useState(0)
+    const [userid, setuserid] = useState({
+        us_code: ''
+    })
 
     const [nutritionalScreeningdata, setnutritionalScreeningdata] = useState(
         {
@@ -72,33 +76,52 @@ const NutritionalScreening = () => {
 
     const submitFormData = async (e) => {
         e.preventDefault()
-        if (value === 0) {
-            const result = await axioslogin.post('/nutritionalScreening', postData)
-            const { success, message } = result.data
-            if (success === 1) {
-                succesNofity(message)
-                setdistrue(true)
-            } else if (success === 2) {
-                warningNofity(message)
-            } else {
-                errorNofity('Error Occured!!!Please Contact EDP')
+        const result = await axioslogin.get(`/common/user/${userid}`)
+        const { success, data, message } = result.data
+        if (success === 1) {
+            const { us_code } = data[0]
+            const frmdataa = {
+                us_code: us_code
             }
+            setuserid(frmdataa)
+
+            if (value === 0) {
+                const result = await axioslogin.post('/nutritionalScreening', postData)
+                const { success, message } = result.data
+                if (success === 1) {
+                    succesNofity(message)
+                    setdistrue(true)
+                    setOpen(false)
+                } else if (success === 2) {
+                    warningNofity(message)
+                } else {
+                    errorNofity('Error Occured!!!Please Contact EDP')
+                }
+            }
+            else {
+                const result = await axioslogin.patch('/nutritionalScreening', postDataEdit)
+                const { success, message } = result.data
+                if (success === 2) {
+                    succesNofity(message)
+                    setdistrue(true)
+                    setOpen(false)
+                } else if (success === 1) {
+                    warningNofity(message)
+                } else {
+                    errorNofity('Error Occured!!!Please Contact EDP')
+                }
+
+            }
+        }
+        else if (success === 0) {
+            warningNofity(message)
         }
         else {
-            const result = await axioslogin.patch('/nutritionalScreening', postDataEdit)
-            const { success, message } = result.data
-            if (success === 2) {
-                succesNofity(message)
-                setdistrue(true)
-
-            } else if (success === 1) {
-                warningNofity(message)
-            } else {
-                errorNofity('Error Occured!!!Please Contact EDP')
-            }
+            errorNofity('Error Occured!!! Please Contact EDP')
         }
-
     }
+
+
 
     useEffect(() => {
         const nutriscreening = async () => {
@@ -133,11 +156,23 @@ const NutritionalScreening = () => {
     const editnutritionalscreening = () => {
         setdistrue(false)
     }
+
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = (e) => {
+        e.preventDefault()
+        setOpen(true);
+
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
     return (
         <Fragment>
             <SessionCheck />
+            <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
             <ToastContainer />
-            <form onSubmit={submitFormData}>
+            <form onSubmit={handleClickOpen}>
                 <Card className="card-body">
                     <div className="col-md-12">
                         <div className="row">

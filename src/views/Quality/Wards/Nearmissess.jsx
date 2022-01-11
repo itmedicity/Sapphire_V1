@@ -75,7 +75,7 @@ const Nearmissess = () => {
         e.preventDefault()
         const result = await axioslogin.get(`/common/user/${userid}`)
         const { success, data, message } = result.data
-        if (success === 2) {
+        if (success === 1) {
             const { us_code } = data[0]
             const frmdataa = {
                 us_code: us_code
@@ -87,6 +87,7 @@ const Nearmissess = () => {
                 if (success === 1) {
                     succesNofity(message)
                     setdistrue(true)
+                    setOpen(false)
                     //setnearmissdata(defaultstate)
 
                 } else if (success === 0) {
@@ -101,6 +102,7 @@ const Nearmissess = () => {
                 if (success === 2) {
                     succesNofity(message)
                     setdistrue(true)
+                    setOpen(false)
 
                 } else if (success === 1) {
                     warningNofity(message)

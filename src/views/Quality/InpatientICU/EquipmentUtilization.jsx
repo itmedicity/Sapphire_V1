@@ -75,7 +75,7 @@ const EquipmentUtilization = () => {
         e.preventDefault()
         const result = await axioslogin.get(`/common/user/${userid}`)
         const { success, data, message } = result.data
-        if (success === 2) {
+        if (success === 1) {
             const { us_code } = data[0]
             const frmdataa = {
                 us_code: us_code
@@ -90,7 +90,7 @@ const EquipmentUtilization = () => {
                     succesNofity(message)
                     setenable(true)
                     setdistrue(true)
-
+                    setOpen(false)
                 } else if (success === 0) {
                     warningNofity(message)
                 } else {
@@ -104,6 +104,7 @@ const EquipmentUtilization = () => {
                     succesNofity(message)
                     setenable(true)
                     setdistrue(true)
+                    setOpen(false)
 
                 } else if (success === 1) {
                     warningNofity(message)
