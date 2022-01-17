@@ -51,15 +51,29 @@ const IntialassessmentNurse = () => {
     setintAssmntNurseData({ ...intAssmntNurseData, [e.target.name]: value })
   }
 
+  var ia_timediffnurstn = differenceInMinutes(new Date(initialassemnt_endns), new Date(arrived_time_ns))
+
+
   const postData = {
     inpt_slno: id,
     pt_receivetime: arrived_time_ns,
     ia_startnstime: initialassemnt_startns,
     ia_endnstime: initialassemnt_endns,
-    ia_timediffnurstn: differenceInMinutes(new Date(initialassemnt_endns), new Date(arrived_time_ns)),
+    ia_timediffnurstn: ia_timediffnurstn,
     ian_remark: remarkns,
     user_slno: userslno(),
     user_code_save: userid
+  }
+  // const postData2 = {
+  //   pt_receivetime: arrived_time_ns,
+  //   ia_endnstime: initialassemnt_endns,
+  //   
+  // }
+  // update dtata for time difference in indicatorcalculation table 
+  const postData2 = {
+    inpt_slno: id,
+    initalass_nurse_diff: ia_timediffnurstn,
+
   }
 
 
@@ -89,9 +103,17 @@ const IntialassessmentNurse = () => {
         const result = await axioslogin.post('/assesmentnurse', postData)
         const { success, message } = result.data
         if (success === 1) {
-          succesNofity(message)
-          Setenable(true)
-          setOpen(false);
+          const result2 = await axioslogin.patch('/assesmentnurse/edit', postData2)
+          const { success, message } = result2.data
+          if (success === 2) {
+            succesNofity(message)
+            Setenable(true)
+            setOpen(false);
+          } else if (success === 0) {
+            warningNofity(message)
+          } else {
+            errorNofity('Error Occured!!!Please Contact EDP')
+          }
 
         } else if (success === 0) {
           warningNofity(message)
@@ -119,7 +141,6 @@ const IntialassessmentNurse = () => {
     else {
       errorNofity('Error Occured!!! Please Contact EDP')
     }
-    // console.log("mibnu")
     // Setmodel(1)
 
 

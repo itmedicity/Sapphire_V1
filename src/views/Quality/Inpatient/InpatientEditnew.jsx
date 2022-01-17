@@ -1,7 +1,6 @@
 import {
-
   Card,
-  CardHeader, Divider
+  CardHeader, Divider, IconButton, Tooltip
 } from '@mui/material'
 import React, { Fragment, useEffect, useState } from 'react'
 import PatientCardNew from './PatientCardNew';
@@ -21,7 +20,7 @@ import Dietitian from '../Wards/Dietitian';
 import NutritionalScreening from '../InpatientICU/NutritionalScreening';
 import Returntoicu from '../InpatientICU/Returntoicu';
 import { axioslogin } from 'src/views/Axios/Axios';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import moment from 'moment'
 import { warningNofity } from 'src/views/CommonCode/Commonfunc'
 import { differenceInHours } from 'date-fns'
@@ -31,10 +30,17 @@ import BedutilizationWardNew from '../Wards/BedutilizationWardNew';
 import BedUtilizationIcu from '../InpatientICU/BedUtilizationIcu';
 import Accodation from './Accodation';
 import { COLOUR_ONE } from 'src/views/Constant/Constant';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import { FcUndo } from "react-icons/fc";
 
 
 const InpatientEditnew = () => {
   const { id } = useParams()
+  const history = useHistory()
+  const gobacck = () => {
+    history.push(`/Home/Inpatienlist`)
+  }
 
   //setting the date for return to icu
   const [datevalue, setDatevalue] = useState(false)
@@ -205,13 +211,26 @@ const InpatientEditnew = () => {
         <CardHeader
           titleTypographyProps={{
             variant: 'button',
+
           }}
           title="Quality Indicators"
           sx={{
             textAlign: "left",
             paddingY: 1
           }}
+          action={
+            <Stack spacing={2} direction="row">
+              <Tooltip title="Back" placement="top">
+                <IconButton aria-label="settings">
+                  <FcUndo onClick={gobacck} />
+                </IconButton>
+              </Tooltip>
+              {/* <Button variant="outlined">Home</Button> */}
+            </Stack>
+          }
+
         />
+        {/* FcUndo */}
         <Divider variant="middle" />
         <div className="card-body align-items-around"
           style={

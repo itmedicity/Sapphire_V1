@@ -60,7 +60,9 @@ const NutritionalScreening = () => {
         ns_errordesc: errordesc,
         ns_personresponsible: personresponsible,
         ns_actntkn: actiontaken,
-        ns_remark: remarks
+        ns_remark: remarks,
+        user_code_save: userid,
+
     }
 
     const postDataEdit = {
@@ -70,7 +72,8 @@ const NutritionalScreening = () => {
         ns_errordesc: errordesc,
         ns_personresponsible: personresponsible,
         ns_actntkn: actiontaken,
-        ns_remark: remarks
+        ns_remark: remarks,
+        user_code_save: userid,
 
     }
 

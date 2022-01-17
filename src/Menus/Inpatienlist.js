@@ -5,11 +5,11 @@ const InPatientList = [
         name: 'Patient List',
         to: '/Home/Inpatienlist',
     },
-    // {
-    //     _tag: 'CSidebarNavItem',
-    //     name: 'Employee File',
-    //     to: '/Home/EmployeeFile',
-    // },
+    {
+        component: CNavItem,
+        name: 'Incharge Verification',
+        to: '/Home/Inchargeverification',
+    },
     // {
     //     _tag: 'CSidebarNavItem',
     //     name: 'Allowance/Deduction',

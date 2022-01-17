@@ -52,16 +52,32 @@ const InitialassesmentDoctor = () => {
     setintAssmntDoctorData({ ...intAssmntDoctorData, [e.target.name]: value })
 
   }
+
+
+
+  var iad_timediff = differenceInMinutes(new Date(intialassessment_end), new Date(arrived_time))
+
   const postData = {
     inpt_slno: id,
     pt_received_time: arrived_time,
     iad_start_time: intialassessment_start,
     iad_end_time: intialassessment_end,
-    iad_timediff: differenceInMinutes(new Date(intialassessment_end), new Date(arrived_time)),
+    iad_timediff: iad_timediff,
     iad_remark: remark,
     user_code_save: userid,
     user_slno: userslno(),
   }
+
+  const postData2 = {
+    inpt_slno: id,
+    initalass_doctor_diff: iad_timediff,
+  }
+
+
+
+
+
+
   const postDataEdit = {
     pt_received_time: arrived_time,
     iad_start_time: intialassessment_start,
@@ -89,9 +105,17 @@ const InitialassesmentDoctor = () => {
         const result = await axioslogin.post('/initalassessmentDoc', postData)
         const { success, message } = result.data
         if (success === 1) {
-          succesNofity(message)
-          Setenable(true)
-          setOpen(false);
+          const result2 = await axioslogin.patch('/initalassessmentDoc/edit', postData2)
+          const { success, message } = result2.data
+          if (success === 2) {
+            succesNofity(message)
+            Setenable(true)
+            setOpen(false);
+          } else if (success === 0) {
+            warningNofity(message)
+          } else {
+            errorNofity('Error Occured!!!Please Contact EDP')
+          }
 
         } else if (success === 0) {
           warningNofity(message)
