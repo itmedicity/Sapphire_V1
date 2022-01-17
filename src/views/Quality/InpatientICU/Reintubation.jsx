@@ -9,13 +9,13 @@ import moment from 'moment'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import { tableIcons } from 'src/views/Constant/MaterialIcon';
+// import Table from '@mui/material/Table';
+// import TableBody from '@mui/material/TableBody';
+// import TableCell from '@mui/material/TableCell';
+// import TableContainer from '@mui/material/TableContainer';
+// import TableHead from '@mui/material/TableHead';
+// import TableRow from '@mui/material/TableRow';
+// import { tableIcons } from 'src/views/Constant/MaterialIcon';
 
 
 const Reintubation = () => {
@@ -62,7 +62,6 @@ const Reintubation = () => {
 
     const submitFormData = async (e) => {
         e.preventDefault()
-        // console.log(postData)
         const result = await axioslogin.post('/reIntubationrate', postData)
         const { success, message } = result.data
         if (success === 1) {
@@ -84,8 +83,6 @@ const Reintubation = () => {
     useEffect(() => {
         const reintubaterate = async () => {
             const result = await axioslogin.get(`/reIntubationrate/${id}`)
-            // console.log("minu")
-            // console.log(result)
             const { success, data } = result.data
             if (success === 1) {
                 const { intubated_date,
@@ -182,7 +179,7 @@ const Reintubation = () => {
 
                             <div className="col-md-12">
 
-                                <TableContainer sx={{ maxHeight: 150 }}>
+                                {/* <TableContainer sx={{ maxHeight: 150 }}>
                                     <Table size="small"
                                         icons={tableIcons}
                                         stickyHeader aria-label="sticky table">
@@ -210,10 +207,6 @@ const Reintubation = () => {
                                                             <TableCell align="center">{val.incudate}</TableCell>
                                                             <TableCell align="center">{val.exudate}</TableCell>
                                                         </TableRow>
-
-                                                        {/* <TableCell align="center">
-                                                            <MdDelete size={20} />
-                                                 </TableCell> */}
                                                     </TableRow>)
                                                 }
 
@@ -222,7 +215,7 @@ const Reintubation = () => {
                                             }
                                         </TableBody>
                                     </Table>
-                                </TableContainer>
+                                </TableContainer> */}
 
                             </div>
                         </div>

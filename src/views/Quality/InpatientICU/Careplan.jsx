@@ -222,16 +222,13 @@ const Careplan = () => {
                         </div>
                     </div>
                 </Card>
-                <div className="card-footer"
-                // style={{
-                //   backgroundColor: '#b6b8c3',
-                // }}
+                {/* <div className="card-footer"
                 >
                     <div className="col-md-12">
                         <FooterClosebtn
                             edit={editcareplan} />
                     </div>
-                </div>
+                </div> */}
             </form>
         </Fragment>
     )

@@ -25,8 +25,8 @@ const OptionSelection = ({ style }) => {
         // disabled={disablee}
         >
           <MenuItem value="0">Selected Option</MenuItem>
-          <MenuItem value="1">Done</MenuItem>
-          <MenuItem value="2">Not Done</MenuItem>
+          <MenuItem value="1">Yes</MenuItem>
+          <MenuItem value="2">No</MenuItem>
         </Select>
       </FormControl>
     </Fragment>
