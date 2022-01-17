@@ -19,6 +19,8 @@ const IntialassessmentNurse = () => {
   const [userid, setuserid] = useState({
     us_code: ''
   })
+  // const [click, setclick] = useState(false)
+
 
   //const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
 
@@ -157,17 +159,13 @@ const IntialassessmentNurse = () => {
 
   // for model
   const [open, setOpen] = useState(false);
-
   const handleClickOpen = (e) => {
     e.preventDefault()
     setOpen(true);
-
   };
   const handleClose = () => {
     setOpen(false);
   };
-
-
 
   return (
     <Fragment>

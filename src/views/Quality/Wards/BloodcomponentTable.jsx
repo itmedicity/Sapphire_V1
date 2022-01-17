@@ -7,8 +7,11 @@ import { tableIcons } from 'src/views/Constant/MaterialIcon';
 import BloodCmpTable from './Component/BloodCmpTable';
 
 
+
 const BloodcomponentTable = ({ settabledata, tabledata, setbldcomptabledata }) => {
     const { id } = useParams()
+
+
     //  for getting values into the table
     useEffect(() => {
         const bloodcomponentsum = async () => {
@@ -26,10 +29,7 @@ const BloodcomponentTable = ({ settabledata, tabledata, setbldcomptabledata }) =
                         noofbagreceived: val.bagreceived,
                         noofprdct_used: val.bldprduct_used,
                         noofprdct_wasted: val.bldprduct_wasted,
-                        reactn_occ: val.reactn_occ,
-                        remark: val.remark,
-                        bldcomponent_name: val.bldcomponent_name,
-                        bldmast_name: val.bldmast_name,
+                        bldcomponent_name: val.bldcomponent_name
                     }
                     return d1
                 })
@@ -48,27 +48,34 @@ const BloodcomponentTable = ({ settabledata, tabledata, setbldcomptabledata }) =
                             stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell align="center">Sl no</TableCell>
-                                    <TableCell align="center">Requested Date</TableCell>
-                                    <TableCell align="center">Received  Date</TableCell>
-                                    <TableCell align="center">Requested Bags</TableCell>
-                                    <TableCell align="center">Received Bags</TableCell>
-                                    <TableCell align="center">Used Bags</TableCell>
-                                    <TableCell align="center">Wasted Bags</TableCell>
-                                    <TableCell align="center">Reaction Occured</TableCell>
-                                    <TableCell align="center">Group</TableCell>
-                                    <TableCell align="center">Component</TableCell>
-                                    <TableCell align="center">Remarks</TableCell>
-                                    <TableCell align="center">Action</TableCell>
+                                    <TableCell align="center" colSpan={2}>No</TableCell>
+                                    <TableCell align="center" colSpan={2}>Component</TableCell>
+                                    <TableCell align="center" colSpan={2}>Requested</TableCell>
+                                    <TableCell align="center" colSpan={2}>Received  </TableCell>
+                                    <TableCell align="center" colSpan={2}>Requested Bags</TableCell>
+                                    <TableCell align="center" colSpan={2}>Received Bags</TableCell>
+                                    <TableCell align="center" colSpan={2}>Used Bags</TableCell>
+                                    <TableCell align="center" colSpan={2}>Wasted Bags</TableCell>
+                                    <TableCell align="center" >Action</TableCell>
                                 </TableRow>
+
                             </TableHead>
+
                             <TableBody>
                                 {
                                     tabledata.map((val, index) => {
                                         return <BloodCmpTable val={val} key={index} setbldcomptabledata={setbldcomptabledata} />
                                     })
                                 }
+
+
+
+
+
+
+
                             </TableBody>
+
                         </Table>
                     </TableContainer>
                 </div>

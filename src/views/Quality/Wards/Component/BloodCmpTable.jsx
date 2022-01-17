@@ -8,27 +8,28 @@ const BloodCmpTable = ({ val, setbldcomptabledata }) => {
     const setdata = () => {
         setbldcomptabledata(val.bld_slno)
     }
+
+
+
     return (
         <Fragment>
             < TableRow
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-                <TableCell style={{ width: '30%' }} align="center" >{val.bld_slno}</TableCell>
-                <TableCell style={{ width: '1000%' }} align="center">{val.bagreq_time}</TableCell>
-                <TableCell style={{ width: '1000%' }} align="center">{val.bagrec_time}</TableCell>
-                <TableCell style={{ width: '50%' }} align="center">{val.noofbrdrequired}</TableCell>
-                <TableCell style={{ width: '50%' }} align="center">{val.noofbagreceived}</TableCell>
-                <TableCell style={{ width: '50%' }} align="center">{val.noofprdct_used}</TableCell>
-                <TableCell style={{ width: '50%' }} align="center">{val.noofprdct_wasted}</TableCell>
-                <TableCell style={{ width: '50%' }} align="center">{val.reactn_occ}</TableCell>
-                <TableCell style={{ width: '50%' }} align="center">{val.bldmast_name}</TableCell>
-                <TableCell style={{ width: '50%' }} align="center">{val.bldcomponent_name}</TableCell>
-                <TableCell style={{ width: '50%' }} align="center">{val.remark}</TableCell>
-                <TableCell style={{ width: '50%' }} align="center"><IconButton
+                <TableCell align="center" colSpan={2} >{val.bld_slno}</TableCell>
+                <TableCell align="center" colSpan={2}>{val.bldcomponent_name}</TableCell>
+                <TableCell align="center" colSpan={2}>{val.bagreq_time}</TableCell>
+                <TableCell align="center" colSpan={2}>{val.bagrec_time}</TableCell>
+                <TableCell align="center" colSpan={2}>{val.noofbrdrequired}</TableCell>
+                <TableCell align="center" colSpan={2}>{val.noofbagreceived}</TableCell>
+                <TableCell align="center" colSpan={2}>{val.noofprdct_used}</TableCell>
+                <TableCell align="center" colSpan={2}>{val.noofprdct_wasted}</TableCell>
+                <TableCell align="center"><IconButton
                     onClick={setdata} >
                     <AddTaskRoundedIcon />
                 </IconButton>
                 </TableCell>
+
             </TableRow>
         </Fragment>
     )

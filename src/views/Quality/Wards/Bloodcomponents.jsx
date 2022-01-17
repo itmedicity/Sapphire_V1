@@ -8,14 +8,17 @@ import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/C
 import BloodGroupSelect from 'src/views/CommonCode/BloodGroupSelect'
 import { PayrolMasterContext } from 'src/Context/MasterContext'
 import { userslno } from 'src/views/Constant/Constant'
-import { Card } from '@mui/material'
+import { Card, Typography } from '@mui/material'
 import OptionSelection from 'src/views/CommonCode/OptionSelection'
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import BloodComponentSelect from 'src/views/CommonCode/BloodComponentSelect'
 import Accodation from '../Inpatient/Accodation';
 import BloodcomponentTable from './BloodcomponentTable'
 import moment from 'moment'
-import Modelcommon from 'src/views/CommonCode/Modelcommon'
+import Modelcommon from 'src/views/CommonCode/Modelcommon';
+import ReactTooltip from 'react-tooltip';
+
+
 
 const Bloodcomponents = () => {
   const { id } = useParams()
@@ -37,6 +40,7 @@ const Bloodcomponents = () => {
     bld_slno: '',
     bagreq_time: '',
     bagrec_time: '',
+    bagissued_time: '',
     noofbrdrequired: '',
     noofbagreceived: '',
     noofprdct_used: '',
@@ -51,6 +55,7 @@ const Bloodcomponents = () => {
   const [bloodcomponentData, setBloodcomponentData] = useState({
     noofbrdrequired: '',
     requesteddatetime: '',
+    issueddatetime: '',
     noofbagreceived: '',
     noofprdct_used: '',
     recieved_datetime: '',
@@ -62,6 +67,7 @@ const Bloodcomponents = () => {
   const defaultstate = {
     noofbrdrequired: '',
     requesteddatetime: '',
+    issueddatetime: '',
     noofbagreceived: '',
     noofprdct_used: '',
     recieved_datetime: '',
@@ -73,6 +79,7 @@ const Bloodcomponents = () => {
   const {
     noofbrdrequired,
     requesteddatetime,
+    issueddatetime,
     noofbagreceived,
     noofprdct_used,
     recieved_datetime,
@@ -96,6 +103,7 @@ const Bloodcomponents = () => {
     bldcomp_slno: selectBloodComponent,
     bagrequested: noofbrdrequired,
     bagreq_time: requesteddatetime,
+    bagissued_time: issueddatetime,
     bagreceived: noofbagreceived,
     bagrec_time: recieved_datetime,
     bldprduct_used: noofprdct_used,
@@ -112,6 +120,7 @@ const Bloodcomponents = () => {
     bldcomp_slno: selectBloodComponent,
     bagrequested: noofbrdrequired,
     bagreq_time: requesteddatetime,
+    bagissued_time: issueddatetime,
     bagreceived: noofbagreceived,
     bagrec_time: recieved_datetime,
     bldprduct_used: noofprdct_used,
@@ -201,8 +210,8 @@ const Bloodcomponents = () => {
           bld_slno: bld_slno,
           requesteddatetime: moment(bagreq_time).format("YYYY-MM-DD[T]HH:mm:ss"),
           recieved_datetime: moment(bagrec_time).format("YYYY-MM-DD[T]HH:mm:ss"),
-          // requesteddatetime: bagreq_time,
-          // recieved_datetime: bagrec_time,
+          requesteddatetime: bagreq_time,
+          recieved_datetime: bagrec_time,
           noofbrdrequired: bagrequested,
           noofbagreceived: bagreceived,
           noofprdct_used: bldprduct_used,
@@ -270,12 +279,8 @@ const Bloodcomponents = () => {
                   changeTextValue={(e) => updateFormData(e)}
                 />
               </div>
-              <div className="col-md-3 pt-2">
-                <label htmlFor="test" className="form-label">
-                  Requested Date/Time
-                </label>
-              </div>
-              <div className="col-md-3 pt-2 pl-0">
+              <div className="col-md-4 pt-2 pl-0" data-tip="Requested Date/Time" data-for='toolTip1' data-place='top'>
+                <ReactTooltip id="toolTip1" />
                 <TextInput
                   type="datetime-local"
                   classname="form-control form-control-sm"
@@ -285,12 +290,20 @@ const Bloodcomponents = () => {
                   name="requesteddatetime"
                 />
               </div>
-              <div className="col-md-3 pt-2">
-                <label htmlFor="test" className="form-label">
-                  Received Date/Time
-                </label>
+
+              <div className="col-md-4 pt-2 pl-0" data-tip="Issued Date/Time" data-for='toolTip2' data-place='top'>
+                <ReactTooltip id="toolTip2" />
+                <TextInput
+                  type="datetime-local"
+                  classname="form-control form-control-sm"
+                  Placeholder="Issued date/Time"
+                  changeTextValue={(e) => updateFormData(e)}
+                  value={issueddatetime}
+                  name="issueddatetime"
+                />
               </div>
-              <div className="col-md-3 pt-2 pl-0">
+              <div className="col-md-4 pt-2 pl-0" data-tip="Received Date/Time" data-for='toolTip3' data-place='top'>
+                <ReactTooltip id="toolTip3" />
                 <TextInput
                   id="number"
                   type="datetime-local"
