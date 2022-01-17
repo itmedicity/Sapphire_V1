@@ -10,7 +10,7 @@ import { CNavGroup, CNavItem } from '@coreui/react'
 import InPatientList from './Menus/Inpatienlist';
 import OutPatientList from './Menus/OutPatientList';
 import CasualitypatientList from './Menus/CasualitypatientList';
-
+import Incharge from './Menus/Incharge';
 const _nav = [
   {
     slno: 1,
@@ -40,7 +40,13 @@ const _nav = [
     icon: <IoPeopleOutline className="text-light nav-icon" size={20} />,
     items: CasualitypatientList
   },
-
+  {
+    slno: 4,
+    component: CNavGroup,
+    name: 'Verification',
+    icon: <IoPeopleOutline className="text-light nav-icon" size={20} />,
+    items: Incharge
+  },
 
 ]
 

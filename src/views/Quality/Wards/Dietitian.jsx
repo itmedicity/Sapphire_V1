@@ -15,13 +15,15 @@ import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import { GrRestroomWomen } from "react-icons/gr";
 import { MdOutlinePregnantWoman } from "react-icons/md";
-
+import Modelcommon from 'src/views/CommonCode/Modelcommon'
 // import { FcPortraitMode } from 'react-icons/fc';
 
 const Dietitian = () => {
 
   const { id } = useParams()// to get id 
-
+  const [userid, setuserid] = useState({
+    us_code: ''
+  })
   // to identify the colur
   const [dietdata, setDietdata] = useState({
     peadiatric: 0,
@@ -61,7 +63,9 @@ const Dietitian = () => {
     diet_actntkn: actiontaken,
     inpt_slno: id,
     user_slno: userslno(),
-    diet_pao_flag: diestflag
+    diet_pao_flag: diestflag,
+    user_code_save: userid,
+
   }
 
   //for edit
@@ -75,51 +79,75 @@ const Dietitian = () => {
     diet_actntkn: actiontaken,
     inpt_slno: id,
     user_slno: userslno(),
-    diet_pao_flag: diestflag
+    diet_pao_flag: diestflag,
+    user_code_save: userid,
   }
 
   //  for submission 
-  const submitformData = async (e) => {
+  const submitFormData = async (e) => {
     e.preventDefault()
-    // if save 
-    if (value === 0) {
 
-      // pediatric
-      if (diestflag === '1') {
-        const result = await axioslogin.post('/dietian', postdietpeadtric)
-        const { success, message } = result.data
-        if (success === 1) {
-          succesNofity(message)
-          setdistrue(true)
-          // setfunc(postdietpeadtric)
-        } else if (success === 2) {
-          warningNofity(message)
-        } else {
-          errorNofity('Error Occured!!!Please Contact EDP')
+    const result = await axioslogin.get(`/common/user/${userid}`)
+    const { success, data, message } = result.data
+    if (success === 1) {
+      const { us_code } = data[0]
+      const frmdataa = {
+        us_code: us_code
+      }
+      setuserid(frmdataa)
+      // if save 
+      if (value === 0) {
+
+        // pediatric
+        if (diestflag === '1') {
+          const result = await axioslogin.post('/dietian', postdietpeadtric)
+          const { success, message } = result.data
+          if (success === 1) {
+            succesNofity(message)
+            setdistrue(true)
+            // setfunc(postdietpeadtric)
+          } else if (success === 2) {
+            warningNofity(message)
+          } else {
+            errorNofity('Error Occured!!!Please Contact EDP')
+          }
+        }
+        // adult
+        else if (diestflag === '2') {
+          const result = await axioslogin.post('/dietian', postdietpeadtric)
+          const { success, message } = result.data
+          if (success === 1) {
+            succesNofity(message)
+            setdistrue(true)
+            // seteveningdata(evengdefaultstate)
+          } else if (success === 2) {
+            warningNofity(message)
+          } else {
+            errorNofity('Error Occured!!!Please Contact EDP')
+          }
+        }
+        // obstricts
+        else if (diestflag === '3') {
+          const result = await axioslogin.post('/dietian', postdietpeadtric)
+          const { success, message } = result.data
+          if (success === 1) {
+            succesNofity(message)
+            setdistrue(true)
+            // setnightdata(nightdefaultstate)
+          } else if (success === 2) {
+            warningNofity(message)
+          } else {
+            errorNofity('Error Occured!!!Please Contact EDP')
+          }
         }
       }
-      // adult
-      else if (diestflag === '2') {
-        const result = await axioslogin.post('/dietian', postdietpeadtric)
+
+      else {
+        const result = await axioslogin.patch('/dietian', postdietpeadtricEdit)
         const { success, message } = result.data
         if (success === 1) {
           succesNofity(message)
           setdistrue(true)
-          // seteveningdata(evengdefaultstate)
-        } else if (success === 2) {
-          warningNofity(message)
-        } else {
-          errorNofity('Error Occured!!!Please Contact EDP')
-        }
-      }
-      // obstricts
-      else if (diestflag === '3') {
-        const result = await axioslogin.post('/dietian', postdietpeadtric)
-        const { success, message } = result.data
-        if (success === 1) {
-          succesNofity(message)
-          setdistrue(true)
-          // setnightdata(nightdefaultstate)
         } else if (success === 2) {
           warningNofity(message)
         } else {
@@ -127,18 +155,11 @@ const Dietitian = () => {
         }
       }
     }
-
+    else if (success === 0) {
+      warningNofity(message)
+    }
     else {
-      const result = await axioslogin.patch('/dietian', postdietpeadtricEdit)
-      const { success, message } = result.data
-      if (success === 1) {
-        succesNofity(message)
-        setdistrue(true)
-      } else if (success === 2) {
-        warningNofity(message)
-      } else {
-        errorNofity('Error Occured!!!Please Contact EDP')
-      }
+      errorNofity('Error Occured!!! Please Contact EDP')
     }
   }
 
@@ -198,6 +219,16 @@ const Dietitian = () => {
   // }
 
 
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = (e) => {
+    e.preventDefault()
+    setOpen(true);
+
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   const editdietian = () => {
     setdistrue(false)
   }
@@ -205,9 +236,10 @@ const Dietitian = () => {
   return (
     <Fragment>
       <SessionCheck />
+      <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
       <ToastContainer />
       <form
-        onSubmit={submitformData}
+        onSubmit={handleClickOpen}
       >
         <Card className="card-body">
           <div className="col-md-12">

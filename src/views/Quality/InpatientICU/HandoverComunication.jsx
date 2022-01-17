@@ -64,7 +64,10 @@ const HandoverComunication = () => {
     user_save_code: userid
 
   }
-
+  const postdata2 = {
+    inpt_slno: id,
+    handover_yn: toggle
+  }
   const postDataEdit = {
     inpt_slno: value,
     user_slno: userslno(),
@@ -92,11 +95,19 @@ const HandoverComunication = () => {
       if (value === 0) {
         const result = await axioslogin.post('/communicationerror', postData)
         const { success, message } = result.data
-
         if (success === 1) {
-          succesNofity(message)
-          setdistrue(true)
-          setOpen(false)
+          const result2 = await axioslogin.patch('/communicationerror/edit', postdata2)
+          const { success, message } = result2.data
+
+          if (success === 2) {
+            succesNofity(message)
+            setdistrue(true)
+            setOpen(false);
+          } else if (success === 0) {
+            warningNofity(message)
+          } else {
+            errorNofity('Error Occured!!!Please Contact EDP')
+          }
           //setactiontaken(defaultstate)
         } else if (success === 2) {
           warningNofity(message)

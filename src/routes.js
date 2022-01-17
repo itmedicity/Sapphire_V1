@@ -27,6 +27,9 @@ const BedUtilizationIcu = React.lazy(() => import('./views/Quality/InpatientICU/
 const Bedoccupancy = React.lazy(() => import('./views/Quality/InpatientICU/Bedoccupancy'))
 const Casuality = React.lazy(() => import('./views/Quality/Casuality/CasulityPatients'))
 const CasualityEdit = React.lazy(() => import('./views/Quality/Casuality/CasualityEdit'))
+const Inchargeverftn = React.lazy(() => import('./views/Quality/Verification/Inchargeverfictn'))
+const AcnoVerification = React.lazy(() => import('./views/Quality/Verification/Acnoverification'))
+const Qualityverification = React.lazy(() => import('./views/Quality/Verification/Qualityverifcation'))
 // const InpatientEditnew = React.lazy(() => import('./views/Quality/Inpatient/InpatientEditnew'))
 const InitialAssesmentNursetnew = React.lazy(() => import('./views/Quality/InitialAssesment/InitialAssesmentNurseNew'))
 const Settings = React.lazy(() => import('./Menus/Settings'))
@@ -65,6 +68,9 @@ const routes = [
   { path: '/Home/Nurseratiocard', exact: true, name: 'Nurseratiocard', component: Nurseratiocard },
   { path: '/Home/CasualitypatientList', exact: true, name: 'Casuality', component: Casuality },
   { path: '/Home/CasualityEdit/:id', exact: true, name: 'Casuality Edit ', component: CasualityEdit },
+  { path: '/Home/Inchargeverification', exact: true, name: 'Incharge Verification', component: Inchargeverftn },
+  { path: '/Home/AcnoVerification', exact: true, name: 'Acno Verification', component: AcnoVerification },
+  { path: '/Home/Qualityverification', exact: true, name: 'Quality verification', component: Qualityverification },
   // { path: '/Home/InpatientEditnew', exact: true, name: 'InpatientEditnew', component: InpatientEditnew },
   { path: '/Home/InitialAssesmentNurseNew', exact: true, name: 'initial Assessment Nurse New', component: InitialAssesmentNursetnew },
   { path: '/Home/Settings', name: 'Settings', component: Settings },

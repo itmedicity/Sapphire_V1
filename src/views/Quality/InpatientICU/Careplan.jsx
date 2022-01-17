@@ -56,6 +56,12 @@ const Careplan = () => {
         user_save_code: userid
 
     }
+
+    const postData2 = {
+        inpt_slno: id,
+        careplan_yn: toggle,
+    }
+
     const postDataEdit = {
         inpt_slno: value,
         user_slno: userslno(),
@@ -81,9 +87,17 @@ const Careplan = () => {
                 const result = await axioslogin.post('/careplan', postData)
                 const { success, message } = result.data
                 if (success === 1) {
-                    succesNofity(message)
-                    setdistrue(true)
-                    setOpen(false)
+                    const result2 = await axioslogin.patch('/careplan/edit', postData2)
+                    const { success, message } = result2.data
+                    if (success === 2) {
+                        succesNofity(message)
+                        setdistrue(true)
+                        setOpen(false);
+                    } else if (success === 0) {
+                        warningNofity(message)
+                    } else {
+                        errorNofity('Error Occured!!!Please Contact EDP')
+                    }
 
                 } else if (success === 2) {
                     warningNofity(message)

@@ -14,6 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
+import Modelcommon from 'src/views/CommonCode/Modelcommon'
 
 const NursePatientratio = () => {
   // using useparam get id to get details of patient
@@ -28,6 +29,10 @@ const NursePatientratio = () => {
   const [enable, Setenable] = useState(false)
   const [value, setValue] = useState(0)
 
+
+  const [userid, setuserid] = useState({
+    us_code: ''
+  })
   // const [distrue, setdistrue] = useState(false)
 
   const [diestflag, setdietflag] = useState('')
@@ -56,7 +61,8 @@ const NursePatientratio = () => {
     npr_ratio: setdta.nursePatientratio,
     inpt_slno: setdta.inpt_slno,
     user_slno: setdta.user_slno,
-    nr_shift_flag: diestflag
+    nr_shift_flag: diestflag,
+    user_save_code: userid
   }
 
   const postDataEdit = {
@@ -65,62 +71,82 @@ const NursePatientratio = () => {
     npr_ratio: nursePatientratio,
     inpt_slno: value,
     user_slno: userslno(),
-    nr_shift_flag: diestflag
+    nr_shift_flag: diestflag,
+    user_save_code: userid
 
   }
 
-  const submitformData = async (e) => {
+  const submitFormData = async (e) => {
     e.preventDefault()
-    if (value === 0) {
-      if (toggle === 1) {
-        const result = await axioslogin.post('/nursepatientRatio', postnursepatientratio)
-        const { success, message } = result.data
-        if (success === 1) {
-          succesNofity(message)
-          // setfunc(dietdefaultsate)
-        } else if (success === 2) {
-          warningNofity(message)
-        } else {
-          errorNofity('Error Occured!!!Please Contact EDP')
-        }
+    const result = await axioslogin.get(`/common/user/${userid}`)
+    const { success, data, message } = result.data
+    if (success === 1) {
+      const { us_code } = data[0]
+      const frmdataa = {
+        us_code: us_code
       }
-      else if (toggle === 2) {
-        const result = await axioslogin.post('/nursepatientRatio', postnursepatientratio)
-        const { success, message } = result.data
-        if (success === 1) {
-          succesNofity(message)
-          // seteveningdata(evengdefaultstate)
-        } else if (success === 2) {
-          warningNofity(message)
-        } else {
-          errorNofity('Error Occured!!!Please Contact EDP')
-        }
-      }
-      else {
-        const result = await axioslogin.post('/nursepatientRatio', postnursepatientratio)
-        const { success, message } = result.data
-        if (success === 1) {
-          succesNofity(message)
-          // setnightdata(nightdefaultstate)
-        } else if (success === 2) {
-          warningNofity(message)
-        } else {
-          errorNofity('Error Occured!!!Please Contact EDP')
-        }
-      }
-    }
+      setuserid(frmdataa)
 
-    else {
-      const result = await axioslogin.patch('/nursepatientRatio', postDataEdit)
-      const { success, message } = result.data
-      if (success === 2) {
-        succesNofity(message)
-        // setdistrue(true)
-      } else if (success === 1) {
-        warningNofity(message)
-      } else {
-        errorNofity('Error Occured!!!Please Contact EDP')
+      if (value === 0) {
+        if (toggle === 1) {
+          const result = await axioslogin.post('/nursepatientRatio', postnursepatientratio)
+          const { success, message } = result.data
+          if (success === 1) {
+            succesNofity(message)
+            setOpen(false)
+            // setfunc(dietdefaultsate)
+          } else if (success === 2) {
+            warningNofity(message)
+          } else {
+            errorNofity('Error Occured!!!Please Contact EDP')
+          }
+        }
+        else if (toggle === 2) {
+          const result = await axioslogin.post('/nursepatientRatio', postnursepatientratio)
+          const { success, message } = result.data
+          if (success === 1) {
+            succesNofity(message)
+            setOpen(false)
+            // seteveningdata(evengdefaultstate)
+          } else if (success === 2) {
+            warningNofity(message)
+          } else {
+            errorNofity('Error Occured!!!Please Contact EDP')
+          }
+        }
+        else {
+          const result = await axioslogin.post('/nursepatientRatio', postnursepatientratio)
+          const { success, message } = result.data
+          if (success === 1) {
+            succesNofity(message)
+            setOpen(false)
+            // setnightdata(nightdefaultstate)
+          } else if (success === 2) {
+            warningNofity(message)
+          } else {
+            errorNofity('Error Occured!!!Please Contact EDP')
+          }
+        }
       }
+
+      else {
+        const result = await axioslogin.patch('/nursepatientRatio', postDataEdit)
+        const { success, message } = result.data
+        if (success === 2) {
+          succesNofity(message)
+          setOpen(false)
+          // setdistrue(true)
+        } else if (success === 1) {
+          warningNofity(message)
+        } else {
+          errorNofity('Error Occured!!!Please Contact EDP')
+        }
+      }
+    } else if (success === 0) {
+      warningNofity(message)
+    }
+    else {
+      errorNofity('Error Occured!!! Please Contact EDP')
     }
   }
   useEffect(() => {
@@ -177,15 +203,27 @@ const NursePatientratio = () => {
 
   }, [id, diestflag])
 
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = (e) => {
+    e.preventDefault()
+    setOpen(true);
+
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const editdischarge = () => {
     Setenable(false)
   }
   return (
     <Fragment>
       <SessionCheck />
+      <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
       <ToastContainer />
       <form
-        onSubmit={submitformData}
+        onSubmit={handleClickOpen}
       >
         <Card className="card-body">
           <div className="col-md-12">
