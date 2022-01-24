@@ -6,26 +6,23 @@ import TextInput from '../Component/TextInput';
 import { Dialog, DialogActions } from '@mui/material';
 
 const Modelcommon = ({ open, handleClose, submit, setuserid }) => {
-    // const [openmodel, SetModelclose] = useState(true)
-    // console.log(submit)
 
     const [modeluserid, SetmodeluserId] = useState({
-        userid: ''
+        // userid: ''
+        us_code: ''
     })
     //   default state
     // 
     //  destructing object
-    const { userid
+    const { us_code
     } = modeluserid
-
-    // console.log(modeluserid)
 
     // getting data from the form
     const updateFormData = async (e) => {
         const value = e.target.value
         SetmodeluserId({ ...modeluserid, [e.target.name]: value })
     }
-    setuserid(userid)
+    setuserid(modeluserid)
     return (
         <Fragment>
             <Dialog
@@ -43,8 +40,8 @@ const Modelcommon = ({ open, handleClose, submit, setuserid }) => {
                         classname="form-control form-control-sm"
                         Placeholder="User Id"
                         changeTextValue={(e) => updateFormData(e)}
-                        value={userid}
-                        name="userid"
+                        value={us_code}
+                        name="us_code"
                     />
                 </DialogContent>
                 <DialogActions>

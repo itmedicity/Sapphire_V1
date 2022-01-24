@@ -19,6 +19,8 @@ const IntialassessmentNurse = () => {
   const [userid, setuserid] = useState({
     us_code: ''
   })
+
+
   // const [click, setclick] = useState(false)
 
 
@@ -61,8 +63,8 @@ const IntialassessmentNurse = () => {
     ia_endnstime: initialassemnt_endns,
     ia_timediffnurstn: ia_timediffnurstn,
     ian_remark: remarkns,
-    user_slno: userslno(),
-    user_code_save: userid
+    user_code_save: userid.us_code,
+    user_slno: userslno()
   }
   // const postData2 = {
   //   pt_receivetime: arrived_time_ns,
@@ -76,7 +78,6 @@ const IntialassessmentNurse = () => {
 
   }
 
-
   const postDataEdit = {
     pt_receivetime: arrived_time_ns,
     ia_startnstime: initialassemnt_startns,
@@ -87,15 +88,16 @@ const IntialassessmentNurse = () => {
     user_code_save: userid,
     inpt_slno: value,
   }
+
   //saving form data
   const submitFormData = async (e) => {
     e.preventDefault()
-    const result = await axioslogin.get(`/common/user/${userid}`)
+    const result = await axioslogin.get(`/common/user/${userid.us_code}`)
     const { success, data, message } = result.data
     if (success === 1) {
-      const { us_code } = data[0]
+      const { user_slno } = data[0]
       const frmdataa = {
-        us_code: us_code
+        us_code: user_slno
       }
       setuserid(frmdataa)
 
@@ -135,13 +137,13 @@ const IntialassessmentNurse = () => {
         }
       }
     }
-    else if (success === 0) {
+    else if (success === 2) {
       warningNofity(message)
     }
     else {
       errorNofity('Error Occured!!! Please Contact EDP')
     }
-    // Setmodel(1)
+    //   // Setmodel(1)
 
 
   }
@@ -192,7 +194,8 @@ const IntialassessmentNurse = () => {
     <Fragment>
       <SessionCheck />
       {/* {model === 1 ? <Modelcommon submit={submitFormData} /> : null} */}
-      <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
+
+      {open === true ? <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> : null}
       <ToastContainer />
       <form onSubmit={handleClickOpen}>
         <Card className="card-body">

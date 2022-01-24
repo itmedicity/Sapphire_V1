@@ -221,8 +221,8 @@ const InpatientEditnew = () => {
           action={
             <Stack spacing={2} direction="row">
               <Tooltip title="Back" placement="top">
-                <IconButton aria-label="settings">
-                  <FcUndo onClick={gobacck} />
+                <IconButton aria-label="settings" onClick={gobacck}>
+                  <FcUndo />
                 </IconButton>
               </Tooltip>
               {/* <Button variant="outlined">Home</Button> */}

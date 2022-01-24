@@ -10,13 +10,17 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Modelapprovereject from 'src/views/CommonCode/Modelapprovereject';
 import { FcViewDetails } from "react-icons/fc";
 import {
-    IconButton, Tooltip
+    IconButton, Tooltip, Typography
 } from '@mui/material'
+import TextInput from 'src/views/Component/TextInput';
 const Inchargeverfictn = ({ update }) => {
     const [tableData, setTableData] = useState([])
     const [userid, setuserid] = useState({
         us_code: ''
     })
+
+
+    const [getid, setgetId] = useState([])
     //Table
     const title = [
 
@@ -53,8 +57,9 @@ const Inchargeverfictn = ({ update }) => {
     ]
     const [open, setOpen] = useState(false);
 
-    const handleopenmodel = (e) => {
-        e.preventDefault()
+    const handleopenmodel = (inpt_slno) => {
+        setgetId(inpt_slno)
+        // e.preventDefault()
         setOpen(true);
 
     };
@@ -68,8 +73,6 @@ const Inchargeverfictn = ({ update }) => {
             const { success, data } = result.data
             if (success === 2) {
 
-
-
                 const formtable = data.map((val) => {
                     const d1 = {
                         inpt_slno: val.inpt_slno,
@@ -80,43 +83,38 @@ const Inchargeverfictn = ({ update }) => {
                             && val.ia_nurse_flag === 'Y' && val.if_flag === 'Y' && val.nearmisses_flag === 'Y' && val.nrs_care_flag === 'Y' &&
                             val.nrse_ptnt_ratio === 'Y' && val.nut_screen_flag === 'Y' && val.nutritionneed_flaG === 'Y' &&
                             val.patientcare_flag === 'Y' && val.pie_flag === 'Y' && val.reintubation_flag === 'Y' &&
-                            val.return_to_icu_flag === 'Y' && val.sentinal_flag === 'Y') ? <FcOk size={25} onClick={handleopenmodel} /> : <FcHighPriority size={25} />,
+                            val.return_to_icu_flag === 'Y' && val.sentinal_flag === 'Y') ? <FcOk size={25} /> : <FcHighPriority size={25} />,
                         pt_no: val.pt_no,
                         ptc_ptname: val.ptc_ptname,
                         ptc_sex: val.ptc_sex,
-                        Summary: < FcViewDetails size={25} />
-                        //  <Tooltip title="Indicator Summary" placement="top">
-                        // <IconButton aria-label="settings">
+                        Summary: <IconButton onClick={(e) => { handleopenmodel(val.inpt_slno) }}>
+                            < FcViewDetails size={25} />
+                        </IconButton>
 
-                        // </IconButton>
-                        // </Tooltip>
 
                     }
                     return d1
                 })
-
                 setTableData(formtable)
             }
         }
         getsetTablelist()
     }, [update])
-
-
     const history = useHistory()
     const gettablecontent = async (tableData) => {
         const { inpt_slno } = tableData
         history.push(`/Home/InpatientEditnew/${inpt_slno}`)
     }
 
-
     return (
         < Fragment >
             <div className="card">
+
                 <div className="card-header bg-dark pb-0 border border-dark text-white">
                     <h5>Verification Patient List</h5>
                 </div>
                 <div className="card-body">
-                    <Modelapprovereject open={open} handleClose={handleClose} />
+                    {open === true ? <Modelapprovereject open={open} handleClose={handleClose} getid={getid} /> : null}
                     <MaterialTable
                         title="Verification"
                         data={tableData}
@@ -131,7 +129,6 @@ const Inchargeverfictn = ({ update }) => {
                                 onClick: (e, tableData) => gettablecontent(tableData),
                                 position: "row"
                             },
-
                         ]}
                         options={{
                             paginationType: "stepped",
@@ -144,6 +141,8 @@ const Inchargeverfictn = ({ update }) => {
                     />
                 </div>
             </div>
+            {/* </div> */}
+            {/* </div> */}
         </Fragment >
     )
 }
