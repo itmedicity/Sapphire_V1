@@ -55,7 +55,10 @@ const Incidence = () => {
         if_remark: remarks,
         user_code_save: userid
     }
-
+    const postData2 = {
+        inpt_slno: id,
+        incedence_yn: toggle,
+    }
     const postDataEdit = {
         inpt_slno: value,
         user_slno: userslno(),
@@ -80,8 +83,17 @@ const Incidence = () => {
                 const result = await axioslogin.post('/incidencefall', postData)
                 const { success, message } = result.data
                 if (success === 1) {
-                    succesNofity(message)
-                    setdistrue(true)
+                    const result2 = await axioslogin.patch('/incidencefall/edit', postData2)
+                    const { success, message } = result2.data
+                    if (success === 2) {
+                        succesNofity(message)
+                        setdistrue(true)
+                        setOpen(false);
+                    } else if (success === 0) {
+                        warningNofity(message)
+                    } else {
+                        errorNofity('Error Occured!!!Please Contact EDP')
+                    }
                     // setsentinentdata(defaultstate)
                 } else if (success === 2) {
                     warningNofity(message)
