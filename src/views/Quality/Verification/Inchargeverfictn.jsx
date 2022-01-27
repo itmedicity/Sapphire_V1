@@ -18,12 +18,9 @@ const Inchargeverfictn = ({ update }) => {
     const [userid, setuserid] = useState({
         us_code: ''
     })
-
-
     const [getid, setgetId] = useState([])
     //Table
     const title = [
-
         {
             title: "SlNo", field: "inpt_slno",
             cellStyle: { minWidth: 5, maxWidth: 10 },
@@ -52,16 +49,11 @@ const Inchargeverfictn = ({ update }) => {
             title: "Summary", field: "Summary",
             cellStyle: { minWidth: 5, maxWidth: 10 },
         },
-
-
     ]
     const [open, setOpen] = useState(false);
-
     const handleopenmodel = (inpt_slno) => {
         setgetId(inpt_slno)
-        // e.preventDefault()
         setOpen(true);
-
     };
     const handleClose = () => {
         setOpen(false);
@@ -72,7 +64,6 @@ const Inchargeverfictn = ({ update }) => {
             const result = await axioslogin.get(`/verificatioincharge/${4001}`)
             const { success, data } = result.data
             if (success === 2) {
-
                 const formtable = data.map((val) => {
                     const d1 = {
                         inpt_slno: val.inpt_slno,
@@ -90,8 +81,6 @@ const Inchargeverfictn = ({ update }) => {
                         Summary: <IconButton onClick={(e) => { handleopenmodel(val.inpt_slno) }}>
                             < FcViewDetails size={25} />
                         </IconButton>
-
-
                     }
                     return d1
                 })
@@ -105,7 +94,6 @@ const Inchargeverfictn = ({ update }) => {
         const { inpt_slno } = tableData
         history.push(`/Home/InpatientEditnew/${inpt_slno}`)
     }
-
     return (
         < Fragment >
             <div className="card">
@@ -116,7 +104,16 @@ const Inchargeverfictn = ({ update }) => {
                 <div className="card-body">
                     {open === true ? <Modelapprovereject open={open} handleClose={handleClose} getid={getid} /> : null}
                     <MaterialTable
-                        title="Verification"
+                        title={<TextInput
+                            id="test"
+                            type="date"
+                            classname="form-control form-control-sm"
+                            Placeholder="Arrived Time"
+                            // changeTextValue={(e) => updateFormData(e)}
+                            value={new Date()}
+                        // name="arrived_time_ns"
+                        // disabled={enable}
+                        />}
                         data={tableData}
                         columns={title}
                         icons={tableIcons}
@@ -135,18 +132,12 @@ const Inchargeverfictn = ({ update }) => {
                             showFirstLastPageButtons: false,
                             padding: "dense",
                             actionsColumnIndex: 0
-                        }}
-                    // selection: true,
-                    // onRowClick={(event, rowData) => openModal(rowData)}
-                    />
+                        }} />
                 </div>
-            </div>
-            {/* </div> */}
-            {/* </div> */}
+            </div >
         </Fragment >
     )
 }
-
 export default Inchargeverfictn
 
 

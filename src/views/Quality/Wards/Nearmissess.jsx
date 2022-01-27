@@ -21,7 +21,6 @@ const Nearmissess = () => {
     const [userid, setuserid] = useState({
         us_code: ''
     })
-
     const [nearmissdata, setnearmissdata] = useState({
         nearmisses: '',
         errordesc: '',
@@ -53,9 +52,12 @@ const Nearmissess = () => {
         nm_personresponsible: personresponsible,
         nm_actntkn: actiontaken,
         nm_remark: remarks,
-        user_code_save: userid,
+        user_code_save: userid.us_code,
+    }
 
-
+    const postData2 = {
+        inpt_slno: id,
+        nearmiss_yn: toggle,
     }
 
     const postDataEdit = {
@@ -66,31 +68,38 @@ const Nearmissess = () => {
         nm_personresponsible: personresponsible,
         nm_actntkn: actiontaken,
         nm_remark: remarks,
-        user_code_save: userid,
-
-
+        user_code_save: userid.us_code,
     }
+
     // saving form data
     const submitFormData = async (e) => {
         e.preventDefault()
-        const result = await axioslogin.get(`/common/user/${userid}`)
+        const result = await axioslogin.get(`/common/user/${userid.us_code}`)
         const { success, data, message } = result.data
         if (success === 1) {
-            const { us_code } = data[0]
+            const { user_slno } = data[0]
             const frmdataa = {
-                us_code: us_code
+                us_code: user_slno
             }
             setuserid(frmdataa)
             if (value === 0) {
                 const result = await axioslogin.post('/nearMisses', postData)
                 const { success, message } = result.data
                 if (success === 1) {
-                    succesNofity(message)
-                    setdistrue(true)
-                    setOpen(false)
+                    const result2 = await axioslogin.patch('/nearMisses/edit', postData2)
+                    const { success, message } = result2.data
+                    if (success === 2) {
+                        succesNofity(message)
+                        setdistrue(true)
+                        setOpen(false);
+                    } else if (success === 0) {
+                        warningNofity(message)
+                    } else {
+                        errorNofity('Error Occured!!!Please Contact EDP')
+                    }
                     //setnearmissdata(defaultstate)
 
-                } else if (success === 0) {
+                } else if (success === 2) {
                     warningNofity(message)
                 } else {
                     errorNofity('Error Occured!!!Please Contact EDP')
@@ -167,7 +176,8 @@ const Nearmissess = () => {
             <ToastContainer />
             <SessionCheck />
             <ToastContainer />
-            <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
+            {open === true ? <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> : null}
+            {/* <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> */}
             <form onSubmit={handleClickOpen}>
                 <Card className="card-body">
                     <div className="col-md-12">

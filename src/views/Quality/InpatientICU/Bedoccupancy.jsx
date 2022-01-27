@@ -19,7 +19,6 @@ const Bedoccupancy = () => {
   const RedirectToProfilePage = () => {
     history.push(`/Home/InpatientEdit/${id}`)
   }
-
   const [mornindta, setmornindta] = useState({
     inpt_slno: 6,
     user_slno: userslno(),
@@ -30,7 +29,6 @@ const Bedoccupancy = () => {
     noofPatient: '',
     NoofventilatedNPRatio: '',
     NoofnonventilatedNPRatio: ''
-
   })
   //default state
   const mrngdefaultstate = {
@@ -42,8 +40,6 @@ const Bedoccupancy = () => {
     NoofnonventilatedNPRatio: '',
   }
   //destrutring object
-
-
   const [eveningdata, seteveningdata] = useState({
     inpt_slno: id,
     user_slno: userslno(),
@@ -64,7 +60,6 @@ const Bedoccupancy = () => {
     NoofnonventilatedNPRatio: '',
   }
   //destrutring object
-
   const [nightdata, setnightdata] = useState({
     inpt_slno: id,
     user_slno: userslno(),
@@ -84,7 +79,6 @@ const Bedoccupancy = () => {
     NoofventilatedNPRatio: '',
     NoofnonventilatedNPRatio: '',
   }
-
   const postDatamorning = {
     mornindta
   }
@@ -97,7 +91,6 @@ const Bedoccupancy = () => {
   const submitFormData = async (e) => {
     e.preventDefault()
     if (toggle === 1) {
-      console.log(mornindta)
       const result = await axioslogin.post('/bedOccupnacyICU', postDatamorning)
       const { success, message } = result.data
       if (success === 1) {

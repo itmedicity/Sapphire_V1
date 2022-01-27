@@ -13,7 +13,6 @@ import Modelcommon from 'src/views/CommonCode/Modelcommon'
 
 const Incidence = () => {
     const { id } = useParams()
-
     const [toggle, setToggle] = useState(0)
     const [distrue, setdistrue] = useState(false)
     const [value, setValue] = useState(0)
@@ -23,7 +22,6 @@ const Incidence = () => {
     })
     //for model
     const [open, setOpen] = useState(false);
-
     const [incidencedata, setincidencedata] = useState({
         incidence: '',
         errordesc: '',
@@ -39,12 +37,10 @@ const Incidence = () => {
         remarks
     } = incidencedata
     //getting data from the form 
-
     const updateFormData = async (e) => {
         const value = e.target.value
         setincidencedata({ ...incidencedata, [e.target.name]: value })
     }
-
     const postData = {
         inpt_slno: id,
         user_slno: userslno(),
@@ -53,7 +49,7 @@ const Incidence = () => {
         if_personresponsible: personresponsible,
         if_actntkn: actiontaken,
         if_remark: remarks,
-        user_code_save: userid
+        user_code_save: userid.us_code
     }
     const postData2 = {
         inpt_slno: id,
@@ -67,16 +63,16 @@ const Incidence = () => {
         if_personresponsible: personresponsible,
         if_actntkn: actiontaken,
         if_remark: remarks,
-        user_code_save: userid
+        user_code_save: userid.us_code
     }
     const submitFormData = async (e) => {
         e.preventDefault()
-        const result = await axioslogin(`/common/user/${userid}`)
+        const result = await axioslogin.get(`/common/user/${userid.us_code}`)
         const { success, data, message } = result.data
         if (success === 1) {
-            const { us_code } = data[0]
+            const { user_slno } = data[0]
             const frmdataa = {
-                us_code: us_code
+                us_code: user_slno
             }
             setuserid(frmdataa)
             if (value === 0) {
@@ -94,7 +90,6 @@ const Incidence = () => {
                     } else {
                         errorNofity('Error Occured!!!Please Contact EDP')
                     }
-                    // setsentinentdata(defaultstate)
                 } else if (success === 2) {
                     warningNofity(message)
                 } else {
@@ -116,12 +111,10 @@ const Incidence = () => {
         }
         else if (success === 0) {
             warningNofity(message)
-
         }
         else {
             errorNofity('Error occured!!! Plaese Contact Edp')
         }
-
     }
 
     useEffect(() => {
@@ -131,7 +124,6 @@ const Incidence = () => {
             if (success === 1) {
                 setdistrue(true)
                 const { inpt_slno, if_ysno, if_errordesc, if_personresponsible, if_actntkn, if_remark } = data[0]
-                // setToggle(if_ysno)
                 const frmData = {
                     errordesc: if_errordesc,
                     personresponsible: if_personresponsible,
@@ -164,13 +156,12 @@ const Incidence = () => {
     const handleClose = () => {
         setOpen(false);
     };
-
-
     return (
         <Fragment>
             <SessionCheck />
             <ToastContainer />
-            <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
+            {open === true ? <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> : null}
+            {/* <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> */}
             <form onSubmit={handleClickOpen}>
                 <Card className="card-body">
                     <div className="col-md-12">
@@ -194,9 +185,7 @@ const Incidence = () => {
                                         disabled={distrue}
                                         fullWidth
                                         variant="outlined"
-                                        style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
-
-                                    >
+                                        style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}>
                                         <MenuItem value='0'>Selected Option</MenuItem>
                                         <MenuItem value='1'>Done</MenuItem>
                                         <MenuItem value='2'>Not Done</MenuItem>
@@ -214,16 +203,11 @@ const Incidence = () => {
                                     changeTextValue={(e) => updateFormData(e)}
                                 />
                                 }
-
                             </div>
                         </div>
                     </div>
                 </Card>
-                <div className="card-footer"
-                // style={{
-                //   backgroundColor: '#b6b8c3',
-                // }}
-                >
+                <div className="card-footer" >
                     <div className="col-md-12">
                         <FooterClosebtn
                             edit={editincidence} />

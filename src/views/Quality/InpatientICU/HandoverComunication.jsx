@@ -16,20 +16,15 @@ import Accodation from '../Inpatient/Accodation'
 import HndovrCommunicationTable from './HndovrCommunicationTable'
 
 const HandoverComunication = () => {
-
   const { id } = useParams()
   const [toggle, setToggle] = useState(0)
-  // const [distrue, setdistrue] = useState(false)
   const [value, setValue] = useState(0)
   const [userid, setuserid] = useState({
     us_code: ''
   })
-
   // for table data append
   const [handovrcmtntableData, sethandovrcmtntableData] = useState(0)
-
   // tabledata
-
   const [tabledata, settableData] = useState(
     [{
       ce_slno: '',
@@ -38,12 +33,7 @@ const HandoverComunication = () => {
       ce_shiftdetails: '',
     }]
   )
-
-
-
-
   //intial State
-
   const [actiondata, setactiontaken] = useState({
     handover: '',
     errordesc: '',
@@ -58,28 +48,21 @@ const HandoverComunication = () => {
     personresponsible: '',
     actiontaken: '',
     remarks: ''
-
   }
   //destrutring object
   const {
-
     errordesc,
     personresponsible,
     actiontaken,
     remarks
   } = actiondata
-
-
-
   const { SelectShift, updateShift } = useContext(PayrolMasterContext)
 
   //getting data from the form 
-
   const updateFormData = async (e) => {
     const value = e.target.value
     setactiontaken({ ...actiondata, [e.target.name]: value })
   }
-
   const postData = {
     inpt_slno: id,
     user_slno: userslno(),
@@ -89,8 +72,7 @@ const HandoverComunication = () => {
     ce_actntkn: actiontaken,
     ce_remark: remarks,
     ce_shiftdetails: SelectShift,
-    user_save_code: userid
-
+    user_save_code: userid.us_code
   }
   const postdata2 = {
     inpt_slno: id,
@@ -105,14 +87,12 @@ const HandoverComunication = () => {
     ce_actntkn: actiontaken,
     ce_remark: remarks,
     ce_shiftdetails: SelectShift,
-    user_save_code: userid
+    user_save_code: userid.us_code
 
   }
-
   const submitFormData = async (e) => {
     e.preventDefault()
-
-    const result = await axioslogin.get(`/common/user/${userid}`)
+    const result = await axioslogin.get(`/common/user/${userid.us_code}`)
     const { success, data, message } = result.data
     if (success === 1) {
       const { us_code } = data[0]
@@ -120,17 +100,14 @@ const HandoverComunication = () => {
         us_code: us_code
       }
       setuserid(frmdataa)
-
       if (value === 0) {
         const result = await axioslogin.post('/communicationerror', postData)
         const { success, message } = result.data
         if (success === 1) {
           const result2 = await axioslogin.patch('/communicationerror/edit', postdata2)
           const { success, message } = result2.data
-
           if (success === 2) {
             succesNofity(message)
-            // setdistrue(true)
             setOpen(false);
           } else if (success === 0) {
             warningNofity(message)
@@ -152,15 +129,12 @@ const HandoverComunication = () => {
           setOpen(false)
           updateShift(0)
           setactiontaken(defaultstate)
-
-
         } else if (success === 1) {
           warningNofity(message)
         } else {
           errorNofity('Error Occured!!!Please Contact EDP')
         }
       }
-
     }
     else if (success === 0) {
       warningNofity(message)
@@ -189,7 +163,6 @@ const HandoverComunication = () => {
         updateShift(ce_shiftdetails)
       }
       else if (success === 0) {
-        // setdistrue(false)
         setValue(0)
       }
       else {
@@ -200,16 +173,13 @@ const HandoverComunication = () => {
   }, [id])
 
   const edithandovercommuication = () => {
-    // setdistrue(false)
   }
 
   // for model close and open 
   const [open, setOpen] = useState(false);
-
   const handleClickOpen = (e) => {
     e.preventDefault()
     setOpen(true);
-
   };
   const handleClose = () => {
     setOpen(false);
@@ -217,7 +187,8 @@ const HandoverComunication = () => {
   return (
     <Fragment>
       <SessionCheck />
-      <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
+      {open === true ? <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> : null}
+      {/* <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> */}
       <ToastContainer />
       <form onSubmit={handleClickOpen}>
         <Card className="card-body">
@@ -242,13 +213,11 @@ const HandoverComunication = () => {
                     id="demo-simple-select"
                     onChange={(e) => {
                       setToggle(e.target.value)
-                      //updateFormData(e.target.value)
                     }}
                     // disabled={distrue}
                     fullWidth
                     variant="outlined"
-                    style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
-                  >
+                    style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}>
                     <MenuItem value="0">Selected Option</MenuItem>
                     <MenuItem value="1">Done</MenuItem>
                     <MenuItem value="2">Not Done</MenuItem>
@@ -257,9 +226,7 @@ const HandoverComunication = () => {
               </div>
               <div className="col-md-10 pt-2 pl-0">
                 {toggle === '2' ? (
-                  <Actiontaken setfunc={setactiontaken} handover={actiondata}
-                  // distrue={distrue} 
-                  />
+                  <Actiontaken setfunc={setactiontaken} handover={actiondata} />
                 ) : (
                   <TextInput
                     type="text"
@@ -268,25 +235,21 @@ const HandoverComunication = () => {
                     value={remarks}
                     name="remarks"
                     changeTextValue={(e) => updateFormData(e)}
-                  // disabled={distrue}
                   />
                 )}
               </div>
             </div>
           </div>
-
-          <Accodation style={{
-            background: '#EEF4F7',
-            height: '10%',
-          }}>
-            <HndovrCommunicationTable settableData={settableData} tabledata={tabledata} sethandovrcmtntableData={sethandovrcmtntableData} />
-          </Accodation>
+          <div className="col-md-12 pt-2 pl-0">
+            <Accodation style={{
+              background: '#EEF4F7',
+              height: '10%',
+            }}>
+              <HndovrCommunicationTable settableData={settableData} tabledata={tabledata} sethandovrcmtntableData={sethandovrcmtntableData} />
+            </Accodation>
+          </div>
         </Card>
-        <div className="card-footer"
-        // style={{
-        //   backgroundColor: '#b6b8c3',
-        // }}
-        >
+        <div className="card-footer">
           <div className="col-md-12">
             <FooterClosebtn
               edit={edithandovercommuication}

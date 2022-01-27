@@ -72,7 +72,6 @@ const Sentinalevent = () => {
         ser_actntkn: actiontaken,
         ser_remark: remarks,
         user_code_save: userid
-
     }
     const submitFormData = async (e) => {
         e.preventDefault()
