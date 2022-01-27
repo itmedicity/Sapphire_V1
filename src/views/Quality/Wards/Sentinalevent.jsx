@@ -15,7 +15,7 @@ const Sentinalevent = () => {
     const { id } = useParams()
     // const classes = useStyles()
     const [toggle, setToggle] = useState(0)
-    const [distrue, setdistrue] = useState(false)
+    // const [distrue, setdistrue] = useState(false)
     const [value, setValue] = useState(0)
 
     const [userid, setuserid] = useState({
@@ -33,13 +33,13 @@ const Sentinalevent = () => {
         remarks: ''
     })
     //default state
-    // const defaultstate = {
-    //     sentinent: '',
-    //     errordesc: '',
-    //     personresponsible: '',
-    //     actiontaken: '',
-    //     remarks: ''
-    // }
+    const defaultstate = {
+        sentinent: '',
+        errordesc: '',
+        personresponsible: '',
+        actiontaken: '',
+        remarks: ''
+    }
 
     //destrutring object
     const {
@@ -61,8 +61,13 @@ const Sentinalevent = () => {
         ser_personresponsible: personresponsible,
         ser_actntkn: actiontaken,
         ser_remark: remarks,
-        user_code_save: userid
+        user_code_save: userid.us_code
     }
+    const postData2 = {
+        inpt_slno: id,
+        sentinal_yn: toggle,
+    }
+
     const postDataEdit = {
         inpt_slno: value,
         user_slno: userslno(),
@@ -71,27 +76,30 @@ const Sentinalevent = () => {
         ser_personresponsible: personresponsible,
         ser_actntkn: actiontaken,
         ser_remark: remarks,
-        user_code_save: userid
+        user_code_save: userid.us_code
     }
     const submitFormData = async (e) => {
         e.preventDefault()
-        const result = await axioslogin(`/common/user/${userid}`)
+        const result = await axioslogin.get(`/common/user/${userid.us_code}`)
         const { success, data, message } = result.data
         if (success === 1) {
-            const { us_code } = data[0]
+            const { user_slno } = data[0]
             const frmdataa = {
-                us_code: us_code
+                us_code: user_slno
             }
             setuserid(frmdataa)
-
             if (value === 0) {
                 const result = await axioslogin.post('/sentinelevent', postData)
                 const { success, message } = result.data
                 if (success === 1) {
-                    succesNofity(message)
-                    setdistrue(true)
-                    setOpen(false)
-                    // setsentinentdata(defaultstate)
+                    const result2 = await axioslogin.patch('/sentinelevent/edit', postData2)
+                    const { success, message } = result2.data
+                    if (success === 2) {
+                        succesNofity(message)
+                        // setdistrue(true)
+                        setOpen(false)
+                        setsentinentdata(defaultstate)
+                    }
                 } else if (success === 2) {
                     warningNofity(message)
                 } else {
@@ -103,9 +111,9 @@ const Sentinalevent = () => {
                 const { success, message } = result.data
                 if (success === 2) {
                     succesNofity(message)
+                    setsentinentdata(defaultstate)
                     // setdistrue(true)
                     setOpen(false)
-
                 } else if (success === 1) {
                     warningNofity(message)
                 } else {
@@ -137,10 +145,10 @@ const Sentinalevent = () => {
                 setsentinentdata(frmData)
                 setValue(inpt_slno)
                 setToggle(ser_ysno)
-                setdistrue(true)
+                // setdistrue(true)
             }
             else if (success === 0) {
-                setdistrue(false)
+                // setdistrue(false)
                 setValue(0)
             }
             else {
@@ -151,7 +159,7 @@ const Sentinalevent = () => {
     }, [id])
 
     const editsentinalevent = () => {
-        setdistrue(false)
+        // setdistrue(false)
     }
 
     const handleClickOpen = (e) => {
@@ -187,7 +195,7 @@ const Sentinalevent = () => {
                                             setToggle(e.target.value)
                                         }}
                                         fullWidth
-                                        disabled={distrue}
+                                        // disabled={distrue}
                                         variant="outlined"
                                         style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
                                     >
@@ -198,13 +206,15 @@ const Sentinalevent = () => {
                                 </FormControl>
                             </div>
                             <div className="col-md-10 pt-2">
-                                {toggle === '2' ? <Actiontaken setfunc={setsentinentdata} handover={sentinentdata} distrue={distrue} /> : <TextInput
+                                {toggle === '2' ? <Actiontaken setfunc={setsentinentdata} handover={sentinentdata}
+                                // distrue={distrue}
+                                /> : <TextInput
                                     type="text"
                                     classname="form-control form-control-sm"
                                     value={remarks}
                                     name="remarks"
                                     changeTextValue={(e) => updateFormData(e)}
-                                    disabled={distrue}
+                                // disabled={distrue}
                                 />
                                 }
                             </div>
@@ -212,9 +222,7 @@ const Sentinalevent = () => {
                     </div>
                 </Card>
                 <div className="card-footer"
-                // style={{
-                //   backgroundColor: '#b6b8c3',
-                // }}
+
                 >
                     <div className="col-md-12">
                         <FooterClosebtn

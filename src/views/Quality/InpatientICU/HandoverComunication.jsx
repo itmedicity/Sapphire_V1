@@ -56,6 +56,7 @@ const HandoverComunication = () => {
     actiontaken,
     remarks
   } = actiondata
+
   const { SelectShift, updateShift } = useContext(PayrolMasterContext)
 
   //getting data from the form 
@@ -78,6 +79,7 @@ const HandoverComunication = () => {
     inpt_slno: id,
     handover_yn: toggle
   }
+
   const postDataEdit = {
     inpt_slno: value,
     user_slno: userslno(),
@@ -87,12 +89,13 @@ const HandoverComunication = () => {
     ce_actntkn: actiontaken,
     ce_remark: remarks,
     ce_shiftdetails: SelectShift,
+    user_save_code: userid,
     user_save_code: userid.us_code
-
   }
   const submitFormData = async (e) => {
     e.preventDefault()
     const result = await axioslogin.get(`/common/user/${userid.us_code}`)
+    
     const { success, data, message } = result.data
     if (success === 1) {
       const { us_code } = data[0]
@@ -114,6 +117,7 @@ const HandoverComunication = () => {
           } else {
             errorNofity('Error Occured!!!Please Contact EDP')
           }
+
         } else if (success === 2) {
           warningNofity(message)
         } else {
