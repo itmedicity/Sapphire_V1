@@ -12,20 +12,12 @@ import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import { differenceInMinutes } from 'date-fns'
 import Modelcommon from 'src/views/CommonCode/Modelcommon'
 
-
 const IntialassessmentNurse = () => {
   // const [model, Setmodel] = useState(0)
   const { id } = useParams()
   const [userid, setuserid] = useState({
     us_code: ''
   })
-
-
-  // const [click, setclick] = useState(false)
-
-
-  //const [indate, setinsdate] = useState(moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss"))
-
   //use state for enable fields on clicking edit button
   const [enable, Setenable] = useState(false)
   const [value, setValue] = useState(0)
@@ -36,25 +28,18 @@ const IntialassessmentNurse = () => {
     initialassemnt_endns: '',
     remarkns: '',
   })
-  //   default state
-  // 
-
   //  destructing object
   const { arrived_time_ns,
     initialassemnt_startns,
     initialassemnt_endns,
     remarkns,
   } = intAssmntNurseData
-
-
   // getting data from the form
   const updateFormData = async (e) => {
     const value = e.target.value
     setintAssmntNurseData({ ...intAssmntNurseData, [e.target.name]: value })
   }
-
   var ia_timediffnurstn = differenceInMinutes(new Date(initialassemnt_endns), new Date(arrived_time_ns))
-
 
   const postData = {
     inpt_slno: id,
@@ -66,18 +51,11 @@ const IntialassessmentNurse = () => {
     user_code_save: userid.us_code,
     user_slno: userslno()
   }
-  // const postData2 = {
-  //   pt_receivetime: arrived_time_ns,
-  //   ia_endnstime: initialassemnt_endns,
-  //   
-  // }
   // update dtata for time difference in indicatorcalculation table 
   const postData2 = {
     inpt_slno: id,
     initalass_nurse_diff: ia_timediffnurstn,
-
   }
-
   const postDataEdit = {
     pt_receivetime: arrived_time_ns,
     ia_startnstime: initialassemnt_startns,
@@ -85,10 +63,9 @@ const IntialassessmentNurse = () => {
     ia_timediffnurstn: differenceInMinutes(new Date(initialassemnt_endns), new Date(arrived_time_ns)),
     ian_remark: remarkns,
     user_slno: userslno(),
-    user_code_save: userid,
+    user_code_save: userid.us_code,
     inpt_slno: value,
   }
-
   //saving form data
   const submitFormData = async (e) => {
     e.preventDefault()
@@ -100,7 +77,6 @@ const IntialassessmentNurse = () => {
         us_code: user_slno
       }
       setuserid(frmdataa)
-
       if (value === 0) {
         const result = await axioslogin.post('/assesmentnurse', postData)
         const { success, message } = result.data
@@ -116,7 +92,6 @@ const IntialassessmentNurse = () => {
           } else {
             errorNofity('Error Occured!!!Please Contact EDP')
           }
-
         } else if (success === 0) {
           warningNofity(message)
         } else {
@@ -144,8 +119,6 @@ const IntialassessmentNurse = () => {
       errorNofity('Error Occured!!! Please Contact EDP')
     }
     //   // Setmodel(1)
-
-
   }
   useEffect(() => {
     const getinitailassessnurse = async () => {
@@ -176,10 +149,6 @@ const IntialassessmentNurse = () => {
   const editinitialassessment = () => {
     Setenable(false)
   }
-  // const close = () => {
-  //   Setmodel(0)
-  // }
-
   // for model
   const [open, setOpen] = useState(false);
   const handleClickOpen = (e) => {
@@ -189,7 +158,6 @@ const IntialassessmentNurse = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
   return (
     <Fragment>
       <SessionCheck />
@@ -253,23 +221,14 @@ const IntialassessmentNurse = () => {
             </div>
           </div>
         </Card>
-        <div className="card-footer"
-        // style={{
-        //   backgroundColor: '#b6b8c3',
-        // }}
-        >
+        <div className="card-footer" >
           <div className="col-md-12 p-0">
             <FooterClosebtn
-              edit={editinitialassessment}
-            //redirect={RedirectToProfilePage}
-            // value={value}
-            />
+              edit={editinitialassessment} />
           </div>
         </div>
-
       </form>
     </Fragment>
   )
 }
-
 export default IntialassessmentNurse

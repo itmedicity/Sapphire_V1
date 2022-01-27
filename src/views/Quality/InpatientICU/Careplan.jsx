@@ -16,12 +16,9 @@ const Careplan = () => {
     const [userid, setuserid] = useState({
         us_code: ''
     })
-
     const [toggle, setToggle] = useState(0)
-
     const [distrue, setdistrue] = useState(false)
     const [value, setValue] = useState(0)
-
     const [careplandata, setcareplandata] = useState({
         careplan: '',
         errordesc: '',
@@ -29,7 +26,6 @@ const Careplan = () => {
         actiontaken: '',
         remarks: ''
     })
-
     //destrutring object
     const {
         errordesc,
@@ -39,12 +35,10 @@ const Careplan = () => {
     } = careplandata
 
     //getting data from the form 
-
     const updateFormData = (e) => {
         const value = e.target.value
         setcareplandata({ ...careplandata, [e.target.name]: value })
     }
-
     const postData = {
         inpt_slno: id,
         user_slno: userslno(),
@@ -53,15 +47,12 @@ const Careplan = () => {
         nc_prsnresponsible: personresponsible,
         nc_actntkn: actiontaken,
         nc_remark: remarks,
-        user_save_code: userid
-
+        user_save_code: userid.us_code
     }
-
     const postData2 = {
         inpt_slno: id,
         careplan_yn: toggle,
     }
-
     const postDataEdit = {
         inpt_slno: value,
         user_slno: userslno(),
@@ -70,11 +61,11 @@ const Careplan = () => {
         nc_prsnresponsible: personresponsible,
         nc_actntkn: actiontaken,
         nc_remark: remarks,
-        user_save_code: userid
+        user_save_code: userid.us_code
     }
     const submitFormData = async (e) => {
         e.preventDefault()
-        const result = await axioslogin.get(`/common/user/${userid}`)
+        const result = await axioslogin.get(`/common/user/${userid.us_code}`)
         const { success, data, message } = result.data
         if (success === 1) {
             const { us_code } = data[0]
@@ -82,7 +73,6 @@ const Careplan = () => {
                 us_code: us_code
             }
             setuserid(frmdataa)
-
             if (value === 0) {
                 const result = await axioslogin.post('/careplan', postData)
                 const { success, message } = result.data
@@ -98,7 +88,6 @@ const Careplan = () => {
                     } else {
                         errorNofity('Error Occured!!!Please Contact EDP')
                     }
-
                 } else if (success === 2) {
                     warningNofity(message)
                 } else {
@@ -169,15 +158,11 @@ const Careplan = () => {
     const handleClose = () => {
         setOpen(false);
     };
-
-
-
-
-
     return (
         <Fragment>
             <SessionCheck />
-            <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
+            {open === true ? <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> : null}
+            {/* <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> */}
             <ToastContainer />
             <form onSubmit={handleClickOpen}>
                 <Card className="card-body">

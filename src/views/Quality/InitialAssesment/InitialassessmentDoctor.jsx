@@ -52,9 +52,6 @@ const InitialassesmentDoctor = () => {
     setintAssmntDoctorData({ ...intAssmntDoctorData, [e.target.name]: value })
 
   }
-
-
-
   var iad_timediff = differenceInMinutes(new Date(intialassessment_end), new Date(arrived_time))
 
   const postData = {
@@ -64,7 +61,7 @@ const InitialassesmentDoctor = () => {
     iad_end_time: intialassessment_end,
     iad_timediff: iad_timediff,
     iad_remark: remark,
-    user_code_save: userid,
+    user_code_save: userid.us_code,
     user_slno: userslno(),
   }
 
@@ -72,12 +69,6 @@ const InitialassesmentDoctor = () => {
     inpt_slno: id,
     initalass_doctor_diff: iad_timediff,
   }
-
-
-
-
-
-
   const postDataEdit = {
     pt_received_time: arrived_time,
     iad_start_time: intialassessment_start,
@@ -85,14 +76,13 @@ const InitialassesmentDoctor = () => {
     iad_remark: remark,
     iad_timediff: differenceInMinutes(new Date(intialassessment_end), new Date(arrived_time)),
     user_slno: userslno(),
-    user_code_save: userid,
+    user_code_save: userid.us_code,
     inpt_slno: value,
   }
-
   //saving form data
   const submitFormData = async (e) => {
     e.preventDefault()
-    const result = await axioslogin.get(`/common/user/${userid}`)
+    const result = await axioslogin.get(`/common/user/${userid.us_code}`)
     const { success, data, message } = result.data
     if (success === 1) {
       const { us_code } = data[0]
@@ -100,7 +90,6 @@ const InitialassesmentDoctor = () => {
         us_code: us_code
       }
       setuserid(frmdataa)
-
       if (value === 0) {
         const result = await axioslogin.post('/initalassessmentDoc', postData)
         const { success, message } = result.data
@@ -116,7 +105,6 @@ const InitialassesmentDoctor = () => {
           } else {
             errorNofity('Error Occured!!!Please Contact EDP')
           }
-
         } else if (success === 0) {
           warningNofity(message)
         } else {
@@ -142,10 +130,7 @@ const InitialassesmentDoctor = () => {
     else {
       errorNofity('Error Occured!!!Please Contact EDP')
     }
-
-
   }
-
   useEffect(() => {
     const getinitailassessdoc = async () => {
       const result = await axioslogin.get(`initalassessmentDoc/${id}`)
@@ -176,26 +161,20 @@ const InitialassesmentDoctor = () => {
     Setenable(false)
   }
   // for model close and open
-
   const [open, setOpen] = useState(false);
-
   const handleClickOpen = (e) => {
     e.preventDefault()
     setOpen(true);
-
-
   };
   const handleClose = () => {
     setOpen(false);
   };
-
-
-
   return (
     <Fragment>
       <SessionCheck />
       <ToastContainer />
-      <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
+      {/* <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> */}
+      {open === true ? <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> : null}
       <form onSubmit={handleClickOpen}>
         <Card className="card-body">
           <div className="col-md-12">
@@ -255,9 +234,7 @@ const InitialassesmentDoctor = () => {
             </div>
           </div>
         </Card>
-        <div className="card-footer"
-
-        >
+        <div className="card-footer" >
           <div className="col-md-12">
             <FooterClosebtn
               edit={editinitialassessmentdoc}
@@ -265,9 +242,7 @@ const InitialassesmentDoctor = () => {
           </div>
         </div>
       </form>
-
     </Fragment>
   )
 }
-
 export default InitialassesmentDoctor
