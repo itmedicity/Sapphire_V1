@@ -5,9 +5,39 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import ModelapproverejectTable from './ModelapproverejectTable';
+import { axioslogin } from '../Axios/Axios';
+import { useParams } from 'react-router-dom';
+import { errorNofity, succesNofity, warningNofity } from './Commonfunc';
 const Modelapprovereject = ({ open, handleClose, getid }) => {
 
 
+    const [indictflag, setindictflag] = useState({
+        indict_flag: ''
+    })
+    const {
+        indict_flag
+
+    } = indictflag
+
+    const postData2 = {
+        inpt_slno: getid,
+        indict_flag: 'Y'
+    }
+
+    const submitdata = async (e) => {
+        e.preventDefault()
+        const result = await axioslogin.patch('/verificatioincharge', postData2)
+
+        const { success, data, message } = result.data
+        if (success === 1) {
+            succesNofity(message)
+        }
+        else if (success === 0) {
+            warningNofity(message)
+        } else {
+            errorNofity('Error Occured !!! Please Contact Edp ')
+        }
+    }
     return (
         <Fragment>
             <Dialog
@@ -30,8 +60,8 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
                     </div>
                 </DialogContent>
                 <DialogActions>
-                    <Button color="primary" >Submit</Button>
-                    <Button onClick={handleClose} color="primary" >Cancel</Button>
+                    <Button color="secondary" onClick={submitdata} >Approved</Button>
+                    <Button onClick={handleClose}>Cancel</Button>
 
                 </DialogActions>
             </Dialog>
@@ -46,89 +76,3 @@ export default memo(Modelapprovereject)
 
 
 
-{/* <div className="card">
-                        <div className="card-body">
-
-                            <div className="col-md-12 col-sm-12" >
-                                <div className="row g-1">
-                                    <div className="col-md-6 pb-1">
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <Typography fontSize={16} noWrap={true} >Initial Assessment Nurse</Typography>
-                                            </div>
-                                            <div className="col-md-6">
-                                                <TextInput
-                                                    type="text"
-                                                    classname="form-control form-control-sm"
-                                                    Placeholder="Difference "
-                                                    disabled="Disabled"
-                                                    value={modelData.initialassNurse}
-                                                    name="modelData.initialassNurse"
-                                                />
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6 pb-1">
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <Typography fontSize={16} noWrap={true} >Initial Assessment Doctor</Typography>
-                                            </div>
-                                            <div className="col-md-6">
-                                                <TextInput
-                                                    type="text"
-                                                    classname="form-control form-control-sm"
-                                                    Placeholder="Difference"
-                                                    disabled="Disabled"
-                                                    value={modelData.initialassDoc}
-                                                    name="modelData.initialassDoc"
-                                                />
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div className="row g-1">
-                                    <div className="col-md-6">
-                                        <div className="row ">
-                                            <div className="col-md-6">
-                                                <Typography fontSize={16} noWrap={true} >Care Plan</Typography>
-                                            </div>
-                                            <div className="col-md-6">
-                                                <TextInput
-                                                    type="text"
-                                                    classname="form-control form-control-sm"
-                                                    Placeholder="Difference "
-                                                    disabled="Disabled"
-                                                    value={modelData.careplan}
-                                                    name="modelData.careplan"
-                                                />
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <Typography fontSize={16} noWrap={true} >Communication error</Typography>
-                                            </div>
-                                            <div className="col-md-6">
-                                                <TextInput
-                                                    type="text"
-                                                    classname="form-control form-control-sm"
-                                                    Placeholder="Difference"
-                                                    disabled="Disabled"
-                                                    value={modelData.communicatinerr}
-                                                    name="modelData.communicatinerr"
-                                                />
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div> */}
-{/* </div> */ }
-{/* </div> */ }
