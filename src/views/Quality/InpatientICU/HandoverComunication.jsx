@@ -16,20 +16,16 @@ import Accodation from '../Inpatient/Accodation'
 import HndovrCommunicationTable from './HndovrCommunicationTable'
 
 const HandoverComunication = () => {
-
   const { id } = useParams()
   const [toggle, setToggle] = useState(0)
-  // const [distrue, setdistrue] = useState(false)
   const [value, setValue] = useState(0)
   const [userid, setuserid] = useState({
     us_code: ''
   })
-
   // for table data append
   const [handovrcmtntableData, sethandovrcmtntableData] = useState(0)
 
   // tabledata
-
   const [tabledata, settableData] = useState(
     [{
       ce_slno: '',
@@ -38,12 +34,7 @@ const HandoverComunication = () => {
       ce_shiftdetails: '',
     }]
   )
-
-
-
-
   //intial State
-
   const [actiondata, setactiontaken] = useState({
     handover: '',
     errordesc: '',
@@ -58,23 +49,18 @@ const HandoverComunication = () => {
     personresponsible: '',
     actiontaken: '',
     remarks: ''
-
   }
   //destrutring object
   const {
-
     errordesc,
     personresponsible,
     actiontaken,
     remarks
   } = actiondata
 
-
-
   const { SelectShift, updateShift } = useContext(PayrolMasterContext)
 
   //getting data from the form 
-
   const updateFormData = async (e) => {
     const value = e.target.value
     setactiontaken({ ...actiondata, [e.target.name]: value })
@@ -90,12 +76,8 @@ const HandoverComunication = () => {
     ce_remark: remarks,
     ce_shiftdetails: SelectShift,
     user_save_code: userid
+  }
 
-  }
-  const postdata2 = {
-    inpt_slno: id,
-    handover_yn: toggle
-  }
   const postDataEdit = {
     inpt_slno: value,
     user_slno: userslno(),
@@ -106,12 +88,10 @@ const HandoverComunication = () => {
     ce_remark: remarks,
     ce_shiftdetails: SelectShift,
     user_save_code: userid
-
   }
 
   const submitFormData = async (e) => {
     e.preventDefault()
-
     const result = await axioslogin.get(`/common/user/${userid}`)
     const { success, data, message } = result.data
     if (success === 1) {
@@ -120,23 +100,15 @@ const HandoverComunication = () => {
         us_code: us_code
       }
       setuserid(frmdataa)
-
       if (value === 0) {
         const result = await axioslogin.post('/communicationerror', postData)
         const { success, message } = result.data
         if (success === 1) {
-          const result2 = await axioslogin.patch('/communicationerror/edit', postdata2)
-          const { success, message } = result2.data
-
-          if (success === 2) {
-            succesNofity(message)
-            // setdistrue(true)
-            setOpen(false);
-          } else if (success === 0) {
-            warningNofity(message)
-          } else {
-            errorNofity('Error Occured!!!Please Contact EDP')
-          }
+          succesNofity(message)
+          // setdistrue(true)
+          setOpen(false)
+          updateShift(0)
+          setactiontaken(defaultstate)
         } else if (success === 2) {
           warningNofity(message)
         } else {
@@ -152,15 +124,12 @@ const HandoverComunication = () => {
           setOpen(false)
           updateShift(0)
           setactiontaken(defaultstate)
-
-
         } else if (success === 1) {
           warningNofity(message)
         } else {
           errorNofity('Error Occured!!!Please Contact EDP')
         }
       }
-
     }
     else if (success === 0) {
       warningNofity(message)
@@ -209,7 +178,6 @@ const HandoverComunication = () => {
   const handleClickOpen = (e) => {
     e.preventDefault()
     setOpen(true);
-
   };
   const handleClose = () => {
     setOpen(false);

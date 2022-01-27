@@ -110,7 +110,14 @@ const Bloodcomponents = () => {
     bldprduct_wasted: noofprdct_wasted,
     reactn_occ: selectOption,
     remark: remarks,
+    user_code_save: userid.us_code
 
+  }
+
+  const postData2 = {
+    inpt_slno: id,
+    bloodcomponent_wastage: noofprdct_wasted,
+    bloodcomponent_rctnoccured: selectOption,
   }
 
   const postDataEdit = {
@@ -127,31 +134,35 @@ const Bloodcomponents = () => {
     bldprduct_wasted: noofprdct_wasted,
     reactn_occ: selectOption,
     remark: remarks,
+    user_code_save: userid.us_code
 
   }
 
   //saving form data
   const submitFormData = async (e) => {
     e.preventDefault()
-    const result = await axioslogin.get(`/common/user/${userid}`)
+    const result = await axioslogin.get(`/common/user/${userid.us_code}`)
     const { success, data, message } = result.data
     if (success === 1) {
-      const { us_code } = data[0]
+      const { user_slno } = data[0]
       const frmdataa = {
-        us_code: us_code
+        us_code: user_slno
       }
       setuserid(frmdataa)
       if (blooddataupdation === 0) {
         const result = await axioslogin.post('/bloodcomponents', postData)
         const { success, message } = result.data
         if (success === 1) {
-          succesNofity(message)
-          setBloodcomponentData(defaultstate)
-          updateBloodGroup(0)
-          updateBloodComponent(0)
-          updateOption(0)
-          setOpen(false)
-
+          const result2 = await axioslogin.patch('/bloodcomponents/edit', postData2)
+          const { success, message } = result2.data
+          if (success === 2) {
+            succesNofity(message)
+            setBloodcomponentData(defaultstate)
+            updateBloodGroup(0)
+            updateBloodComponent(0)
+            updateOption(0)
+            setOpen(false)
+          }
         } else if (success === 2) {
           warningNofity(message)
         } else {
@@ -178,7 +189,6 @@ const Bloodcomponents = () => {
         }
       }
     }
-
     else if (success === 0) {
       warningNofity(message)
     }
@@ -204,14 +214,15 @@ const Bloodcomponents = () => {
       const result = await axioslogin.get(`bloodcomponents/getbloodcomponentappend/${bldcomptableData}`)
       const { success, data } = result.data
       if (success === 1) {
-        const { bld_slno, bagreq_time, bagrec_time, bagrequested, bagreceived, bldprduct_used, bldprduct_wasted,
+        const { bld_slno, bagreq_time, bagrec_time, bagissued_time, bagrequested, bagreceived, bldprduct_used, bldprduct_wasted,
           reactn_occ, remark, bldcomp_slno, bldmst_slno } = data[0]
         const d1 = {
           bld_slno: bld_slno,
           requesteddatetime: moment(bagreq_time).format("YYYY-MM-DD[T]HH:mm:ss"),
           recieved_datetime: moment(bagrec_time).format("YYYY-MM-DD[T]HH:mm:ss"),
-          requesteddatetime: bagreq_time,
-          recieved_datetime: bagrec_time,
+          issueddatetime: moment(bagissued_time).format("YYYY-MM-DD[T]HH:mm:ss"),
+          // requesteddatetime: bagreq_time,
+          // recieved_datetime: bagrec_time,
           noofbrdrequired: bagrequested,
           noofbagreceived: bagreceived,
           noofprdct_used: bldprduct_used,
@@ -238,6 +249,7 @@ const Bloodcomponents = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
 
   return (
     <Fragment>
@@ -294,6 +306,7 @@ const Bloodcomponents = () => {
               <div className="col-md-4 pt-2 pl-0" data-tip="Issued Date/Time" data-for='toolTip2' data-place='top'>
                 <ReactTooltip id="toolTip2" />
                 <TextInput
+                  min={requesteddatetime}
                   type="datetime-local"
                   classname="form-control form-control-sm"
                   Placeholder="Issued date/Time"
@@ -305,6 +318,7 @@ const Bloodcomponents = () => {
               <div className="col-md-4 pt-2 pl-0" data-tip="Received Date/Time" data-for='toolTip3' data-place='top'>
                 <ReactTooltip id="toolTip3" />
                 <TextInput
+                  min={issueddatetime}
                   id="number"
                   type="datetime-local"
                   classname="form-control form-control-sm"
@@ -312,7 +326,6 @@ const Bloodcomponents = () => {
                   changeTextValue={(e) => updateFormData(e)}
                   value={recieved_datetime}
                   name="recieved_datetime"
-                  min={requesteddatetime}
                 />
               </div>
             </div>

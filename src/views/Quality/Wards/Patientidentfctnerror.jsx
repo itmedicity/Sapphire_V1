@@ -15,7 +15,7 @@ import Modelcommon from 'src/views/CommonCode/Modelcommon'
 
 const Patientidentfctnerror = () => {
   const { id } = useParams()
-  const [distrue, setdistrue] = useState(true)
+  // const [distrue, setdistrue] = useState(true)
   const [toggle, setToggle] = useState(0)
   const [value, setValue] = useState(0)
   const [userid, setuserid] = useState({
@@ -32,6 +32,15 @@ const Patientidentfctnerror = () => {
     actiontaken: '',
     remarks: ''
   })
+
+
+  const defaultstate = {
+    patientidentification: '',
+    errordesc: '',
+    personresponsible: '',
+    actiontaken: '',
+    remarks: ''
+  }
 
   //destrutring object
   const {
@@ -56,8 +65,13 @@ const Patientidentfctnerror = () => {
     pie_prsnresponsible: personresponsible,
     pie_actntkn: actiontaken,
     pie_remark: remarks,
-    user_code_save: userid
+    user_code_save: userid.us_code
 
+  }
+
+  const postData2 = {
+    inpt_slno: id,
+    ptntidntfnerror_yn: toggle,
   }
 
   const postDataEdit = {
@@ -68,27 +82,32 @@ const Patientidentfctnerror = () => {
     pie_prsnresponsible: personresponsible,
     pie_actntkn: actiontaken,
     pie_remark: remarks,
-    user_code_save: userid
+    user_code_save: userid.us_code
 
   }
   const submitFormData = async (e) => {
     e.preventDefault()
-    const result = await axioslogin(`/common/user/${userid}`)
+    const result = await axioslogin.get(`/common/user/${userid.us_code}`)
     const { success, data, message } = result.data
     if (success === 1) {
-      const { us_code } = data[0]
+      const { user_slno } = data[0]
       const frmdataa = {
-        us_code: us_code
+        us_code: user_slno
       }
       setuserid(frmdataa)
       if (value === 0) {
         const result = await axioslogin.post('/patientIdenticationError', postData)
         const { success, message } = result.data
         if (success === 1) {
-          succesNofity(message)
-          setdistrue(true)
-          setOpen(false)
-          //setactiontaken(defaultstate)
+          const result2 = await axioslogin.patch('/patientIdenticationError/edit', postData2)
+          const { success, message } = result2.data
+          if (success === 2) {
+            succesNofity(message)
+            setOpen(false)
+            setpatientidentdata(defaultstate)
+            //setactiontaken(defaultstate)
+          }
+
         } else if (success === 2) {
           warningNofity(message)
         } else {
@@ -101,8 +120,8 @@ const Patientidentfctnerror = () => {
         const { success, message } = result.data
         if (success === 2) {
           succesNofity(message)
-          setdistrue(true)
           setOpen(false)
+          setpatientidentdata(defaultstate)
 
         } else if (success === 1) {
           warningNofity(message)
@@ -124,7 +143,6 @@ const Patientidentfctnerror = () => {
       const result = await axioslogin.get(`patientIdenticationError/${id}`)
       const { success, data } = result.data
       if (success === 1) {
-        //setdistrue(true)
         const { inpt_slno, pie_ysno, pie_remark, pie_errordesc, pie_prsnresponsible, pie_actntkn } = data[0]
         setToggle(pie_ysno)
         const frmData = {
@@ -138,7 +156,7 @@ const Patientidentfctnerror = () => {
         setValue(inpt_slno)
       }
       else if (success === 0) {
-        setdistrue(false)
+        // setdistrue(false)
         setValue(0)
       }
       else {
@@ -149,9 +167,9 @@ const Patientidentfctnerror = () => {
   }, [id])
 
   const editpatientidentification = () => {
-    setdistrue(false)
+    // setdistrue(false)
   }
-  // for model
+
 
   const handleClickOpen = (e) => {
     e.preventDefault()
@@ -160,10 +178,6 @@ const Patientidentfctnerror = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-
-
-
   return (
     <Fragment>
       <SessionCheck />
@@ -187,7 +201,7 @@ const Patientidentfctnerror = () => {
                       setToggle(e.target.value)
                     }}
                     fullWidth
-                    disabled={distrue}
+                    // disabled={distrue}
                     variant="outlined"
                     style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
                   >
@@ -199,7 +213,9 @@ const Patientidentfctnerror = () => {
               </div>
               <div className="col-md-10 pt-2">
                 {toggle === '2' ? (
-                  <Actiontaken setfunc={setpatientidentdata} handover={patientidentdata} distrue={distrue} />
+                  <Actiontaken setfunc={setpatientidentdata} handover={patientidentdata}
+                  // distrue={distrue} 
+                  />
                 ) : (
                   <TextInput
                     type="text"
@@ -208,7 +224,7 @@ const Patientidentfctnerror = () => {
                     value={remarks}
                     name="remarks"
                     changeTextValue={(e) => updateFormData(e)}
-                    disabled={distrue}
+                  // disabled={distrue}
                   />
                 )}
               </div>

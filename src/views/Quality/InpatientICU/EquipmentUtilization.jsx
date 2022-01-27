@@ -12,6 +12,7 @@ import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/C
 import FooterClosebtn from 'src/views/CommonCode/FooterClosebtn'
 import moment from 'moment'
 import Modelcommon from 'src/views/CommonCode/Modelcommon'
+import { differenceInMinutes } from 'date-fns'
 
 const EquipmentUtilization = () => {
     const { id } = useParams()
@@ -34,10 +35,10 @@ const EquipmentUtilization = () => {
         end_utilization: ''
     })
     //default state
-    // const defaultstate = {
-    //     start_utilization: '',
-    //     end_utilization: ''
-    // }
+    const defaultstate = {
+        start_utilization: '',
+        end_utilization: ''
+    }
     //destrutring object
     const {
         start_utilization,
@@ -53,14 +54,30 @@ const EquipmentUtilization = () => {
         const value = e.target.value
         setEquipmentUtilization({ ...equipmentutiliztinData, [e.target.name]: value })
     }
+
+    var eu_timediff = differenceInMinutes(new Date(end_utilization), new Date(start_utilization))
+
+
     const postData = {
         inpt_slno: id,
         user_slno: userslno(),
         euipment_slno: selectEquipment,
         eu_starttime: start_utilization,
         eu_endtime: end_utilization,
-        user_code_save: userid
+        equiputlzn_timediff: eu_timediff,
+        user_code_save: userid.us_code
     }
+
+    // update equipment utilization time diff in indicatorcalc table
+
+    const postData2 = {
+        inpt_slno: id,
+        equiputlzn_timediff: eu_timediff,
+
+    }
+
+
+
     //edit
     const postDataEdit = {
         inpt_slno: value,
@@ -68,17 +85,18 @@ const EquipmentUtilization = () => {
         euipment_slno: selectEquipment,
         eu_starttime: start_utilization,
         eu_endtime: end_utilization,
-        user_code_save: userid,
+        equiputlzn_timediff: eu_timediff,
+        user_code_save: userid.us_code,
     }
     //saving form data
     const submitFormData = async (e) => {
         e.preventDefault()
-        const result = await axioslogin.get(`/common/user/${userid}`)
+        const result = await axioslogin.get(`/common/user/${userid.us_code}`)
         const { success, data, message } = result.data
         if (success === 1) {
-            const { us_code } = data[0]
+            const { user_slno } = data[0]
             const frmdataa = {
-                us_code: us_code
+                us_code: user_slno
             }
             setuserid(frmdataa)
 
@@ -87,10 +105,17 @@ const EquipmentUtilization = () => {
                 const result = await axioslogin.post('/equipmentUtilization', postData)
                 const { success, message } = result.data
                 if (success === 1) {
-                    succesNofity(message)
-                    setenable(true)
-                    setdistrue(true)
-                    setOpen(false)
+                    const result2 = await axioslogin.patch('/equipmentUtilization/edit', postData2)
+                    const { success, message } = result2.data
+                    if (success === 2) {
+                        succesNofity(message)
+                        setdistrue(true)
+                        setOpen(false);
+                    } else if (success === 0) {
+                        warningNofity(message)
+                    } else {
+                        errorNofity('Error Occured!!!Please Contact EDP')
+                    }
                 } else if (success === 0) {
                     warningNofity(message)
                 } else {
@@ -102,7 +127,7 @@ const EquipmentUtilization = () => {
                 const { success, message } = result.data
                 if (success === 2) {
                     succesNofity(message)
-                    setenable(true)
+                    // setenable(true)
                     setdistrue(true)
                     setOpen(false)
 
@@ -113,7 +138,7 @@ const EquipmentUtilization = () => {
                 }
             }
         }
-        else if (success === 0) {
+        else if (success === 2) {
             warningNofity(message)
         }
         else {
@@ -126,7 +151,7 @@ const EquipmentUtilization = () => {
             const result = await axioslogin.get(`equipmentUtilization/${id}`)
             const { success, data } = result.data
             if (success === 1) {
-                setenable(true)
+                // setenable(true)
                 setdistrue(true)
 
                 const { inpt_slno,
@@ -144,7 +169,7 @@ const EquipmentUtilization = () => {
                 updateEquipment(euipment_slno)
             }
             else if (success === 2) {
-                setenable(false)
+                // setenable(false)
                 setdistrue(false)
                 setvalue(0)
             }
@@ -156,7 +181,7 @@ const EquipmentUtilization = () => {
     }, [id, updateEquipment])
     //edit option
     const editequipmentutilization = () => {
-        setenable(false)
+        // setenable(false)
         setdistrue(false)
     }
 
@@ -173,7 +198,8 @@ const EquipmentUtilization = () => {
         <Fragment>
             <SessionCheck />
             <ToastContainer />
-            <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
+            {open === true ? <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> : null}
+            {/* <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> */}
             <form onSubmit={handleClickOpen}>
                 <Card className="card-body">
                     <div className="col-md-12">
@@ -199,7 +225,7 @@ const EquipmentUtilization = () => {
                                     changeTextValue={(e) => updateFormData(e)}
                                     value={start_utilization}
                                     name="start_utilization"
-                                    disabled={enable}
+                                // disabled={enable}
 
                                 />
                             </div>
@@ -212,7 +238,7 @@ const EquipmentUtilization = () => {
                                     changeTextValue={(e) => updateFormData(e)}
                                     value={end_utilization}
                                     name="end_utilization"
-                                    disabled={enable}
+                                    // disabled={enable}
                                     min={start_utilization}
                                 />
                             </div>
