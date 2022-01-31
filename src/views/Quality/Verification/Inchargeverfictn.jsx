@@ -61,7 +61,7 @@ const Inchargeverfictn = ({ update }) => {
 
     useEffect(() => {
         const getsetTablelist = async () => {
-            const result = await axioslogin.get(`/verificatioincharge/${4001}`)
+            const result = await axioslogin.get(`/verification/${4001}`)
             const { success, data } = result.data
             if (success === 2) {
                 const formtable = data.map((val) => {

@@ -10,11 +10,11 @@ const InPatientList = [
         name: 'Incharge Verification',
         to: '/Home/Inchargeverification',
     },
-    // {
-    //     _tag: 'CSidebarNavItem',
-    //     name: 'Allowance/Deduction',
-    //     to: '/home',
-    // },
+    {
+        component: CNavItem,
+        name: 'ACNO Verification',
+        to: '/Home/AcnoVerification',
+    },
     // {
     //     _tag: 'CSidebarNavItem',
     //     name: 'Bulk Updation',
