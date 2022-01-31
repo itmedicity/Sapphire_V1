@@ -14,7 +14,8 @@ const MasterContext = ({ children }) => {
     const [selectBloodComponent, updateBloodComponent] = useState(0)
     //option Selection 
     const [selectOption, updateOption] = useState(0)
-    //
+    // outlet selection
+    const [selectOutlet, updateOutlet] = useState(0)
     //Shift Selection In Handover
     const [SelectShift, updateShift] = useState(0)
 
@@ -30,7 +31,10 @@ const MasterContext = ({ children }) => {
         selectOption,
         updateOption,
         SelectShift,
-        updateShift
+        updateShift,
+        selectOutlet,
+        updateOutlet
+
 
 
     }
