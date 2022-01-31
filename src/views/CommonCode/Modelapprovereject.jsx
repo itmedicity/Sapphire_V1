@@ -7,7 +7,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import ModelapproverejectTable from './ModelapproverejectTable';
 import { axioslogin } from '../Axios/Axios';
 import { useParams } from 'react-router-dom';
-import { errorNofity, succesNofity, warningNofity } from './Commonfunc';
+import moment from 'moment';
+import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 const Modelapprovereject = ({ open, handleClose, getid }) => {
 
 
@@ -23,20 +24,82 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
         inpt_slno: getid,
         indict_flag: 'Y'
     }
+    var datee = moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss")
+    const postData3 = {
+        ou_code: 'M001',
+        datee: '2022-01-28 11:53:32'
+    }
+    // const postData4 = {
+    //     ou_code: '4001',
+    //     datee: datee
+    // }
+
+
 
     const submitdata = async (e) => {
         e.preventDefault()
-        const result = await axioslogin.patch('/verificatioincharge', postData2)
+        const result = await axioslogin.patch('/verification', postData2)
+        const { success, message } = result.data
 
-        const { success, data, message } = result.data
-        if (success === 1) {
-            succesNofity(message)
+        if (success === 2) {
+            const result2 = await axioslogin.post('/verification/oudetl', postData3)
+            // console.log(result2)
+            const { success, message } = result2.data
+            if (success === 2) {
+                const result3 = await axioslogin.post('/verification/getdetails', postData3)
+                console.log(result3)
+                const { success, data, message } = result3.data
+                console.log(data)
+                if (success === 0) {
+                    const { initalass_nurse_diff, initalass_doctor_diff, ou_code, datee } = data[0]
+                    const frmdataa = {
+                        intialassessment_nurse: initalass_nurse_diff,
+                        intialassessment_doctor: initalass_doctor_diff,
+                        datee: moment(datee).format("YYYY-MM-DD[T]HH:mm:ss"),
+                        ou_code: ou_code
+                    }
+                    const result4 = await axioslogin.post('/verification/insert', frmdataa)
+                    console.log(result4)
+                    const { success, message } = result4.data
+
+                    console.log(success)
+                    if (success === 1) {
+                        succesNofity(message)
+                    } else if (success === 0) {
+                        warningNofity(message)
+                    } else {
+                        errorNofity('Error Occured!!!Please Contact EDP')
+                    }
+                }
+                else if (success === 3) {
+                    const { initalass_nurse_diff, initalass_doctor_diff, ou_code, datee } = data[0]
+                    const frmdataa = {
+                        intialassessment_nurse: initalass_nurse_diff,
+                        intialassessment_doctor: initalass_doctor_diff,
+                        datee: moment(datee).format("YYYY-MM-DD[T]HH:mm:ss"),
+                        ou_code: ou_code
+                    }
+                    const result4 = await axioslogin.patch('/verification/edit', frmdataa)
+                    console.log(result4)
+                    const { success, message } = result4.data
+
+                    if (success === 2) {
+                        console.log("message")
+                        succesNofity(message)
+                    } else if (success === 0) {
+                        warningNofity(message)
+                    } else {
+                        errorNofity('Error Occured!!!Please Contact EDP')
+                    }
+                }
+
+            }
         }
-        else if (success === 0) {
-            warningNofity(message)
-        } else {
-            errorNofity('Error Occured !!! Please Contact Edp ')
-        }
+        // else if (success === 0) {
+        //     warningNofity(message)
+        // } else {
+        //     errorNofity('Error Occured !!! Please Contact Edp ')
+        // }
     }
     return (
         <Fragment>
