@@ -26,6 +26,18 @@ const Careplan = () => {
         actiontaken: '',
         remarks: ''
     })
+
+    //default state
+    const defaultstate = {
+        careplan: '',
+        errordesc: '',
+        personresponsible: '',
+        actiontaken: '',
+        remarks: ''
+    }
+
+
+
     //destrutring object
     const {
         errordesc,
@@ -42,21 +54,25 @@ const Careplan = () => {
     const postData = {
         inpt_slno: id,
         user_slno: userslno(),
-        nc_ysno: toggle,
+        nc_ysno: toggle == 1 ? toggle : 0,
+        nc_no: toggle == 2 ? toggle : 0,
         nc_errordesc: errordesc,
         nc_prsnresponsible: personresponsible,
         nc_actntkn: actiontaken,
         nc_remark: remarks,
         user_save_code: userid.us_code
     }
+
     const postData2 = {
         inpt_slno: id,
-        careplan_yn: toggle,
+        careplan_yn: toggle
+
     }
     const postDataEdit = {
         inpt_slno: value,
         user_slno: userslno(),
-        nc_ysno: toggle,
+        nc_ysno: toggle == 1 ? toggle : 0,
+        nc_no: toggle == 2 ? toggle : 0,
         nc_errordesc: errordesc,
         nc_prsnresponsible: personresponsible,
         nc_actntkn: actiontaken,
@@ -83,6 +99,7 @@ const Careplan = () => {
                         succesNofity(message)
                         setdistrue(true)
                         setOpen(false);
+                        setcareplandata(defaultstate)
                     } else if (success === 0) {
                         warningNofity(message)
                     } else {
@@ -90,8 +107,10 @@ const Careplan = () => {
                     }
                 } else if (success === 2) {
                     warningNofity(message)
+                    setOpen(false);
                 } else {
                     errorNofity('Error Occured!!!Please Contact EDP')
+                    setOpen(false);
                 }
             }
             else {
@@ -100,12 +119,14 @@ const Careplan = () => {
                 if (success === 2) {
                     succesNofity(message)
                     setdistrue(true)
-                    setOpen(false)
+                    setOpen(false);
 
                 } else if (success === 1) {
                     warningNofity(message)
+                    setOpen(false);
                 } else {
                     errorNofity('Error Occured!!!Please Contact EDP')
+                    setOpen(false);
                 }
             }
         }
