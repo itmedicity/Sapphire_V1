@@ -15,11 +15,11 @@ const InPatientList = [
         name: 'ACNO Verification',
         to: '/Home/AcnoVerification',
     },
-    // {
-    //     _tag: 'CSidebarNavItem',
-    //     name: 'Bulk Updation',
-    //     to: '/home',
-    // },
+    {
+        component: CNavItem,
+        name: 'Quality Verification',
+        to: '/Home/Qualityverification',
+    },
 ]
 
 export default InPatientList;
