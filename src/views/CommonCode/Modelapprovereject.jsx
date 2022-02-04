@@ -8,7 +8,9 @@ import ModelapproverejectTable from './ModelapproverejectTable';
 import { axioslogin } from '../Axios/Axios';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
-import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
+import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc';
+import { Flip, toast } from 'react-toastify';
+
 const Modelapprovereject = ({ open, handleClose, getid }) => {
 
 
@@ -33,23 +35,18 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
     //     ou_code: '4001',
     //     datee: datee
     // }
-
-
-
     const submitdata = async (e) => {
         e.preventDefault()
         const result = await axioslogin.patch('/verification', postData2)
         const { success, message } = result.data
 
+
         if (success === 2) {
             const result2 = await axioslogin.post('/verification/oudetl', postData3)
-            // console.log(result2)
             const { success, message } = result2.data
-            if (success === 2) {
+            if (success === 3) {
                 const result3 = await axioslogin.post('/verification/getdetails', postData3)
-                console.log(result3)
                 const { success, data, message } = result3.data
-                console.log(data)
                 if (success === 0) {
                     const { initalass_nurse_diff, initalass_doctor_diff, ou_code, datee } = data[0]
                     const frmdataa = {
@@ -59,10 +56,7 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
                         ou_code: ou_code
                     }
                     const result4 = await axioslogin.post('/verification/insert', frmdataa)
-                    console.log(result4)
                     const { success, message } = result4.data
-
-                    console.log(success)
                     if (success === 1) {
                         succesNofity(message)
                     } else if (success === 0) {
@@ -71,7 +65,14 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
                         errorNofity('Error Occured!!!Please Contact EDP')
                     }
                 }
-                else if (success === 3) {
+            }
+            else if (success === 2) {
+
+                const result3 = await axioslogin.post('/verification/getdetails', postData3)
+                const { success, data, message } = result3.data
+
+                console.log(result3)
+                if (success === 3) {
                     const { initalass_nurse_diff, initalass_doctor_diff, ou_code, datee } = data[0]
                     const frmdataa = {
                         intialassessment_nurse: initalass_nurse_diff,
@@ -80,33 +81,66 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
                         ou_code: ou_code
                     }
                     const result4 = await axioslogin.patch('/verification/edit', frmdataa)
-                    console.log(result4)
-                    const { success, message } = result4.data
-
-                    if (success === 2) {
-                        console.log("message")
-                        succesNofity(message)
-                    } else if (success === 0) {
+                    const { success1, message } = result4.data
+                    if (success1 === 2) {
+                        errorNofity(message)
+                        errorNofity(message)
                         warningNofity(message)
+                        toast.success('success', {
+                            position: "bottom-right",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            transition: Flip
+                        })
+                    } else if (success === 0) {
+                        succesNofity(success)
                     } else {
-                        errorNofity('Error Occured!!!Please Contact EDP')
+                        succesNofity(success)
                     }
                 }
 
+
+                // const { initalass_nurse_diff, initalass_doctor_diff, ou_code, datee } = data[0]
+                // const frmdataa = {
+                //     intialassessment_nurse: initalass_nurse_diff,
+                //     intialassessment_doctor: initalass_doctor_diff,
+                //     datee: moment(datee).format("YYYY-MM-DD[T]HH:mm:ss"),
+                //     ou_code: ou_code
+                // }
+                // const result4 = await axioslogin.patch('/verification/edit', frmdataa)
+                // console.log(result4.data)
+                // const { success1, message } = result4.data
+                // if (success1 === 2) {
+                //     console.log('minu')
+                //     console.log(message)
+                //     succesNofity(message)
+                //     errorNofity(message)
+                //     warningNofity(message)
+                // } else if (success === 0) {
+                //     succesNofity(success)
+                // } else {
+                //     succesNofity(success)
+                // }
+            }
+            else {
+                errorNofity('Contact EDP')
             }
         }
-        // else if (success === 0) {
-        //     warningNofity(message)
-        // } else {
-        //     errorNofity('Error Occured !!! Please Contact Edp ')
-        // }
+        else if (success === 0) {
+            warningNofity(message)
+        } else {
+            errorNofity('Error Occured !!! Please Contact Edp ')
+        }
     }
     return (
         <Fragment>
             <Dialog
                 open={open}
                 onClose={handleClose}
-                // TransitionComponent={Transition}
                 fullWidth={true}
                 maxWidth={'md'}
                 keepMounted
@@ -123,7 +157,7 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
                     </div>
                 </DialogContent>
                 <DialogActions>
-                    <Button color="secondary" onClick={submitdata} >Approved</Button>
+                    <Button color="secondary" onClick={submitdata}  >Approved</Button>
                     <Button onClick={handleClose}>Cancel</Button>
 
                 </DialogActions>

@@ -14,7 +14,7 @@ import Modelcommon from 'src/views/CommonCode/Modelcommon'
 const Nearmissess = () => {
     const { id } = useParams()
     const [toggle, setToggle] = useState(0)
-    const [distrue, setdistrue] = useState(true)
+    // const [distrue, setdistrue] = useState(true)
     const [value, setValue] = useState(0)
 
     //for user validation
@@ -29,6 +29,14 @@ const Nearmissess = () => {
         remarks: ''
     })
     //default state
+    //default state
+    const defaultstate = {
+        nearmisses: '',
+        errordesc: '',
+        personresponsible: '',
+        actiontaken: '',
+        remarks: ''
+    }
 
     //destrutring object
     const {
@@ -47,12 +55,13 @@ const Nearmissess = () => {
     const postData = {
         inpt_slno: id,
         user_slno: userslno(),
-        nm_ysno: toggle,
+        nm_ysno: toggle == 1 ? toggle : 0,
+        nm_no: toggle == 2 ? toggle : 0,
         nm_errordesc: errordesc,
         nm_personresponsible: personresponsible,
         nm_actntkn: actiontaken,
         nm_remark: remarks,
-        user_code_save: userid.us_code,
+        user_code_save: userid.us_code
     }
 
     const postData2 = {
@@ -63,12 +72,13 @@ const Nearmissess = () => {
     const postDataEdit = {
         inpt_slno: value,
         user_slno: userslno(),
-        nm_ysno: toggle,
+        nm_ysno: toggle == 1 ? toggle : 0,
+        nm_no: toggle == 2 ? toggle : 0,
         nm_errordesc: errordesc,
         nm_personresponsible: personresponsible,
         nm_actntkn: actiontaken,
         nm_remark: remarks,
-        user_code_save: userid.us_code,
+        user_code_save: userid.us_code
     }
 
     // saving form data
@@ -77,27 +87,34 @@ const Nearmissess = () => {
         const result = await axioslogin.get(`/common/user/${userid.us_code}`)
         const { success, data, message } = result.data
         if (success === 1) {
-            const { user_slno } = data[0]
+            const { us_code } = data[0]
             const frmdataa = {
-                us_code: user_slno
+                us_code: us_code
             }
             setuserid(frmdataa)
             if (value === 0) {
                 const result = await axioslogin.post('/nearMisses', postData)
                 const { success, message } = result.data
                 if (success === 1) {
+                    succesNofity(message)
+                    // setdistrue(true)
+                    setOpen(false);
+                    setnearmissdata(defaultstate)
+                    setToggle(0)
+
                     const result2 = await axioslogin.patch('/nearMisses/edit', postData2)
                     const { success, message } = result2.data
                     if (success === 2) {
                         succesNofity(message)
-                        setdistrue(true)
+                        // setdistrue(true)
                         setOpen(false);
+                        setnearmissdata(defaultstate)
                     } else if (success === 0) {
                         warningNofity(message)
                     } else {
                         errorNofity('Error Occured!!!Please Contact EDP')
                     }
-                    //setnearmissdata(defaultstate)
+                    setnearmissdata(defaultstate)
 
                 } else if (success === 2) {
                     warningNofity(message)
@@ -110,7 +127,7 @@ const Nearmissess = () => {
                 const { success, message } = result.data
                 if (success === 2) {
                     succesNofity(message)
-                    setdistrue(true)
+                    // setdistrue(true)
                     setOpen(false)
 
                 } else if (success === 1) {
@@ -128,37 +145,37 @@ const Nearmissess = () => {
         }
     }
 
-    useEffect(() => {
-        const nearmisses = async () => {
-            const result = await axioslogin.get(`nearMisses/${id}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                setdistrue(true)
-                const { inpt_slno, nm_ysno, nm_remark, nm_personresponsible, nm_errordesc, nm_actntkn } = data[0]
-                setToggle(nm_ysno)
-                const frmData = {
-                    nearmisses: nm_ysno,
-                    errordesc: nm_errordesc,
-                    personresponsible: nm_personresponsible,
-                    actiontaken: nm_actntkn,
-                    remarks: nm_remark
-                }
-                setnearmissdata(frmData)
-                setValue(inpt_slno)
-            }
-            else if (success === 0) {
-                setdistrue(false)
-                setValue(0)
-            }
-            else {
-                warningNofity("Error Occured!!!Please Contact EDP")
-            }
-        }
-        nearmisses()
-    }, [id])
-    const editnearmisses = () => {
-        setdistrue(false)
-    }
+    // useEffect(() => {
+    //     const nearmisses = async () => {
+    //         const result = await axioslogin.get(`nearMisses/${id}`)
+    //         const { success, data } = result.data
+    //         if (success === 1) {
+    //             // setdistrue(true)
+    //             const { inpt_slno, nm_ysno, nm_remark, nm_personresponsible, nm_errordesc, nm_actntkn } = data[0]
+    //             setToggle(nm_ysno)
+    //             const frmData = {
+    //                 nearmisses: nm_ysno,
+    //                 errordesc: nm_errordesc,
+    //                 personresponsible: nm_personresponsible,
+    //                 actiontaken: nm_actntkn,
+    //                 remarks: nm_remark
+    //             }
+    //             setnearmissdata(frmData)
+    //             setValue(inpt_slno)
+    //         }
+    //         else if (success === 0) {
+    //             // setdistrue(false)
+    //             setValue(0)
+    //         }
+    //         else {
+    //             warningNofity("Error Occured!!!Please Contact EDP")
+    //         }
+    //     }
+    //     nearmisses()
+    // }, [id])
+    // const editnearmisses = () => {
+    //     setdistrue(false)
+    // }
     // for model close and open
     const [open, setOpen] = useState(false)
     const handleClickOpen = (e) => {
@@ -198,7 +215,7 @@ const Nearmissess = () => {
                                             setToggle(e.target.value)
                                             // sethandoverdata(e.target.value)
                                         }}
-                                        disabled={distrue}
+                                        // disabled={distrue}
                                         fullWidth
                                         variant="outlined"
                                         style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
@@ -210,13 +227,15 @@ const Nearmissess = () => {
                                 </FormControl>
                             </div>
                             <div className="col-md-10 pt-2">
-                                {toggle === '2' ? <Actiontaken setfunc={setnearmissdata} handover={nearmissdata} distrue={distrue} /> : <TextInput
+                                {toggle === '2' ? <Actiontaken setfunc={setnearmissdata} handover={nearmissdata}
+                                // distrue={distrue} 
+                                /> : <TextInput
                                     type="text"
                                     classname="form-control form-control-sm"
                                     Placeholder="Remarks"
                                     value={remarks}
                                     name="remarks"
-                                    disabled={distrue}
+                                    // disabled={distrue}
                                     changeTextValue={(e) => updateFormData(e)}
                                 />
                                 }
@@ -231,7 +250,8 @@ const Nearmissess = () => {
                 >
                     <div className="col-md-12">
                         <FooterClosebtn
-                            edit={editnearmisses} />
+                        // edit={editnearmisses} 
+                        />
                     </div>
                 </div>
             </form >

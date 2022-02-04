@@ -60,7 +60,8 @@ const Patientidentfctnerror = () => {
   const postData = {
     inpt_slno: id,
     user_slno: userslno(),
-    pie_ysno: toggle,
+    pie_ysno: toggle == 1 ? toggle : 0,
+    pie_no: toggle == 2 ? toggle : 0,
     pie_errordesc: errordesc,
     pie_prsnresponsible: personresponsible,
     pie_actntkn: actiontaken,
@@ -77,7 +78,8 @@ const Patientidentfctnerror = () => {
   const postDataEdit = {
     inpt_slno: value,
     user_slno: userslno(),
-    pie_ysno: toggle,
+    pie_ysno: toggle == 1 ? toggle : 0,
+    pie_no: toggle == 2 ? toggle : 0,
     pie_errordesc: errordesc,
     pie_prsnresponsible: personresponsible,
     pie_actntkn: actiontaken,
@@ -105,6 +107,7 @@ const Patientidentfctnerror = () => {
             succesNofity(message)
             setOpen(false)
             setpatientidentdata(defaultstate)
+            setToggle(0)
             //setactiontaken(defaultstate)
           }
 
@@ -138,33 +141,33 @@ const Patientidentfctnerror = () => {
 
   }
 
-  useEffect(() => {
-    const patientidentierror = async () => {
-      const result = await axioslogin.get(`patientIdenticationError/${id}`)
-      const { success, data } = result.data
-      if (success === 1) {
-        const { inpt_slno, pie_ysno, pie_remark, pie_errordesc, pie_prsnresponsible, pie_actntkn } = data[0]
-        setToggle(pie_ysno)
-        const frmData = {
-          patientidentification: pie_ysno,
-          errordesc: pie_errordesc,
-          personresponsible: pie_prsnresponsible,
-          actiontaken: pie_actntkn,
-          remarks: pie_remark
-        }
-        setpatientidentdata(frmData)
-        setValue(inpt_slno)
-      }
-      else if (success === 0) {
-        // setdistrue(false)
-        setValue(0)
-      }
-      else {
-        warningNofity("Error Occured!!!Please Contact EDP")
-      }
-    }
-    patientidentierror()
-  }, [id])
+  // useEffect(() => {
+  //   const patientidentierror = async () => {
+  //     const result = await axioslogin.get(`patientIdenticationError/${id}`)
+  //     const { success, data } = result.data
+  //     if (success === 1) {
+  //       const { inpt_slno, pie_ysno, pie_remark, pie_errordesc, pie_prsnresponsible, pie_actntkn } = data[0]
+  //       setToggle(pie_ysno)
+  //       const frmData = {
+  //         patientidentification: pie_ysno,
+  //         errordesc: pie_errordesc,
+  //         personresponsible: pie_prsnresponsible,
+  //         actiontaken: pie_actntkn,
+  //         remarks: pie_remark
+  //       }
+  //       setpatientidentdata(frmData)
+  //       setValue(inpt_slno)
+  //     }
+  //     else if (success === 0) {
+  //       // setdistrue(false)
+  //       setValue(0)
+  //     }
+  //     else {
+  //       warningNofity("Error Occured!!!Please Contact EDP")
+  //     }
+  //   }
+  //   patientidentierror()
+  // }, [id])
 
   const editpatientidentification = () => {
     // setdistrue(false)
