@@ -121,9 +121,3 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
 }
 
 export default memo(Modelapprovereject)
-
-
-
-
-
-

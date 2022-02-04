@@ -56,7 +56,8 @@ const Sentinalevent = () => {
     const postData = {
         inpt_slno: id,
         user_slno: userslno(),
-        ser_ysno: toggle,
+        ser_ysno: toggle == 1 ? toggle : 0,
+        ser_no: toggle == 2 ? toggle : 0,
         ser_errordesc: errordesc,
         ser_personresponsible: personresponsible,
         ser_actntkn: actiontaken,
@@ -71,7 +72,8 @@ const Sentinalevent = () => {
     const postDataEdit = {
         inpt_slno: value,
         user_slno: userslno(),
-        ser_ysno: toggle,
+        ser_ysno: toggle == 1 ? toggle : 0,
+        ser_no: toggle == 2 ? toggle : 0,
         ser_errordesc: errordesc,
         ser_personresponsible: personresponsible,
         ser_actntkn: actiontaken,
@@ -92,34 +94,38 @@ const Sentinalevent = () => {
                 const result = await axioslogin.post('/sentinelevent', postData)
                 const { success, message } = result.data
                 if (success === 1) {
-                    const result2 = await axioslogin.patch('/sentinelevent/edit', postData2)
-                    const { success, message } = result2.data
-                    if (success === 2) {
-                        succesNofity(message)
-                        // setdistrue(true)
-                        setOpen(false)
-                        setsentinentdata(defaultstate)
-                    }
+                    // const result2 = await axioslogin.patch('/sentinelevent/edit', postData2)
+                    // const { success, message } = result2.data
+                    // if (success === 2) {
+                    succesNofity(message)
+                    // setdistrue(true)
+                    setOpen(false)
+                    setsentinentdata(defaultstate)
+                    setToggle(0)
+
+                    // }
+
+
                 } else if (success === 2) {
                     warningNofity(message)
                 } else {
                     errorNofity('Error Occured!!!Please Contact EDP')
                 }
             }
-            else {
-                const result = await axioslogin.patch('/sentinelevent', postDataEdit)
-                const { success, message } = result.data
-                if (success === 2) {
-                    succesNofity(message)
-                    setsentinentdata(defaultstate)
-                    // setdistrue(true)
-                    setOpen(false)
-                } else if (success === 1) {
-                    warningNofity(message)
-                } else {
-                    errorNofity('Error Occured!!!Please Contact EDP')
-                }
-            }
+            // else {
+            //     const result = await axioslogin.patch('/sentinelevent', postDataEdit)
+            //     const { success, message } = result.data
+            //     if (success === 2) {
+            //         succesNofity(message)
+            //         setsentinentdata(defaultstate)
+            //         // setdistrue(true)
+            //         setOpen(false)
+            //     } else if (success === 1) {
+            //         warningNofity(message)
+            //     } else {
+            //         errorNofity('Error Occured!!!Please Contact EDP')
+            //     }
+            // }
         }
         else if (success === 0) {
             warningNofity(message)
@@ -127,36 +133,36 @@ const Sentinalevent = () => {
             errorNofity('Error Occured !!! Please Contact Edp ')
         }
     }
-    useEffect(() => {
-        const sentient = async () => {
-            const result = await axioslogin.get(`sentinelevent/${id}`)
-            const { success, data } = result.data
-            if (success === 1) {
-                // setdistrue(true)
-                const { inpt_slno, ser_ysno, ser_remark, ser_errordesc, ser_personresponsible, ser_actntkn } = data[0]
+    // useEffect(() => {
+    //     const sentient = async () => {
+    //         const result = await axioslogin.get(`sentinelevent/${id}`)
+    //         const { success, data } = result.data
+    //         if (success === 1) {
+    //             // setdistrue(true)
+    //             const { inpt_slno, ser_ysno, ser_remark, ser_errordesc, ser_personresponsible, ser_actntkn } = data[0]
 
-                const frmData = {
-                    //  nearmisses: ser_ysno,
-                    errordesc: ser_errordesc,
-                    personresponsible: ser_personresponsible,
-                    actiontaken: ser_actntkn,
-                    remarks: ser_remark
-                }
-                setsentinentdata(frmData)
-                setValue(inpt_slno)
-                setToggle(ser_ysno)
-                // setdistrue(true)
-            }
-            else if (success === 0) {
-                // setdistrue(false)
-                setValue(0)
-            }
-            else {
-                warningNofity("Error Occured!!!Please Contact EDP")
-            }
-        }
-        sentient()
-    }, [id])
+    //             const frmData = {
+    //                 //  nearmisses: ser_ysno,
+    //                 errordesc: ser_errordesc,
+    //                 personresponsible: ser_personresponsible,
+    //                 actiontaken: ser_actntkn,
+    //                 remarks: ser_remark
+    //             }
+    //             setsentinentdata(frmData)
+    //             setValue(inpt_slno)
+    //             setToggle(ser_ysno)
+    //             // setdistrue(true)
+    //         }
+    //         else if (success === 0) {
+    //             // setdistrue(false)
+    //             setValue(0)
+    //         }
+    //         else {
+    //             warningNofity("Error Occured!!!Please Contact EDP")
+    //         }
+    //     }
+    //     sentient()
+    // }, [id])
 
     const editsentinalevent = () => {
         // setdistrue(false)

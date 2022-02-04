@@ -14,7 +14,7 @@ import Modelcommon from 'src/views/CommonCode/Modelcommon'
 const Incidence = () => {
     const { id } = useParams()
     const [toggle, setToggle] = useState(0)
-    const [distrue, setdistrue] = useState(false)
+    // const [distrue, setdistrue] = useState(false)
     const [value, setValue] = useState(0)
     //userid check
     const [userid, setuserid] = useState({
@@ -29,6 +29,14 @@ const Incidence = () => {
         actiontaken: '',
         remarks: ''
     })
+    //default state
+    const defaultstate = {
+        incidence: '',
+        errordesc: '',
+        personresponsible: '',
+        actiontaken: '',
+        remarks: ''
+    }
     //destrutring object
     const {
         errordesc,
@@ -44,7 +52,8 @@ const Incidence = () => {
     const postData = {
         inpt_slno: id,
         user_slno: userslno(),
-        if_ysno: toggle,
+        if_ysno: toggle == 1 ? toggle : 0,
+        if_no: toggle == 2 ? toggle : 0,
         if_errordesc: errordesc,
         if_personresponsible: personresponsible,
         if_actntkn: actiontaken,
@@ -58,7 +67,8 @@ const Incidence = () => {
     const postDataEdit = {
         inpt_slno: value,
         user_slno: userslno(),
-        if_ysno: toggle,
+        if_ysno: toggle == 1 ? toggle : 0,
+        if_no: toggle == 2 ? toggle : 0,
         if_errordesc: errordesc,
         if_personresponsible: personresponsible,
         if_actntkn: actiontaken,
@@ -83,8 +93,10 @@ const Incidence = () => {
                     const { success, message } = result2.data
                     if (success === 2) {
                         succesNofity(message)
-                        setdistrue(true)
+                        setincidencedata(defaultstate)
+                        // setdistrue(true)
                         setOpen(false);
+                        setToggle(0)
                     } else if (success === 0) {
                         warningNofity(message)
                     } else {
@@ -96,18 +108,18 @@ const Incidence = () => {
                     errorNofity('Error Occured!!!Please Contact EDP')
                 }
             }
-            else {
-                const result = await axioslogin.patch('/incidencefall', postDataEdit)
-                const { success, message } = result.data
-                if (success === 2) {
-                    succesNofity(message)
-                    setdistrue(true)
-                } else if (success === 1) {
-                    warningNofity(message)
-                } else {
-                    errorNofity('Error Occured!!!Please Contact EDP')
-                }
-            }
+            // else {
+            //     const result = await axioslogin.patch('/incidencefall', postDataEdit)
+            //     const { success, message } = result.data
+            //     if (success === 2) {
+            //         succesNofity(message)
+            //         setdistrue(true)
+            //     } else if (success === 1) {
+            //         warningNofity(message)
+            //     } else {
+            //         errorNofity('Error Occured!!!Please Contact EDP')
+            //     }
+            // }
         }
         else if (success === 0) {
             warningNofity(message)
@@ -122,7 +134,7 @@ const Incidence = () => {
             const result = await axioslogin.get(`incidencefall/${id}`)
             const { success, data } = result.data
             if (success === 1) {
-                setdistrue(true)
+                // setdistrue(true)
                 const { inpt_slno, if_ysno, if_errordesc, if_personresponsible, if_actntkn, if_remark } = data[0]
                 const frmData = {
                     errordesc: if_errordesc,
@@ -135,7 +147,7 @@ const Incidence = () => {
                 setToggle(if_ysno)
             }
             else if (success === 0) {
-                setdistrue(false)
+                // setdistrue(false)
                 setValue(0)
             }
             else {
@@ -146,7 +158,7 @@ const Incidence = () => {
     }, [id])
 
     const editincidence = () => {
-        setdistrue(false)
+        // setdistrue(false)
     }
     //for model
     const handleClickOpen = (e) => {
@@ -182,7 +194,7 @@ const Incidence = () => {
                                             setToggle(e.target.value)
                                             // sethandoverdata(e.target.value)
                                         }}
-                                        disabled={distrue}
+                                        // disabled={distrue}
                                         fullWidth
                                         variant="outlined"
                                         style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}>
@@ -193,13 +205,15 @@ const Incidence = () => {
                                 </FormControl>
                             </div>
                             <div className="col-md-10 pt-2">
-                                {toggle === '2' ? <Actiontaken setfunc={setincidencedata} handover={incidencedata} distrue={distrue} /> : <TextInput
+                                {toggle === '2' ? <Actiontaken setfunc={setincidencedata} handover={incidencedata}
+                                // distrue={distrue}
+                                /> : <TextInput
                                     type="text"
                                     classname="form-control form-control-sm"
                                     Placeholder="Remarks"
                                     value={remarks}
                                     name="remarks"
-                                    disabled={distrue}
+                                    // disabled={distrue}
                                     changeTextValue={(e) => updateFormData(e)}
                                 />
                                 }
