@@ -70,29 +70,16 @@ const Acnoverification = () => {
                             </div>
                             <div className="col-md-1  col-sm-12">
 
-                                <IconButton >
-                                    < ImSearch size={22} onClick={searchall} />
+                                <IconButton onClick={searchall}>
+                                    < ImSearch size={22} />
                                 </IconButton>
-
-
-
                             </div>
                             <div>
                                 {search === true ? <AcnopatientTable frdate={moment(monthwise).format("MM")} /> : null}
                             </div>
                         </div>
-
-
-
-
-
                     </div>
-
-
-
-
                 </div>
-
             </div>
 
         </Fragment >
