@@ -1,18 +1,26 @@
 
 import React, { Fragment, useEffect, useState } from 'react'
-
 import TextInput from 'src/views/Component/TextInput'
-
 import OutletSelect from 'src/views/CommonCode/OutletSelect'
 import { ImSearch } from "react-icons/im";
-import { IconButton } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import { Table } from 'react-bootstrap'
 import { axioslogin } from 'src/views/Axios/Axios'
-
 import AcnopatientTable from './AcnopatientTable';
 import moment from 'moment'
+import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc';
+
 
 const Acnoverification = () => {
+
+    const [acnoData, setacnoData] = useState({
+        ou_code: '',
+        initialassNurse: '',
+        initialassDoc: '',
+        discharge: '',
+        careplan_ys: ''
+    })
+    const { ou_code, initialassNurse, initialassDoc, discharge, careplan_ys } = acnoData
 
     const [monthval, Setmonthval] = useState({
         monthwise: ''
@@ -35,6 +43,47 @@ const Acnoverification = () => {
         setSearch(true)
     };
 
+    const postData2 = {
+        ou_code: ou_code,
+        initialassessment_nurse: initialassNurse,
+        initialassessment_doctor: initialassDoc,
+        discharge: discharge,
+        careplan_ys: careplan_ys,
+        // equipment_utilization: equipment_utilization,
+        // bc_blood_wastage: bc_blood_wastage,
+        // bc_transreaction_ys: bc_transreaction_ys,
+        // bc_bloodtransrectn_no: bc_bloodtransrectn_no,
+        // careplan_ys: careplan_ys,
+        // careplan_no: careplan_no,
+        // acno_flag: acno_flag,
+        // date: date
+    }
+    const postData3 = {
+        ou_code: ou_code,
+        acno_flag: 'Y'
+    }
+
+
+    // insert value
+    const submitdataacno = async (e) => {
+        e.preventDefault()
+        const result = await axioslogin.post('/acnoverification', postData2)
+        const { success, message } = result.data
+        if (success === 1) {
+            const result = await axioslogin.patch('/acnoverification', postData3)
+            const { success, message } = result.data
+            if (success === 2) {
+                succesNofity(message)
+            } else if (success === 0) {
+                warningNofity(message)
+            } else {
+                errorNofity('Error Occured!!!Please Contact EDP')
+            }
+
+        } else {
+            errorNofity('Error Occured!!!Please Contact EDP')
+        }
+    }
     return (
         <Fragment>
             <div className="card">
@@ -68,15 +117,24 @@ const Acnoverification = () => {
                                     }}
                                 />
                             </div>
-                            <div className="col-md-1  col-sm-12">
+                            <div className="col-md-3  col-sm-12">
 
                                 <IconButton onClick={searchall}>
                                     < ImSearch size={22} />
                                 </IconButton>
+                                <Button className="col-md-3 col-sm-12" color="secondary" align="center"
+                                    onClick={submitdataacno}
+                                >
+                                    Validated</Button>
                             </div>
                             <div>
-                                {search === true ? <AcnopatientTable frdate={moment(monthwise).format("MM")} /> : null}
+                                {search === true ? <AcnopatientTable frdate={moment(monthwise).format("MM")} setacnoData={setacnoData} acnoData={acnoData} /> : null}
+
                             </div>
+
+
+
+
                         </div>
                     </div>
                 </div>
