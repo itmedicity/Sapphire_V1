@@ -8,6 +8,7 @@ import ModelapproverejectTable from './ModelapproverejectTable';
 import { axioslogin } from '../Axios/Axios';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
+// import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 const Modelapprovereject = ({ open, handleClose, getid }) => {
 
@@ -26,8 +27,9 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
     var datee = moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss")
     const postData3 = {
         ou_code: 'M001',
-        datee: '2022-01-28 11:53:32'
+        datee: '2022-01-29 11:53:32'
     }
+    console.log(postData3)
     // const postData4 = {
     //     ou_code: '4001',
     //     datee: datee
@@ -42,15 +44,29 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
             const { success, message } = result2.data
             if (success === 3) {
                 const result3 = await axioslogin.post('/verification/getdetails', postData3)
+                console.log(result3)
                 const { success, data, message } = result3.data
+                console.log(data)
                 if (success === 3) {
-                    const { initalass_nurse_diff, initalass_doctor_diff, ou_code, datee } = data[0]
+                    const { initalass_nurse_diff, initalass_doctor_diff,
+                        careplan_yn, handover_yn, incedence_yn,
+                        bloodcomponent_wastage,
+                        bloodcomponent_rctnoccured, ptntidntfnerror_yn,
+                        nearmiss_yn, dischargetimediff, ou_code, datee } = data[0]
                     const frmdataa = {
                         intialassessment_nurse: initalass_nurse_diff,
                         intialassessment_doctor: initalass_doctor_diff,
+                        dicharge: dischargetimediff,
+                        bc_blood_wastage: bloodcomponent_wastage,
+                        bc_bloodtransreactn_ys: bloodcomponent_rctnoccured,
+                        carepln_ys: careplan_yn,
+                        hndcomm_ys: handover_yn,
+                        incidence_ys: incedence_yn,
                         datee: moment(datee).format("YYYY-MM-DD[T]HH:mm:ss"),
                         ou_code: ou_code
                     }
+                    console.log(frmdataa)
+                    console.log(frmdataa)
                     const result4 = await axioslogin.post('/verification/insert', frmdataa)
                     const { success, message } = result4.data
                     if (success === 1) {
@@ -62,16 +78,26 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
                     }
                 }
                 else if (success === 2) {
-                    const { initalass_nurse_diff, initalass_doctor_diff, ou_code, datee } = data[0]
+
+                    const { initalass_nurse_diff, initalass_doctor_diff,
+                        careplan_yn, handover_yn, incedence_yn,
+                        bloodcomponent_wastage,
+                        bloodcomponent_rctnoccured, ptntidntfnerror_yn,
+                        nearmiss_yn, dischargetimediff, ou_code, datee } = data[0]
                     const frmdataa = {
                         intialassessment_nurse: initalass_nurse_diff,
                         intialassessment_doctor: initalass_doctor_diff,
+                        dicharge: dischargetimediff,
+                        bc_blood_wastage: bloodcomponent_wastage,
+                        bc_bloodtransreactn_ys: bloodcomponent_rctnoccured,
+                        carepln_ys: careplan_yn,
+                        hndcomm_ys: handover_yn,
+                        incidence_ys: incedence_yn,
                         datee: moment(datee).format("YYYY-MM-DD[T]HH:mm:ss"),
                         ou_code: ou_code
                     }
                     const result4 = await axioslogin.patch('/verification/edit', frmdataa)
                     const { success, message } = result4.data
-
                     if (success === 2) {
                         succesNofity(message)
                     } else if (success === 0) {
@@ -80,7 +106,6 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
                         errorNofity('Error Occured!!!Please Contact EDP')
                     }
                 }
-
             }
         }
         else if (success === 0) {
@@ -121,3 +146,9 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
 }
 
 export default memo(Modelapprovereject)
+
+
+
+
+
+
