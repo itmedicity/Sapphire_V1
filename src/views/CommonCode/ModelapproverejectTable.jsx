@@ -106,7 +106,7 @@ const ModelapproverejectTable = ({ getid }) => {
             {/* <Card> */}
             <div className="col-md-12">
                 <TableContainer
-                    sx={{ maxHeight: 1000 }}
+                // sx={{ maxHeight: 1000 }}
                 >
                     <Table >
                         <TableHead >
