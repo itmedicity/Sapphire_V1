@@ -106,7 +106,7 @@ const ModelapproverejectTable = ({ getid }) => {
             {/* <Card> */}
             <div className="col-md-12">
                 <TableContainer
-                    sx={{ maxHeight: 1000 }}
+                // sx={{ maxHeight: 1000 }}
                 >
                     <Table >
                         <TableHead >
@@ -120,16 +120,16 @@ const ModelapproverejectTable = ({ getid }) => {
 
                         {
                             <TableBody>
-                                <TableRow>
-                                    {
-                                        rows && rows.map((rows, index) => {
-                                            return <Approvalvalue value={rows} key={index} datakey={index} getid={getid} />
+                                {/* <TableRow> */}
+                                {
+                                    rows && rows.map((rows, index) => {
+                                        return <Approvalvalue value={rows} key={index} datakey={index} getid={getid} />
 
 
-                                        }
-                                        )
                                     }
-                                </TableRow>
+                                    )
+                                }
+                                {/* </TableRow> */}
                             </TableBody>
                         }
 
