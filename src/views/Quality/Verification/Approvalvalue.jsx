@@ -33,29 +33,29 @@ const Approvalvalue = ({ value, datakey, getid }, key) => {
 
     return (
         <Fragment>
-            <TableBody>
-                <TableRow
+            {/* <TableBody> */}
+            <TableRow
 
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+                <TableCell component="th" scope="row" align="left"><IconButton onClick={changecolor} >
+                    <CheckCircleOutlinedIcon color={
+                        (mandatoryflag === 1) || (color === false) ? "error" : "primary"
+                    } />
+                </IconButton>
+                </TableCell>
+                <TableCell
+                    component="th" scope="row" align="center"
                 >
-                    <TableCell component="th" scope="row" align="left"><IconButton onClick={changecolor} >
-                        <CheckCircleOutlinedIcon color={
-                            (mandatoryflag === 1) || (color === false) ? "error" : "primary"
-                        } />
-                    </IconButton>
-                    </TableCell>
-                    <TableCell
-                        component="th" scope="row" align="center"
-                    >
-                        {name}
-                    </TableCell>
-                    <TableCell
-                        component="th" align="right" scope="row"
-                    >
-                        {indicators}
-                    </TableCell>
-                </TableRow>
-            </TableBody>
+                    {name}
+                </TableCell>
+                <TableCell
+                    component="th" align="right" scope="row"
+                >
+                    {indicators}
+                </TableCell>
+            </TableRow>
+            {/* </TableBody> */}
         </Fragment>
     )
 };

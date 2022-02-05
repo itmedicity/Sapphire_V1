@@ -120,16 +120,16 @@ const ModelapproverejectTable = ({ getid }) => {
 
                         {
                             <TableBody>
-                                <TableRow>
-                                    {
-                                        rows && rows.map((rows, index) => {
-                                            return <Approvalvalue value={rows} key={index} datakey={index} getid={getid} />
+                                {/* <TableRow> */}
+                                {
+                                    rows && rows.map((rows, index) => {
+                                        return <Approvalvalue value={rows} key={index} datakey={index} getid={getid} />
 
 
-                                        }
-                                        )
                                     }
-                                </TableRow>
+                                    )
+                                }
+                                {/* </TableRow> */}
                             </TableBody>
                         }
 
