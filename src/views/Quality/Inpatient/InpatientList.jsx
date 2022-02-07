@@ -70,7 +70,7 @@ const InpatientList = ({ update }) => {
 
   useEffect(() => {
     const getsetTablelist = async () => {
-      const result = await axioslogin.get(`/inpatientlist/${4001}`)
+      const result = await axioslogin.get(`/inpatientlist/${'M001'}`)
       const { success, data, message } = result.data
       if (success === 2) {
         setTableData(data)

@@ -93,7 +93,7 @@ const HandoverComunication = () => {
     ce_actntkn: actiontaken,
     ce_remark: remarks,
     ce_shiftdetails: SelectShift,
-    user_save_code: userid,
+    // user_save_code: userid,
     user_save_code: userid.us_code
   }
   // console.log(postDataEdit)
