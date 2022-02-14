@@ -8,9 +8,9 @@ import { ToastContainer } from 'react-toastify'
 import ModelapproverejectTable from './ModelapproverejectTable';
 import { axioslogin } from '../Axios/Axios';
 import moment from 'moment';
-// import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
+import { ToastContainer } from 'react-toastify'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
-const Modelapprovereject = ({ open, handleClose, getid }) => {
+const Modelapprovereject = ({ open, handleClose, handleopenmodel, getid, setOpen }) => {
 
 
     const [indictflag, setindictflag] = useState({
@@ -27,14 +27,13 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
     // var datee = moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss")
     const postData3 = {
         ou_code: 'M001',
-        datee: '2022-01-29 11:53:32'
+        datee: '2022-01-28 11:53:32'
     }
 
-    // const postData4 = {
-    //     ou_code: '4001',
-    //     datee: datee
-    // }
+    // update the flag with indicator caluculation table
+    //select the data from dayawise table to check with outlet and date
 
+    // select the sume of detail and count of details  from indicator caluculation
     const submitdata = async (e) => {
         e.preventDefault()
         const result = await axioslogin.patch('/verification', postData2)
@@ -44,16 +43,17 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
             const { success } = result2.data
             if (success === 3) {
                 const result3 = await axioslogin.post('/verification/getdetails', postData3)
-                const { success, data } = result3.data
-
-
-
+                
+                const { success, data, message } = result3.data;
+                
                 if (success === 3) {
                     const { initalass_nurse_diff, initalass_doctor_diff,
                         careplan_yn, handover_yn, incedence_yn,
                         bloodcomponent_wastage,
                         bloodcomponent_rctnoccured, ptntidntfnerror_yn,
+                        equiputlzn_timediff,
                         nearmiss_yn, dischargetimediff, ou_code, datee } = data[0]
+
                     const frmdataa = {
                         intialassessment_nurse: initalass_nurse_diff,
                         intialassessment_doctor: initalass_doctor_diff,
@@ -63,10 +63,12 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
                         carepln_ys: careplan_yn,
                         hndcomm_ys: handover_yn,
                         incidence_ys: incedence_yn,
+                        equipment_utilization: equiputlzn_timediff,
                         datee: moment(datee).format("YYYY-MM-DD[T]HH:mm:ss"),
                         ou_code: ou_code
                     }
                     const result4 = await axioslogin.post('/verification/insert', frmdataa)
+                    setOpen(false)
                     const { success, message } = result4.data
                     if (success === 1) {
                         succesNofity(message)
@@ -77,11 +79,10 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
                     }
                 }
                 else if (success === 2) {
-
                     const { initalass_nurse_diff, initalass_doctor_diff,
                         careplan_yn, handover_yn, incedence_yn,
                         bloodcomponent_wastage,
-                        bloodcomponent_rctnoccured, ptntidntfnerror_yn,
+                        bloodcomponent_rctnoccured, ptntidntfnerror_yn, equiputlzn_timediff,
                         nearmiss_yn, dischargetimediff, ou_code, datee } = data[0]
                     const frmdataa = {
                         intialassessment_nurse: initalass_nurse_diff,
@@ -92,10 +93,12 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
                         carepln_ys: careplan_yn,
                         hndcomm_ys: handover_yn,
                         incidence_ys: incedence_yn,
+                        equipment_utilization: equiputlzn_timediff,
                         datee: moment(datee).format("YYYY-MM-DD[T]HH:mm:ss"),
                         ou_code: ou_code
                     }
                     const result4 = await axioslogin.patch('/verification/edit', frmdataa)
+                    setOpen(false)
                     const { success, message } = result4.data
                     if (success === 2) {
                         succesNofity(message)
@@ -115,6 +118,7 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
     }
     return (
         <Fragment>
+            <ToastContainer />
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -130,14 +134,13 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
                     maxWidth: 900,
                     width: 900,
                 }}>
-                    <div>
-                        <ModelapproverejectTable getid={getid} />
-                    </div>
+
+                    <ModelapproverejectTable getid={getid} />
+
                 </DialogContent>
                 <DialogActions>
                     <Button color="secondary" onClick={submitdata} >Validated</Button>
                     <Button onClick={handleClose}>Cancel</Button>
-
                 </DialogActions>
             </Dialog>
         </Fragment >

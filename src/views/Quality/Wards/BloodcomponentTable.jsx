@@ -69,11 +69,6 @@ const BloodcomponentTable = ({ settabledata, tabledata, setbldcomptabledata }) =
                                 }
 
 
-
-
-
-
-
                             </TableBody>
 
                         </Table>

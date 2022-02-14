@@ -6,7 +6,8 @@ import { Button, IconButton } from '@mui/material';
 import moment from 'moment'
 import Qualityverifitable from './Qualityverifitable';
 import { axioslogin } from 'src/views/Axios/Axios';
-import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc';
+import { ToastContainer } from 'react-toastify'
+import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 
 const Qualityverifcation = () => {
 
@@ -59,9 +60,12 @@ const Qualityverifcation = () => {
         if (success === 1) {
             const result = await axioslogin.patch('/qualityverification', postData3)
             const { success, message } = result.data
+            console.log(success)
             if (success === 2) {
+                // <stack>
+                //     <Alert severity="success">This is a success alert — check it out!</Alert>
+                // </stack>
                 succesNofity(message)
-
             } else if (success === 0) {
                 warningNofity(message)
             } else {
@@ -74,6 +78,7 @@ const Qualityverifcation = () => {
     }
     return (
         <Fragment>
+            <ToastContainer />
             <div className="card">
 
                 <div className="card-header bg-dark pb-0 border border-dark text-white">
@@ -82,7 +87,7 @@ const Qualityverifcation = () => {
                 <div className="card-body">
                     <div className="col-md-12">
                         <div className="row">
-                            <div className="col-md-3  pb-1">
+                            <div className="col-md-3      pb-1">
                                 {/* <Typography fontSize={16} noWrap={true} >Select Month</Typography> */}
                                 <TextInput
                                     id="test"
@@ -95,7 +100,7 @@ const Qualityverifcation = () => {
                                 // disabled={enable}
                                 />
                             </div>
-                            <div className="col-md-3 pb-1">
+                            <div className="col-md-2 pb-1">
                                 <OutletSelect
                                     style={{
                                         minHeight: 10,
@@ -105,16 +110,19 @@ const Qualityverifcation = () => {
                                     }}
                                 />
                             </div>
-                            <div className="col-md-3  col-sm-12">
+                            <div className="col-md-1  col-sm-12">
 
                                 <IconButton onClick={searchall}>
                                     < ImSearch size={22} />
                                 </IconButton>
+                            </div>
+                            <div className="col-md-1">
                                 <Button className="col-md-3 col-sm-12" color="secondary" align="center"
                                     onClick={submitdata}
                                 >
-                                    Validated</Button>
+                                    Approved</Button>
                             </div>
+
                             <div>
                                 {search === true ? <Qualityverifitable frdate={moment(monthwise).format("MM")} setacnoData={setacnoData} acnoData={acnoData} /> : null}
 

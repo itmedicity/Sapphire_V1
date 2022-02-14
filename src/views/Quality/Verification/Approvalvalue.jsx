@@ -2,11 +2,16 @@ import { IconButton, TableCell, TableRow } from '@mui/material'
 import React, { Fragment, useState } from 'react'
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import { axioslogin } from 'src/views/Axios/Axios';
-// import { green } from '@mui/material/colors';
-// import { FaBold } from 'react-icons/fa';
-import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc';
+
+import { green } from '@mui/material/colors';
+import { FaBold } from 'react-icons/fa';
+import { ToastContainer } from 'react-toastify'
+import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 
 const Approvalvalue = ({ value, datakey, getid }, key) => {
+
+    //if impending the then mandtory case active
+
     const { name, indicators, mandatoryflag } = value
     const [color, setcolor] = useState(true)
     const changecolor = async (e) => {
@@ -28,14 +33,10 @@ const Approvalvalue = ({ value, datakey, getid }, key) => {
             }
             setcolor(!color)
         }
-
     }
-
     return (
         <Fragment>
-            {/* <TableBody> */}
             <TableRow
-
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
                 <TableCell component="th" scope="row" align="left"><IconButton onClick={changecolor} >
@@ -55,7 +56,6 @@ const Approvalvalue = ({ value, datakey, getid }, key) => {
                     {indicators}
                 </TableCell>
             </TableRow>
-            {/* </TableBody> */}
         </Fragment>
     )
 };

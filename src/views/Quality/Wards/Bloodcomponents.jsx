@@ -173,14 +173,17 @@ const Bloodcomponents = () => {
         const result = await axioslogin.patch('/bloodcomponents', postDataEdit)
         const { success, message } = result.data
         if (success === 2) {
-          succesNofity(message)
-          setBloodcomponentData(defaultstate)
-          updateBloodGroup(0)
-          updateBloodComponent(0)
-          updateOption(0)
-          setOpen(false)
+          const result2 = await axioslogin.patch('/bloodcomponents/edit', postData2)
+          const { success, message } = result2.data
+          if (success === 2) {
+            succesNofity(message)
+            setBloodcomponentData(defaultstate)
+            updateBloodGroup(0)
+            updateBloodComponent(0)
+            updateOption(0)
+            setOpen(false)
+          }
         }
-
         else if (success === 1) {
           warningNofity(message)
         }

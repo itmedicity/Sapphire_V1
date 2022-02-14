@@ -8,11 +8,12 @@ import { Button, IconButton } from '@mui/material';
 import { axioslogin } from 'src/views/Axios/Axios'
 import AcnopatientTable from './AcnopatientTable';
 import moment from 'moment'
+import { ToastContainer } from 'react-toastify'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc';
+import Pendingindictor from './Pendingindictor';
 
 
 const Acnoverification = () => {
-
     const [acnoData, setacnoData] = useState({
         ou_code: '',
         initialassNurse: '',
@@ -38,10 +39,23 @@ const Acnoverification = () => {
 
     const [search, setSearch] = useState(false)
 
-
-    const searchall = () => {
+    const searchall = async () => {
         setSearch(true)
+
+        const result = await axioslogin.get('/manadtory/ou_code', postData1)
+        const { success, message } = result.data
+        if (success === 2) {
+            setToaster(true)
+        } else if (success === 0) {
+            warningNofity(message)
+        } else {
+            errorNofity('Error Occured!!!Please Contact EDP')
+        }
     };
+
+
+    const [toaster, setToaster] = useState(false)
+
 
     const postData2 = {
         ou_code: ou_code,
@@ -63,6 +77,25 @@ const Acnoverification = () => {
         acno_flag: 'Y'
     }
 
+    const postData1 = {
+        ou_code: ou_code,
+    }
+    // useEffect(() => {
+    //     const getdata = async () => {
+    //         const result = await axioslogin.get('/manadtory/ou_code', postData1)
+    //         const { success, message } = result.data
+    //         console.log(result)
+    //         if (success === 2) {
+    //             setToaster(true)
+    //         } else if (success === 0) {
+    //             warningNofity(message)
+    //         } else {
+    //             errorNofity('Error Occured!!!Please Contact EDP')
+    //         }
+
+    //     }
+    //     getdata()
+    // }, [])
 
     // insert value
     const submitdataacno = async (e) => {
@@ -79,13 +112,13 @@ const Acnoverification = () => {
             } else {
                 errorNofity('Error Occured!!!Please Contact EDP')
             }
-
         } else {
             errorNofity('Error Occured!!!Please Contact EDP')
         }
     }
     return (
         <Fragment>
+            <ToastContainer />
             <div className="card">
 
                 <div className="card-header bg-dark pb-0 border border-dark text-white">
@@ -94,7 +127,7 @@ const Acnoverification = () => {
                 <div className="card-body">
                     <div className="col-md-12">
                         <div className="row">
-                            <div className="col-md-3  pb-1">
+                            <div className="col-md-2  pb-1">
                                 {/* <Typography fontSize={16} noWrap={true} >Select Month</Typography> */}
                                 <TextInput
                                     id="test"
@@ -107,7 +140,7 @@ const Acnoverification = () => {
                                 // disabled={enable}
                                 />
                             </div>
-                            <div className="col-md-3 pb-1">
+                            <div className="col-md-2 pb-1">
                                 <OutletSelect
                                     style={{
                                         minHeight: 10,
@@ -117,15 +150,24 @@ const Acnoverification = () => {
                                     }}
                                 />
                             </div>
-                            <div className="col-md-3  col-sm-12">
+                            <div className="col-md-1  col-sm-12">
 
                                 <IconButton onClick={searchall}>
                                     < ImSearch size={22} />
                                 </IconButton>
+                                {/* <Button className="col-md-3 col-sm-12" color="secondary" align="center"
+                                    onClick={submitdataacno}
+                                >
+                                    Approved </Button> */}
+                            </div>
+                            <div className="col-md-1">
                                 <Button className="col-md-3 col-sm-12" color="secondary" align="center"
                                     onClick={submitdataacno}
                                 >
-                                    Validated</Button>
+                                    Approved </Button>
+                            </div>
+                            <div className="col-md-5">
+                                {toaster === true ? <Pendingindictor /> : null}
                             </div>
                             <div>
                                 {search === true ? <AcnopatientTable frdate={moment(monthwise).format("MM")} setacnoData={setacnoData} acnoData={acnoData} /> : null}
