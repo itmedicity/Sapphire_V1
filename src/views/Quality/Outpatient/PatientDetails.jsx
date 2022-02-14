@@ -1,46 +1,73 @@
 import { IconButton } from '@material-ui/core'
 import { Typography } from '@mui/material'
-// import moment from 'moment'
-// import { useParams } from 'react-router'
 import React, { Fragment } from 'react'
 import AddTaskRoundedIcon from '@mui/icons-material/AddTaskRounded';
-import { useEffect } from 'react'
-
 import TextInput from 'src/views/Component/TextInput'
-
 import { format } from 'date-fns';
+import { axioslogin } from 'src/views/Axios/Axios';
+import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc';
 
 const PatientDetails = ({ value, key }) => {
 
+    const postData2 = {
+        // inpt_slno: id,
+        // user_slno: userslno(),
+        // bldmst_slno: selectBloodGroup,
+        // bldcomp_slno: selectBloodComponent,
+        // bagrequested: noofbrdrequired,
+        // bagreq_time: requesteddatetime,
 
-    useEffect(() => {
-        const getpatientdetails = async () => {
+    }
 
-            // const result = await axioslogin.get(`/op_indicator/${'P001'}`)
-            // console.log("rini")
-            // console.log(result)
-            // const { success, data } = result.data
-            // if (success === 1) {
-            //     const { op_slno, ptc_ptname, doc_name, vsd_date, dtrop_vosit_time,
-            //         consult_start_time, consult_end_time, remark } = data[0]
-            //     const frmData = {
-            //         op_slno: op_slno,
-            //         ptc_ptname: ptc_ptname,
-            //         doc_name: doc_name,
-            //         vsd_date: vsd_date,
-            //         dtrop_vosit_time: dtrop_vosit_time,
-            //         consult_start_time: consult_start_time,
-            //         consult_end_time: consult_end_time,
-            //         remark: remark
-            //     }
-            //     setFormData(frmData)
-            // }
-            // else {
-            //     warningNofity("Error Occured")
-            // }
+
+    const SubmitFormData = async (e) => {
+        e.preventDefault()
+        const result = await axioslogin.post('/acnoverification', postData2)
+        const { success, message } = result.data
+        if (success === 1) {
+            succesNofity(message)
+        } else if (success === 0) {
+            warningNofity(message)
+        } else {
+            errorNofity('Error Occured!!!Please Contact EDP')
         }
-        getpatientdetails()
-    }, [])
+    }
+
+
+
+
+
+
+
+
+    // useEffect(() => {
+    //     const getpatientdetails = async () => {
+
+    //         // const result = await axioslogin.get(`/op_indicator/${'P001'}`)
+    //         // console.log("rini")
+    //         // console.log(result)
+    //         // const { success, data } = result.data
+    //         // if (success === 1) {
+    //         //     const { op_slno, ptc_ptname, doc_name, vsd_date, dtrop_vosit_time,
+    //         //         consult_start_time, consult_end_time, remark } = data[0]
+    //         //     const frmData = {
+    //         //         op_slno: op_slno,
+    //         //         ptc_ptname: ptc_ptname,
+    //         //         doc_name: doc_name,
+    //         //         vsd_date: vsd_date,
+    //         //         dtrop_vosit_time: dtrop_vosit_time,
+    //         //         consult_start_time: consult_start_time,
+    //         //         consult_end_time: consult_end_time,
+    //         //         remark: remark
+    //         //     }
+    //         //     setFormData(frmData)
+    //         // }
+    //         // else {
+    //         //     warningNofity("Error Occured")
+    //         // }
+    //     }
+    //     getpatientdetails()
+    // }, [])
 
 
     return (
@@ -106,11 +133,9 @@ const PatientDetails = ({ value, key }) => {
                     </div>
                     <div className="col-md-1 text-center">
                         <IconButton aria-label="add" style={{ padding: "0rem" }}
-                        // onClick={SubmitFormData}
+                            onClick={SubmitFormData}
                         >
-                            <AddTaskRoundedIcon
-                            // color={color === false ? "success" : "error"}
-                            />
+                            <AddTaskRoundedIcon />
                         </IconButton>
                     </div>
                 </div>

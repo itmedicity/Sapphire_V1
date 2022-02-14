@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, memo } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import MaterialTable from 'material-table'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { tableIcons } from 'src/views/Constant/MaterialIcon';
@@ -11,11 +11,11 @@ import { FcViewDetails } from "react-icons/fc";
 import { ToastContainer } from 'react-toastify'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import {
-    IconButton, Tooltip, Typography
+    IconButton
 } from '@mui/material'
 import TextInput from 'src/views/Component/TextInput';
 const Inchargeverfictn = ({ update }) => {
-    const [tableData, setTableData] = useState([])
+    const [tableData, setTableDataa] = useState([])
     const [userid, setuserid] = useState({
         us_code: ''
     })
@@ -26,10 +26,10 @@ const Inchargeverfictn = ({ update }) => {
             title: "SlNo", field: "inpt_slno",
             cellStyle: { minWidth: 5, maxWidth: 10 },
         },
-        {
-            title: "Date", field: "ipd_date",
-            cellStyle: { minWidth: 5, maxWidth: 10 },
-        },
+        // {
+        //     title: "Date", field: "ipd_date",
+        //     cellStyle: { minWidth: 5, maxWidth: 10 },
+        // },
         {
             title: "MRD No", field: "pt_no",
             cellStyle: { minWidth: 5, maxWidth: 10 },
@@ -61,7 +61,7 @@ const Inchargeverfictn = ({ update }) => {
     };
     // use effect for set complete or incomplete the indicator indication
     useEffect(() => {
-        const getsetTablelist = async () => {
+        const getsetTablelistt = async () => {
             const result = await axioslogin.get(`/verification/${4001}`)
             const { success, message, data } = result.data
             if (success === 2) {
@@ -85,7 +85,7 @@ const Inchargeverfictn = ({ update }) => {
                     }
                     return d1
                 })
-                setTableData(formtable)
+                setTableDataa(formtable)
             }
             else if (success === 0) {
                 warningNofity(message)
@@ -93,7 +93,7 @@ const Inchargeverfictn = ({ update }) => {
                 errorNofity('Error Occured!!!Please Contact EDP')
             }
         }
-        getsetTablelist()
+        getsetTablelistt()
     }, [update])
     const history = useHistory()
     const gettablecontent = async (tableData) => {

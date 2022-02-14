@@ -1,8 +1,8 @@
 
-import React, { Fragment, useEffect, useContext, useState } from 'react';
+import React, { Fragment, useEffect, useContext } from 'react';
 import { Table } from 'react-bootstrap'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { Card, TableCell, TableBody, TableContainer, TableHead, TableRow, Button } from '@mui/material'
+import { TableCell, TableBody, TableContainer, TableHead, TableRow } from '@mui/material'
 import { PayrolMasterContext } from 'src/Context/MasterContext'
 import { ToastContainer } from 'react-toastify'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
@@ -106,7 +106,6 @@ const AcnopatientTable = ({
             </Table>
         </TableContainer>
     </Fragment>)
-
 };
 
 export default AcnopatientTable;

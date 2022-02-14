@@ -1,12 +1,12 @@
-import React, { Fragment, memo, useState, useEffect } from 'react'
+import React, { Fragment, memo, useState } from 'react'
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import { ToastContainer } from 'react-toastify'
 import ModelapproverejectTable from './ModelapproverejectTable';
 import { axioslogin } from '../Axios/Axios';
-import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { ToastContainer } from 'react-toastify'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
@@ -24,12 +24,11 @@ const Modelapprovereject = ({ open, handleClose, handleopenmodel, getid, setOpen
         inpt_slno: getid,
         indict_flag: 'Y'
     }
-    var datee = moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss")
+    // var datee = moment(new Date()).format("YYYY-MM-DD[T]HH:mm:ss")
     const postData3 = {
         ou_code: 'M001',
         datee: '2022-01-28 11:53:32'
     }
-    // console.log(postData3)
 
     // update the flag with indicator caluculation table
     //select the data from dayawise table to check with outlet and date
@@ -41,10 +40,12 @@ const Modelapprovereject = ({ open, handleClose, handleopenmodel, getid, setOpen
         const { success, message } = result.data
         if (success === 2) {
             const result2 = await axioslogin.post('/verification/oudetl', postData3)
-            const { success, message } = result2.data
+            const { success } = result2.data
             if (success === 3) {
                 const result3 = await axioslogin.post('/verification/getdetails', postData3)
-                const { success, data, message } = result3.data
+                
+                const { success, data, message } = result3.data;
+                
                 if (success === 3) {
                     const { initalass_nurse_diff, initalass_doctor_diff,
                         careplan_yn, handover_yn, incedence_yn,

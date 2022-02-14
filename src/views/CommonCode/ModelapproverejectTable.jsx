@@ -1,9 +1,9 @@
-import { Card, TableCell, TableBody, TableContainer, TableHead, TableRow, Icon } from '@mui/material'
+import { TableCell, TableBody, TableContainer, TableHead, TableRow } from '@mui/material'
 import React, { Fragment, memo, useEffect, useState } from 'react'
 import { Table } from 'react-bootstrap'
 import { axioslogin } from '../Axios/Axios'
 import { useParams } from 'react-router'
-import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
+
 import Approvalvalue from 'src/views/Quality/Verification/Approvalvalue'
 import { ToastContainer } from 'react-toastify'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
@@ -34,7 +34,7 @@ const ModelapproverejectTable = ({ getid }) => {
             const result = await axioslogin.get(`/common/indicatordetl/patient/detl/${getid}`)
             const { success, data, message } = result.data;
             if (success === 1) {
-                const { pt_no, inpt_slno, initalass_nurse_diff,
+                const { initalass_nurse_diff,
                     initalass_doctor_diff,
                     handover_yn, careplan_yn,
                     incedence_yn, sentinal_yn,
@@ -42,7 +42,6 @@ const ModelapproverejectTable = ({ getid }) => {
                     dischargetimediff,
                     bloodcomponent_wastage,
                     bloodcomponent_rctnoccured,
-                    current_date,
                     bldrtranftn_flg,
                     bldwaste_flg,
                     carepln_flg,

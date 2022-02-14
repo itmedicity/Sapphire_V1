@@ -61,10 +61,6 @@ const Outpatientmast = () => {
                                 }
                                 return dataget
                             })
-
-
-
-
                         setPatientList(frmData)
                     }
                 }

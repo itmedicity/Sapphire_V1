@@ -13,8 +13,6 @@ const HndovrCommunicationTable = ({ tabledata, settableData, sethandovrcmtntable
     useEffect(() => {
         const hndovrcmtndetails = async () => {
             const result = await axioslogin.get(`communicationerror/${id}`)
-            console.log("ddd")
-            console.log(result);
             const { success, data } = result.data
             if (success === 1) {
                 // const { ce_slno, ce_currdate, ce_ysno, ce_shiftdetails } = data
@@ -24,6 +22,7 @@ const HndovrCommunicationTable = ({ tabledata, settableData, sethandovrcmtntable
                         ce_currdate: moment(val.ce_currdate).format("YYYY-MM-DD HH:mm:ss"),
                         ce_ysno: val.ce_ysno,
                         ce_shiftdetails: val.ce_shiftdetails,
+
                     }
                     return d1
                 })
@@ -46,6 +45,7 @@ const HndovrCommunicationTable = ({ tabledata, settableData, sethandovrcmtntable
                                     <TableCell align="center">Date</TableCell>
                                     <TableCell align="center">HandOver Done</TableCell>
                                     <TableCell align="center">Shift Details</TableCell>
+                                    <TableCell align="center" >Action</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
