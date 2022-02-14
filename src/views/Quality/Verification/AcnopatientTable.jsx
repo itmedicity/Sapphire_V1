@@ -1,10 +1,10 @@
 
-import React, { Fragment, useEffect, useContext, useState } from 'react';
+import React, { Fragment, useEffect, useContext } from 'react';
 import { Table } from 'react-bootstrap'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { Card, TableCell, TableBody, TableContainer, TableHead, TableRow, Button } from '@mui/material'
+import { TableCell, TableBody, TableContainer, TableHead, TableRow } from '@mui/material'
 import { PayrolMasterContext } from 'src/Context/MasterContext'
-import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
+import { errorNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 
 const AcnopatientTable = ({
     frdate, setacnoData, acnoData
@@ -31,7 +31,6 @@ const AcnopatientTable = ({
     useEffect(() => {
         const getmodeldetl = async () => {
             const result = await axioslogin.post(`/common/acnodetl`, postData3)
-            console.log(result)
             const { success, data, message } = result.data;
             if (success === 3) {
                 const { intialassessment_nurse, intialassessment_doctor, dicharge,
@@ -85,7 +84,6 @@ const AcnopatientTable = ({
                 <Table size="small">
                     <TableHead>
                         <TableRow >
-
                             <TableCell align="left" sx={{ color: 'text.primary', fontSize: 20, fontWeight: 'bold' }} >Indicator Description</TableCell>
                             <TableCell align="left" sx={{ color: 'text.primary', fontSize: 20, fontWeight: 'bold' }} > Indicator </TableCell>
                         </TableRow>
@@ -102,8 +100,6 @@ const AcnopatientTable = ({
                                     {row.name}
                                 </TableCell>
                                 <TableCell align="left">{row.indicators}</TableCell>
-
-
                             </TableRow>
                         ))}
                     </TableBody>

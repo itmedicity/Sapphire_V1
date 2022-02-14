@@ -1,17 +1,17 @@
-import { Card, TableCell, TableBody, TableContainer, TableHead, TableRow, Icon } from '@mui/material'
+import { TableCell, TableBody, TableContainer, TableHead, TableRow } from '@mui/material'
 import React, { Fragment, memo, useEffect, useState } from 'react'
 import { Table } from 'react-bootstrap'
 import { axioslogin } from '../Axios/Axios'
 import { warningNofity } from './Commonfunc';
 import { useParams } from 'react-router'
-import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
+
 import Approvalvalue from 'src/views/Quality/Verification/Approvalvalue'
 
 
 const ModelapproverejectTable = ({ getid }) => {
     const { id } = useParams()
 
-    const [indicatorData, setindicatorData] = useState()
+    // const [indicatorData, setindicatorData] = useState()
 
     const [modelData, setmodelData] = useState({
         initialassNurse: '',
@@ -32,7 +32,7 @@ const ModelapproverejectTable = ({ getid }) => {
             const result = await axioslogin.get(`/common/indicatordetl/patient/detl/${getid}`)
             const { success, data } = result.data;
             if (success === 1) {
-                const { pt_no, inpt_slno, initalass_nurse_diff,
+                const { initalass_nurse_diff,
                     initalass_doctor_diff,
                     handover_yn, careplan_yn,
                     incedence_yn, sentinal_yn,
@@ -40,7 +40,6 @@ const ModelapproverejectTable = ({ getid }) => {
                     dischargetimediff,
                     bloodcomponent_wastage,
                     bloodcomponent_rctnoccured,
-                    current_date,
                     bldrtranftn_flg,
                     bldwaste_flg,
                     carepln_flg,

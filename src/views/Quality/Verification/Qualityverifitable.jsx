@@ -1,26 +1,14 @@
 
-import React, { Fragment, useEffect, useContext, useState } from 'react';
+import React, { Fragment, useEffect, useContext } from 'react';
 import { Table } from 'react-bootstrap'
 import { axioslogin } from 'src/views/Axios/Axios'
-import { Card, TableCell, TableBody, TableContainer, TableHead, TableRow } from '@mui/material'
+import { TableCell, TableBody, TableContainer, TableHead, TableRow } from '@mui/material'
 import { PayrolMasterContext } from 'src/Context/MasterContext'
-import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
+import { errorNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 
 const Qualityverifitable = ({ frdate, setacnoData, acnoData
 }) => {
     const { selectOutlet, updateOutlet } = useContext(PayrolMasterContext)
-
-
-    // const [acnoData, setacnoData] = useState({
-    //     initialassNurse: '',
-    //     initialassDoc: '',
-    //     ou_code: ''
-
-    // })
-    // const defaultstate = {
-    //     selectOutlet: '',
-    //     frdate: ''
-    // }
 
     const postData3 = {
         ou_code: selectOutlet,
@@ -35,8 +23,8 @@ const Qualityverifitable = ({ frdate, setacnoData, acnoData
             if (success === 3) {
                 const { intialassessment_nurse, intialassessment_doctor, dicharge,
                     bc_blood_wastage, bc_bloodtransreactn_ys,
-                    carepln_ys, hndcomm_ys, incidence_ys, sentinal_ys,
-                    dw_calc, datee, ou_code
+                    carepln_ys, hndcomm_ys, incidence_ys,
+                    ou_code
                 } = data[0]
                 const frmdata = {
                     initialassNurse: intialassessment_nurse,

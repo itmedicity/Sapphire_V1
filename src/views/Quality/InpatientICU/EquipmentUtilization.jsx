@@ -18,7 +18,7 @@ const EquipmentUtilization = () => {
     const { id } = useParams()
 
     // input field disable
-    const [enable, setenable] = useState(false)
+    // const [enable, setenable] = useState(false)
     const [value, setvalue] = useState(0)
     // equipment select box
     const [distrue, setdistrue] = useState(false)
@@ -35,10 +35,10 @@ const EquipmentUtilization = () => {
         end_utilization: ''
     })
     //default state
-    const defaultstate = {
-        start_utilization: '',
-        end_utilization: ''
-    }
+    // const defaultstate = {
+    //     start_utilization: '',
+    //     end_utilization: ''
+    // }
     //destrutring object
     const {
         start_utilization,

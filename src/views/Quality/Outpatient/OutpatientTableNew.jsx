@@ -72,11 +72,11 @@ const OutpatientTableNew = () => {
 
                     </div>
                 </div>
-                <div className="previousAmentWindow">
-                    <ul className="list-group list-group-flush" >
-                        {/* {children} */}
-                    </ul>
-                </div>
+                {/* <div className="previousAmentWindow">
+                    <ul className="list-group list-group-flush" > */}
+                {/* {children} */}
+                {/* </ul>
+                </div> */}
 
                 <div className="card-footer py-0"
                 // style={CARD_SUB_HEADER_COLOR}

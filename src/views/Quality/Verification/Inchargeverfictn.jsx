@@ -1,20 +1,20 @@
-import React, { Fragment, useEffect, useState, memo } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import MaterialTable from 'material-table'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { tableIcons } from 'src/views/Constant/MaterialIcon';
-import { MdCheckCircle } from "react-icons/md"
-import { infoNofity } from 'src/views/CommonCode/Commonfunc'
+// import { MdCheckCircle } from "react-icons/md"
+// import { infoNofity } from 'src/views/CommonCode/Commonfunc'
 import { FcOk, FcHighPriority } from "react-icons/fc";
 import { useHistory } from 'react-router';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Modelapprovereject from 'src/views/CommonCode/Modelapprovereject';
 import { FcViewDetails } from "react-icons/fc";
 import {
-    IconButton, Tooltip, Typography
+    IconButton
 } from '@mui/material'
 import TextInput from 'src/views/Component/TextInput';
 const Inchargeverfictn = ({ update }) => {
-    const [tableData, setTableData] = useState([])
+    const [tableData, setTableDataa] = useState([])
     const [userid, setuserid] = useState({
         us_code: ''
     })
@@ -25,10 +25,10 @@ const Inchargeverfictn = ({ update }) => {
             title: "SlNo", field: "inpt_slno",
             cellStyle: { minWidth: 5, maxWidth: 10 },
         },
-        {
-            title: "Date", field: "ipd_date",
-            cellStyle: { minWidth: 5, maxWidth: 10 },
-        },
+        // {
+        //     title: "Date", field: "ipd_date",
+        //     cellStyle: { minWidth: 5, maxWidth: 10 },
+        // },
         {
             title: "MRD No", field: "pt_no",
             cellStyle: { minWidth: 5, maxWidth: 10 },
@@ -60,7 +60,7 @@ const Inchargeverfictn = ({ update }) => {
     };
 
     useEffect(() => {
-        const getsetTablelist = async () => {
+        const getsetTablelistt = async () => {
             const result = await axioslogin.get(`/verification/${4001}`)
             const { success, data } = result.data
             if (success === 2) {
@@ -84,10 +84,10 @@ const Inchargeverfictn = ({ update }) => {
                     }
                     return d1
                 })
-                setTableData(formtable)
+                setTableDataa(formtable)
             }
         }
-        getsetTablelist()
+        getsetTablelistt()
     }, [update])
     const history = useHistory()
     const gettablecontent = async (tableData) => {
@@ -104,16 +104,18 @@ const Inchargeverfictn = ({ update }) => {
                 <div className="card-body">
                     {open === true ? <Modelapprovereject open={open} handleClose={handleClose} getid={getid} /> : null}
                     <MaterialTable
-                        title={<TextInput
-                            id="test"
-                            type="date"
-                            classname="form-control form-control-sm"
-                            Placeholder="Arrived Time"
-                            // changeTextValue={(e) => updateFormData(e)}
-                            value={new Date()}
-                        // name="arrived_time_ns"
-                        // disabled={enable}
-                        />}
+                        title="verification"
+                        // <TextInput
+                        //     id="test"
+                        //     type="date"
+                        //     classname="form-control form-control-sm"
+                        //     Placeholder="Arrived Time"
+                        //     // changeTextValue={(e) => updateFormData(e)}
+                        //     value={new Date()}
+                        // // name="arrived_time_ns"
+                        // // disabled={enable}
+                        // />
+
                         data={tableData}
                         columns={title}
                         icons={tableIcons}

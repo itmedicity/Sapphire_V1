@@ -31,7 +31,7 @@ import BedUtilizationIcu from '../InpatientICU/BedUtilizationIcu';
 import Accodation from './Accodation';
 import { COLOUR_ONE } from 'src/views/Constant/Constant';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+
 import { FcUndo } from "react-icons/fc";
 
 

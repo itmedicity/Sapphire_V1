@@ -1,6 +1,6 @@
-import { TableCell, TableRow, IconButton } from '@mui/material'
+import { IconButton, TableCell, TableRow } from '@mui/material'
 import React, { Fragment } from 'react'
-// import AddTaskRoundedIcon from '@mui/icons-material/AddTaskRounded';
+ import AddTaskRoundedIcon from '@mui/icons-material/AddTaskRounded';
 
 const HndOvrCmpTable = ({ val, sethandovrcmtntableData }) => {
     const setdata = () => {
@@ -13,12 +13,12 @@ const HndOvrCmpTable = ({ val, sethandovrcmtntableData }) => {
                 <TableCell align="center">{val.ce_currdate}</TableCell>
                 <TableCell align="center">{val.ce_ysno}</TableCell>
                 <TableCell align="center">{val.ce_shiftdetails}</TableCell>
-                {/* <TableCell align="center">
+                <TableCell align="center">
                     <IconButton
                         onClick={setdata} >
                         <AddTaskRoundedIcon />
                     </IconButton>
-                </TableCell> */}
+                </TableCell>
             </TableRow>
         </Fragment>
     )
