@@ -31,7 +31,6 @@ const AcnopatientTable = ({
     useEffect(() => {
         const getmodeldetl = async () => {
             const result = await axioslogin.post(`/common/acnodetl`, postData3)
-            console.log(result)
             const { success, data, message } = result.data;
             if (success === 3) {
                 const { intialassessment_nurse, intialassessment_doctor, dicharge,
@@ -85,7 +84,6 @@ const AcnopatientTable = ({
                 <Table size="small">
                     <TableHead>
                         <TableRow >
-
                             <TableCell align="left" sx={{ color: 'text.primary', fontSize: 20, fontWeight: 'bold' }} >Indicator Description</TableCell>
                             <TableCell align="left" sx={{ color: 'text.primary', fontSize: 20, fontWeight: 'bold' }} > Indicator </TableCell>
                         </TableRow>

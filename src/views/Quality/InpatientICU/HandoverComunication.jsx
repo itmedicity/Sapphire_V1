@@ -15,6 +15,7 @@ import ShiftSelection from 'src/views/CommonCode/ShiftSelection'
 import Accodation from '../Inpatient/Accodation'
 import HndovrCommunicationTable from './HndovrCommunicationTable'
 
+
 const HandoverComunication = () => {
   const { id } = useParams()
   const [toggle, setToggle] = useState(0)
@@ -24,6 +25,11 @@ const HandoverComunication = () => {
   })
   // for table data append
   const [handovrcmtntableData, sethandovrcmtntableData] = useState(0)
+
+  //useState for Updation
+  const [handoverupdation, sethandoverupdation] = useState(0)
+
+
   // tabledata
   const [tabledata, settableData] = useState(
     [{
@@ -77,14 +83,14 @@ const HandoverComunication = () => {
     user_save_code: userid.us_code
   }
 
-  // const postdata2 = {
-  //   inpt_slno: id,
-  //   handover_yn: toggle
-  // }
+  const postdata2 = {
+    inpt_slno: id,
+    handover_yn: toggle
+  }
 
   // edit option
   const postDataEdit = {
-    inpt_slno: value,
+
     user_slno: userslno(),
     ce_ysno: toggle == 1 ? toggle : 0,
     ce_no: toggle == 2 ? toggle : 0,
@@ -93,10 +99,10 @@ const HandoverComunication = () => {
     ce_actntkn: actiontaken,
     ce_remark: remarks,
     ce_shiftdetails: SelectShift,
-    // user_save_code: userid,
-    user_save_code: userid.us_code
+    user_save_code: userid.us_code,
+    inpt_slno: id,
   }
-  // console.log(postDataEdit)
+
   const submitFormData = async (e) => {
     e.preventDefault()
     const result = await axioslogin.get(`/common/user/${userid.us_code}`)
@@ -107,38 +113,49 @@ const HandoverComunication = () => {
         us_code: us_code
       }
       setuserid(frmdataa)
-      // if (values === 0) {
-      const result = await axioslogin.post('/communicationerror', postData)
-      const { success, message } = result.data
-      console.log(result)
-      if (success === 1) {
-        succesNofity(message)
-        setOpen(false);
-        setactiontaken(defaultstate)
-        setToggle(0)
-        updateShift(0)
+      if (handoverupdation === 0) {
+        const result = await axioslogin.post('/communicationerror', postData)
+        const { success, message } = result.data
+        if (success === 1) {
+          const result2 = await axioslogin.patch('/communicationerror/edit', postdata2)
+          const { success, message } = result2.data
+          // succesNofity(message)
+          // setOpen(false);
+          // setactiontaken(defaultstate)
+          // setToggle(0)
+          // updateShift(0)
+
+          if (success === 2) {
+            succesNofity(message)
+            setOpen(false);
+            setactiontaken(defaultstate)
+            setToggle(0)
+            updateShift(0)
+            // warningNofity(message)
+          } else if (success === 2) {
+            warningNofity(message)
+          }
+          else {
+            errorNofity('Error Occured!!!Please Contact EDP')
+          }
+
+        }
       }
-      // else if (success === 2) {
-      //   warningNofity(message)
-      // } else {
-      //   errorNofity('Error Occured!!!Please Contact EDP')
-      // }
-      // }
-      // else {
-      //   const result = await axioslogin.patch('/communicationerror', postDataEdit)
-      //   const { success, message } = result.data
-      //   if (success === 2) {
-      //     succesNofity(message)
-      //     // setdistrue(true)
-      //     setOpen(false)
-      //     updateShift(0)
-      //     setactiontaken(defaultstate)
-      //   } else if (success === 1) {
-      //     warningNofity(message)
-      //   } else {
-      //     errorNofity('Error Occured!!!Please Contact EDP')
-      //   }
-      // }
+      else {
+        const result = await axioslogin.patch('/communicationerror', postDataEdit)
+        const { success, message } = result.data
+        if (success === 2) {
+          succesNofity(message)
+          // setdistrue(true)
+          setOpen(false)
+          updateShift(0)
+          setactiontaken(defaultstate)
+        } else if (success === 1) {
+          warningNofity(message)
+        } else {
+          errorNofity('Error Occured!!!Please Contact EDP')
+        }
+      }
     }
     else if (success === 0) {
       warningNofity(message)
@@ -146,37 +163,58 @@ const HandoverComunication = () => {
     }
     else {
       errorNofity('Error Occured!!! Please Contact EDP')
-      setOpen(false);
+      // setOpen(false);
     }
   }
+
+
   useEffect(() => {
-    const handovercommunictn = async () => {
-      const result = await axioslogin.get(`communicationerror/${id}`)
+    const handovercommunictn = async (handovrcmtntableData) => {
+      const result = await axioslogin.get(`communicationerror/getcommunication/${handovrcmtntableData}`)
       const { success, data } = result.data
       if (success === 1) {
         // setdistrue(true)
-        const { inpt_slno, ce_shiftdetails, ce_ysno, ce_remark, ce_prsnresponsible, ce_errordesc, ce_actntkn } = data[0]
-        const frmData = {
-          // handover: ce_ysno,
+        const { ce_slno, ce_ysno, ce_remark, ce_errordesc,
+          ce_prsnresponsible, ce_actntkn,
+          ce_shiftdetails,
+          ce_no } = data[0]
+        const d1 = {
+          ce_slno: ce_slno,
+          ce_ysno: toggle === 1 ? toggle : 0,
+          ce_no: toggle === 2 ? toggle : 0,
+          remarks: ce_remark,
           errordesc: ce_errordesc,
           personresponsible: ce_prsnresponsible,
           actiontaken: ce_actntkn,
-          remarks: ce_remark
+          ce_shiftdetails: ce_shiftdetails,
         }
-        setactiontaken(frmData)
-        setValue(inpt_slno)
-        setToggle(ce_ysno)
+        setactiontaken(d1)
+        if (ce_ysno == 1) {
+          setToggle(ce_ysno)
+        }
+        else if (ce_no == 2) {
+          setToggle(ce_no)
+        }
+        else {
+          setToggle(0)
+        }
+
+        // setValue(inpt_slno)
+        // setToggle(ce_ysno)
+        // setToggle(ce_no)
+
+
         updateShift(ce_shiftdetails)
-      }
-      else if (success === 0) {
-        setValue(0)
-      }
-      else {
-        warningNofity("Error Occured!!!Please Contact EDP")
+        sethandoverupdation(d1)
       }
     }
-    handovercommunictn()
-  }, [id])
+    if (handovrcmtntableData !== 0) {
+      handovercommunictn(handovrcmtntableData)
+    }
+  }, [handovrcmtntableData])
+
+
+
 
   const edithandovercommuication = () => {
   }

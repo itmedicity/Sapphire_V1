@@ -29,7 +29,7 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
         ou_code: 'M001',
         datee: '2022-01-29 11:53:32'
     }
-    console.log(postData3)
+
     // const postData4 = {
     //     ou_code: '4001',
     //     datee: datee
@@ -44,13 +44,10 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
             const { success } = result2.data
             if (success === 3) {
                 const result3 = await axioslogin.post('/verification/getdetails', postData3)
-<<<<<<< HEAD
                 const { success, data } = result3.data
-=======
-                console.log(result3)
-                const { success, data, message } = result3.data
-                console.log(data)
->>>>>>> 116a781e6eac5b97df0a2161aba59e224dc45597
+
+
+
                 if (success === 3) {
                     const { initalass_nurse_diff, initalass_doctor_diff,
                         careplan_yn, handover_yn, incedence_yn,
@@ -69,8 +66,6 @@ const Modelapprovereject = ({ open, handleClose, getid }) => {
                         datee: moment(datee).format("YYYY-MM-DD[T]HH:mm:ss"),
                         ou_code: ou_code
                     }
-                    console.log(frmdataa)
-                    console.log(frmdataa)
                     const result4 = await axioslogin.post('/verification/insert', frmdataa)
                     const { success, message } = result4.data
                     if (success === 1) {

@@ -241,6 +241,11 @@ const Bloodcomponents = () => {
     }
   }, [bldcomptableData, updateBloodComponent, updateOption, updateBloodGroup])
 
+
+
+
+
+
   const handleClickOpen = (e) => {
     e.preventDefault()
     setOpen(true);
