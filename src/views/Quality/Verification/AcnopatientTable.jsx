@@ -4,25 +4,13 @@ import { Table } from 'react-bootstrap'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { Card, TableCell, TableBody, TableContainer, TableHead, TableRow, Button } from '@mui/material'
 import { PayrolMasterContext } from 'src/Context/MasterContext'
+import { ToastContainer } from 'react-toastify'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 
 const AcnopatientTable = ({
     frdate, setacnoData, acnoData
 }) => {
     const { selectOutlet, updateOutlet } = useContext(PayrolMasterContext)
-
-
-    // const [acnoData, setacnoData] = useState({
-    //     initialassNurse: '',
-    //     initialassDoc: '',
-    //     ou_code: ''
-
-    // })
-    // const defaultstate = {
-    //     selectOutlet: '',
-    //     frdate: ''
-    // }
-
     const postData3 = {
         ou_code: selectOutlet,
         datee: frdate
@@ -31,23 +19,34 @@ const AcnopatientTable = ({
     useEffect(() => {
         const getmodeldetl = async () => {
             const result = await axioslogin.post(`/common/acnodetl`, postData3)
-            console.log(result)
             const { success, data, message } = result.data;
+            console.log(result)
             if (success === 3) {
                 const { intialassessment_nurse, intialassessment_doctor, dicharge,
                     bc_blood_wastage, bc_bloodtransreactn_ys,
                     carepln_ys, hndcomm_ys, incidence_ys,
                     ou_code
                 } = data[0]
+                //calculate the sum of details 
+                var intialnurse = intialassessment_nurse / 5
+                console.log(intialnurse)
+                var initaldoctor = intialassessment_doctor / 5
+                console.log(initaldoctor)
+                var carepln = 5 / 5 * 100
+                console.log(carepln)
+                var incideys = 5 / 5 * 100
+                console.log(incideys)
+                var hndcomm_ysrd = 5 / 5 * 100
+                console.log(hndcomm_ysrd)
                 const frmdata = {
-                    initialassNurse: intialassessment_nurse,
-                    initialassDoc: intialassessment_doctor,
+                    initialassNurse: intialnurse,
+                    initialassDoc: initaldoctor,
                     dicharge: dicharge,
                     bc_blood_wastage: bc_blood_wastage,
                     bc_bloodtransreactn_ys: bc_bloodtransreactn_ys,
-                    carepln_ys: carepln_ys,
-                    hndcomm_ys: hndcomm_ys,
-                    incidence_ys: incidence_ys,
+                    carepln_ys: carepln,
+                    hndcomm_ys: hndcomm_ysrd,
+                    incidence_ys: incideys,
                     ou_code: ou_code
                 }
                 setacnoData(frmdata);
@@ -79,39 +78,33 @@ const AcnopatientTable = ({
 
     ];
     return (<Fragment>
+        <ToastContainer />
+        <TableContainer sx={{ maxHeight: 550 }}>
+            <Table size="small">
+                <TableHead>
+                    <TableRow >
 
-        <div className="col-md-12">
-            <TableContainer sx={{ maxHeight: 550 }}>
-                <Table size="small">
-                    <TableHead>
-                        <TableRow >
+                        <TableCell align="left" sx={{ color: 'text.primary', fontSize: 20, fontWeight: 'bold' }} >Indicator Description</TableCell>
+                        <TableCell align="left" sx={{ color: 'text.primary', fontSize: 20, fontWeight: 'bold' }} > Indicator </TableCell>
+                    </TableRow>
+                </TableHead>
 
-                            <TableCell align="left" sx={{ color: 'text.primary', fontSize: 20, fontWeight: 'bold' }} >Indicator Description</TableCell>
-                            <TableCell align="left" sx={{ color: 'text.primary', fontSize: 20, fontWeight: 'bold' }} > Indicator </TableCell>
+                <TableBody>
+                    {rows.map((row) => (
+                        <TableRow
+                            align="center"
+                            key={row.name}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                            <TableCell component="th" scope="row" align="left">
+                                {row.name}
+                            </TableCell>
+                            <TableCell align="left">{row.indicators}</TableCell>
                         </TableRow>
-                    </TableHead>
-
-                    <TableBody>
-                        {rows.map((row) => (
-                            <TableRow
-                                align="center"
-                                key={row.name}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell component="th" scope="row" align="left">
-                                    {row.name}
-                                </TableCell>
-                                <TableCell align="left">{row.indicators}</TableCell>
-
-
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </div>
-
-
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
     </Fragment>)
 
 };

@@ -4,6 +4,7 @@ import { Table } from 'react-bootstrap'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { Card, TableCell, TableBody, TableContainer, TableHead, TableRow } from '@mui/material'
 import { PayrolMasterContext } from 'src/Context/MasterContext'
+import { ToastContainer } from 'react-toastify'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 
 const Qualityverifitable = ({ frdate, setacnoData, acnoData
@@ -89,6 +90,7 @@ const Qualityverifitable = ({ frdate, setacnoData, acnoData
     ];
     return (
         <Fragment>
+            <ToastContainer />
             <div className="col-md-12">
                 <TableContainer sx={{ maxHeight: 550 }}>
                     <Table size="small">

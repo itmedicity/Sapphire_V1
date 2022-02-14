@@ -60,6 +60,8 @@ const Discharge = () => {
         user_slno: userslno(),
         user_code_save: userid.us_code,
     }
+
+    console.log(postData)
     const postDataEdit = {
         inpt_slno: value,
         dis_advicetime: dis_advice_time,
@@ -99,26 +101,40 @@ const Discharge = () => {
                         errorNofity('Error Occured!!!Please Contact EDP')
                     }
                 }
-                else {
-                    const result = await axioslogin.patch('/Discharge', postDataEdit)
-                    const { success, message } = result.data
+                else if (success === 0) {
+                    warningNofity(message)
+                } else {
+                    errorNofity('Error Occured!!!Please Contact EDP')
+                }
+            }
+            else {
+                console.log('minu')
+                const result = await axioslogin.patch('/Discharge', postDataEdit)
+                const { success, message } = result.data
+                if (success === 2) {
+                    const result2 = await axioslogin.patch('/Discharge/edit', postData2)
+                    const { success, message } = result2.data
                     if (success === 2) {
                         succesNofity(message)
                         setdistrue(true)
-                        setOpen(false)
-                    } else if (success === 1) {
+                        setOpen(false);
+                    }
+                    else if (success === 1) {
                         warningNofity(message)
                     } else {
-                        errorNofity('Error Occured!!!Please Contact EDP')
+                        errorNofity('Error')
                     }
+                } else if (success === 1) {
+                    warningNofity(message)
+                } else {
+                    errorNofity('Error Occured!!!Please Contact EDP')
                 }
             }
-            else if (success === 0) {
-                warningNofity(message)
-            }
-            else {
-                errorNofity('Error Occured !!! Please contact Edp')
-            }
+        } else if (success === 0) {
+            warningNofity(message)
+        }
+        else {
+            errorNofity('Error Occured !!! Please contact Edp')
         }
     }
     useEffect(() => {

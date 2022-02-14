@@ -72,8 +72,7 @@ const EquipmentUtilization = () => {
 
     const postData2 = {
         inpt_slno: id,
-        equiputlzn_timediff: eu_timediff,
-
+        equiputlzn_timediff: eu_timediff
     }
 
 
@@ -88,6 +87,8 @@ const EquipmentUtilization = () => {
         equiputlzn_timediff: eu_timediff,
         user_code_save: userid.us_code,
     }
+    console.log(postDataEdit)
+
     //saving form data
     const submitFormData = async (e) => {
         e.preventDefault()
@@ -99,8 +100,6 @@ const EquipmentUtilization = () => {
                 us_code: user_slno
             }
             setuserid(frmdataa)
-
-
             if (value === 0) {
                 const result = await axioslogin.post('/equipmentUtilization', postData)
                 const { success, message } = result.data
@@ -123,14 +122,22 @@ const EquipmentUtilization = () => {
                 }
             }
             else {
+                console.log("minu")
+                console.log(postDataEdit)
                 const result = await axioslogin.patch('/equipmentUtilization', postDataEdit)
                 const { success, message } = result.data
                 if (success === 2) {
-                    succesNofity(message)
-                    // setenable(true)
-                    setdistrue(true)
-                    setOpen(false)
-
+                    const result2 = await axioslogin.patch('/equipmentUtilization/edit', postData2)
+                    const { success, message } = result2.data
+                    if (success === 2) {
+                        succesNofity(message)
+                        setdistrue(true)
+                        setOpen(false);
+                    } else if (success === 1) {
+                        warningNofity(message)
+                    } else {
+                        errorNofity('Error Occured!!!Please Contact EDP')
+                    }
                 } else if (success === 1) {
                     warningNofity(message)
                 } else {
@@ -144,7 +151,6 @@ const EquipmentUtilization = () => {
         else {
             errorNofity('Error Occured !!! Plaese Contact Edp')
         }
-
     }
     useEffect(() => {
         const equipmentutilzation = async () => {

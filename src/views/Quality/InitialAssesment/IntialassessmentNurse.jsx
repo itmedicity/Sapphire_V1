@@ -60,13 +60,14 @@ const IntialassessmentNurse = () => {
     pt_receivetime: arrived_time_ns,
     ia_startnstime: initialassemnt_startns,
     ia_endnstime: initialassemnt_endns,
-    ia_timediffnurstn: differenceInMinutes(new Date(initialassemnt_endns), new Date(arrived_time_ns)),
+    ia_timediffnurstn: ia_timediffnurstn,
     ian_remark: remarkns,
     user_slno: userslno(),
     user_code_save: userid.us_code,
     inpt_slno: value,
   }
-  //saving form data
+  console.log(value)
+  //saving form data // to get the use details // checking condition for insert the data    or update the data 
   const submitFormData = async (e) => {
     e.preventDefault()
     const result = await axioslogin.get(`/common/user/${userid.us_code}`)
@@ -99,12 +100,21 @@ const IntialassessmentNurse = () => {
         }
       }
       else {
+        console.log(postDataEdit)
         const result = await axioslogin.patch('/assesmentnurse', postDataEdit)
         const { success, message } = result.data
         if (success === 2) {
-          succesNofity(message)
-          Setenable(true)
-          setOpen(false);
+          const result2 = await axioslogin.patch('/assesmentnurse/edit', postData2)
+          const { success, message } = result2.data
+          if (success === 2) {
+            succesNofity(message)
+            Setenable(true)
+            setOpen(false);
+          } else if (success === 0) {
+            warningNofity(message)
+          } else {
+            errorNofity('Error Occured!!!Please Contact EDP')
+          }
         } else if (success === 1) {
           warningNofity(message)
         } else {
@@ -112,7 +122,7 @@ const IntialassessmentNurse = () => {
         }
       }
     }
-    else if (success === 2) {
+    else if (success === 0) {
       warningNofity(message)
     }
     else {
@@ -120,6 +130,8 @@ const IntialassessmentNurse = () => {
     }
     //   // Setmodel(1)
   }
+  // useeffect for the data input fileds
+
   useEffect(() => {
     const getinitailassessnurse = async () => {
       const result = await axioslogin.get(`assesmentnurse/${id}`)
@@ -136,7 +148,7 @@ const IntialassessmentNurse = () => {
         setintAssmntNurseData(frmData)
         setValue(inpt_slno)
       }
-      else if (success === 2) {
+      else if (success === 0) {
         Setenable(false)
         setValue(0)
       }
@@ -158,11 +170,10 @@ const IntialassessmentNurse = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  // their is a common  'Model common' for save with user id
   return (
     <Fragment>
       <SessionCheck />
-      {/* {model === 1 ? <Modelcommon submit={submitFormData} /> : null} */}
-
       {open === true ? <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> : null}
       <ToastContainer />
       <form onSubmit={handleClickOpen}>

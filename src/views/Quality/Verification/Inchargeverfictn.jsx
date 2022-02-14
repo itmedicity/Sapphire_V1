@@ -3,12 +3,13 @@ import MaterialTable from 'material-table'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { tableIcons } from 'src/views/Constant/MaterialIcon';
 import { MdCheckCircle } from "react-icons/md"
-import { infoNofity } from 'src/views/CommonCode/Commonfunc'
 import { FcOk, FcHighPriority } from "react-icons/fc";
 import { useHistory } from 'react-router';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import Modelapprovereject from 'src/views/CommonCode/Modelapprovereject';
 import { FcViewDetails } from "react-icons/fc";
+import { ToastContainer } from 'react-toastify'
+import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import {
     IconButton, Tooltip, Typography
 } from '@mui/material'
@@ -58,11 +59,11 @@ const Inchargeverfictn = ({ update }) => {
     const handleClose = () => {
         setOpen(false);
     };
-
+    // use effect for set complete or incomplete the indicator indication
     useEffect(() => {
         const getsetTablelist = async () => {
             const result = await axioslogin.get(`/verification/${4001}`)
-            const { success, data } = result.data
+            const { success, message, data } = result.data
             if (success === 2) {
                 const formtable = data.map((val) => {
                     const d1 = {
@@ -86,6 +87,11 @@ const Inchargeverfictn = ({ update }) => {
                 })
                 setTableData(formtable)
             }
+            else if (success === 0) {
+                warningNofity(message)
+            } else {
+                errorNofity('Error Occured!!!Please Contact EDP')
+            }
         }
         getsetTablelist()
     }, [update])
@@ -94,26 +100,20 @@ const Inchargeverfictn = ({ update }) => {
         const { inpt_slno } = tableData
         history.push(`/Home/InpatientEditnew/${inpt_slno}`)
     }
+
+    //Load another model  
+
     return (
         < Fragment >
+            <ToastContainer />
             <div className="card">
-
                 <div className="card-header bg-dark pb-0 border border-dark text-white">
                     <h5>Verification Patient List</h5>
                 </div>
                 <div className="card-body">
-                    {open === true ? <Modelapprovereject open={open} handleClose={handleClose} getid={getid} /> : null}
+                    {open === true ? <Modelapprovereject open={open} handleClose={handleClose} getid={getid} setOpen={setOpen} handleopenmodel={handleopenmodel} /> : null}
                     <MaterialTable
-                        title={<TextInput
-                            id="test"
-                            type="date"
-                            classname="form-control form-control-sm"
-                            Placeholder="Arrived Time"
-                            // changeTextValue={(e) => updateFormData(e)}
-                            value={new Date()}
-                        // name="arrived_time_ns"
-                        // disabled={enable}
-                        />}
+                        title="Verification"
                         data={tableData}
                         columns={title}
                         icons={tableIcons}
