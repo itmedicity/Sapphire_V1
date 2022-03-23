@@ -33,44 +33,43 @@ const Actiontaken = ({ setfunc, handover, distrue }) => {
     <Fragment>
       <ToastContainer />
       <SessionCheck />
-      <form className={classNames.root}>
-        <div className="row">
-          <div className="col-md-6">
-            <TextInput
-              type="text"
-              classname="form-control form-control-sm"
-              Placeholder="Error Description"
-              changeTextValue={(e) => updateFormData(e)}
-              value={errordesc}
-              name="errordesc"
-              disabled={distrue}
+      <div className="row">
+        <div className="col-md-6">
+          <TextInput
+            type="text"
+            classname="form-control form-control-sm"
+            Placeholder="Error Description"
+            changeTextValue={(e) => updateFormData(e)}
+            value={errordesc}
+            name="errordesc"
+            disabled={distrue}
 
-            />
-          </div>
-          <div className="col-md-3">
-            <TextInput
-              type="text"
-              classname="form-control form-control-sm"
-              Placeholder="Person Responsible"
-              changeTextValue={(e) => updateFormData(e)}
-              value={personresponsible}
-              name="personresponsible"
-              disabled={distrue} />
-          </div>
-          <div className="col-md-3">
-            <TextInput
-              type="text"
-              classname="form-control form-control-sm"
-              Placeholder="Action Taken"
-              changeTextValue={(e) => updateFormData(e)}
-              value={actiontaken}
-              name="actiontaken"
-              disabled={distrue}
-
-            />
-          </div>
+          />
         </div>
-      </form>
+        <div className="col-md-3">
+          <TextInput
+            type="text"
+            classname="form-control form-control-sm"
+            Placeholder="Person Responsible"
+            changeTextValue={(e) => updateFormData(e)}
+            value={personresponsible}
+            name="personresponsible"
+            disabled={distrue} />
+        </div>
+        <div className="col-md-3">
+          <TextInput
+            type="text"
+            classname="form-control form-control-sm"
+            Placeholder="Action Taken"
+            changeTextValue={(e) => updateFormData(e)}
+            value={actiontaken}
+            name="actiontaken"
+            disabled={distrue}
+
+          />
+        </div>
+      </div>
+      {/* </form> */}
     </Fragment>
   )
 }

@@ -66,7 +66,7 @@ const IntialassessmentNurse = () => {
     user_code_save: userid.us_code,
     inpt_slno: value,
   }
-  console.log(value)
+
   //saving form data // to get the use details // checking condition for insert the data    or update the data 
   const submitFormData = async (e) => {
     e.preventDefault()
@@ -100,7 +100,7 @@ const IntialassessmentNurse = () => {
         }
       }
       else {
-        console.log(postDataEdit)
+
         const result = await axioslogin.patch('/assesmentnurse', postDataEdit)
         const { success, message } = result.data
         if (success === 2) {
@@ -170,7 +170,7 @@ const IntialassessmentNurse = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  // their is a common  'Model common' for save with user id
+
   return (
     <Fragment>
       <SessionCheck />

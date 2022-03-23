@@ -245,10 +245,6 @@ const Bloodcomponents = () => {
   }, [bldcomptableData, updateBloodComponent, updateOption, updateBloodGroup])
 
 
-
-
-
-
   const handleClickOpen = (e) => {
     e.preventDefault()
     setOpen(true);
@@ -263,7 +259,8 @@ const Bloodcomponents = () => {
     <Fragment>
       <SessionCheck />
       <ToastContainer />
-      <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
+      {open === true ? <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> : null}
+      {/* <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> */}
       {/* <form onSubmit={submitFormData}> */}
       <form onSubmit={handleClickOpen}>
         <Card className="card-body">

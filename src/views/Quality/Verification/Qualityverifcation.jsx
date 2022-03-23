@@ -15,9 +15,11 @@ const Qualityverifcation = () => {
     const [acnoData, setacnoData] = useState({
         ou_code: '',
         initialassNurse: '',
-        initialassDoc: ''
+        initialassDoc: '',
+        discharge: '',
+        careplan_ys: '',
     })
-    const { ou_code, initialassNurse, initialassDoc } = acnoData
+    const { ou_code, initialassNurse, initialassDoc, discharge, careplan_ys } = acnoData
 
     const [monthval, Setmonthval] = useState({
         monthwise: ''
@@ -44,6 +46,8 @@ const Qualityverifcation = () => {
         ou_code: ou_code,
         intiailassessment_nurse: initialassNurse,
         initialassessment_doctor: initialassDoc,
+        discharge: discharge,
+        careplan_ys: careplan_ys
     }
 
     const postData3 = {
@@ -60,12 +64,15 @@ const Qualityverifcation = () => {
         if (success === 1) {
             const result = await axioslogin.patch('/qualityverification', postData3)
             const { success, message } = result.data
-            console.log(success)
             if (success === 2) {
-                // <stack>
-                //     <Alert severity="success">This is a success alert — check it out!</Alert>
-                // </stack>
                 succesNofity(message)
+                setacnoData({
+                    ou_code: 0,
+                    initialassNurse: '',
+                    initialassDoc: '',
+                    discharge: '',
+                    careplan_ys: ''
+                })
             } else if (success === 0) {
                 warningNofity(message)
             } else {
@@ -87,8 +94,7 @@ const Qualityverifcation = () => {
                 <div className="card-body">
                     <div className="col-md-12">
                         <div className="row">
-                            <div className="col-md-3      pb-1">
-                                {/* <Typography fontSize={16} noWrap={true} >Select Month</Typography> */}
+                            <div className="col-md-3 pb-1">
                                 <TextInput
                                     id="test"
                                     type="month"
@@ -97,7 +103,6 @@ const Qualityverifcation = () => {
                                     changeTextValue={(e) => updateFormData(e)}
                                     value={monthwise}
                                     name="monthwise"
-                                // disabled={enable}
                                 />
                             </div>
                             <div className="col-md-2 pb-1">

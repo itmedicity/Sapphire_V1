@@ -9,13 +9,7 @@ import moment from 'moment'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
-// import Table from '@mui/material/Table';
-// import TableBody from '@mui/material/TableBody';
-// import TableCell from '@mui/material/TableCell';
-// import TableContainer from '@mui/material/TableContainer';
-// import TableHead from '@mui/material/TableHead';
-// import TableRow from '@mui/material/TableRow';
-// import { tableIcons } from 'src/views/Constant/MaterialIcon';
+
 
 
 const Reintubation = () => {
@@ -37,11 +31,6 @@ const Reintubation = () => {
         extubatedrate: '0000:00:00 00:00:00'
     })
 
-    // /    //defaultb state
-    //     const defaultstate = {
-    //         intubatedrate: '',
-    //         extubatedrate: "0000:00:00 00:00:00",
-    //     }
 
     const {
         intubatedrate,
@@ -99,7 +88,6 @@ const Reintubation = () => {
                 setTabledata(formtable)
                 const datetime = moment(intubated_date).format("YYYY-MM-DD[T]HH:mm:ss")
                 const datetimess = extubated_date
-                // console.log(datetimess)
                 const frmdata1 = {
                     intubatedrate: datetime
                 }
@@ -107,7 +95,6 @@ const Reintubation = () => {
                 const frmdata2 = {
                     extubated_date: datetimess
                 }
-                // console.log(formtable)
                 setReintubate(frmdata1)
                 setexDatevalue(frmdata2)
                 if (datetime === null) {
@@ -118,12 +105,7 @@ const Reintubation = () => {
                     setexDatevalue(false)
                 }
 
-                // if (datetime === null) {
-                //     // setreDatevalue(false)
-                //     setReintubate(frmdata)
-                // } else if (datetime != null) {
-                //     // setreDatevalue(true)
-                // }
+
             }
             else if (success === 2) {
             }

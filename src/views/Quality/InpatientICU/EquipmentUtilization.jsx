@@ -17,8 +17,6 @@ import { differenceInMinutes } from 'date-fns'
 const EquipmentUtilization = () => {
     const { id } = useParams()
 
-    // input field disable
-    // const [enable, setenable] = useState(false)
     const [value, setvalue] = useState(0)
     // equipment select box
     const [distrue, setdistrue] = useState(false)
@@ -34,11 +32,7 @@ const EquipmentUtilization = () => {
         start_utilization: '',
         end_utilization: ''
     })
-    //default state
-    // const defaultstate = {
-    //     start_utilization: '',
-    //     end_utilization: ''
-    // }
+
     //destrutring object
     const {
         start_utilization,
@@ -87,7 +81,6 @@ const EquipmentUtilization = () => {
         equiputlzn_timediff: eu_timediff,
         user_code_save: userid.us_code,
     }
-    console.log(postDataEdit)
 
     //saving form data
     const submitFormData = async (e) => {
@@ -122,8 +115,6 @@ const EquipmentUtilization = () => {
                 }
             }
             else {
-                console.log("minu")
-                console.log(postDataEdit)
                 const result = await axioslogin.patch('/equipmentUtilization', postDataEdit)
                 const { success, message } = result.data
                 if (success === 2) {

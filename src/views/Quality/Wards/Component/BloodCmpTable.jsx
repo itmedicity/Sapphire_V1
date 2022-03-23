@@ -4,11 +4,9 @@ import AddTaskRoundedIcon from '@mui/icons-material/AddTaskRounded';
 
 const BloodCmpTable = ({ val, setbldcomptabledata }) => {
 
-    // const [state, setstate] = useState(0)
     const setdata = () => {
         setbldcomptabledata(val.bld_slno)
     }
-
 
 
     return (

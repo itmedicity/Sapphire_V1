@@ -236,7 +236,7 @@ const Dietitian = () => {
   return (
     <Fragment>
       <SessionCheck />
-      <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
+      {open == true ? <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> : null}
       <ToastContainer />
       <form
         onSubmit={handleClickOpen}

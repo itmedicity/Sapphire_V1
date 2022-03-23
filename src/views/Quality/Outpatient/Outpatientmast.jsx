@@ -16,15 +16,23 @@ const Outpatientmast = () => {
         pt_no: 0,
         dtrop_vosit_time: 0
     }])
-    // console.log(patientList)
+    const [opdata, setopdata] = useState(
+        [
+            {
+                op_slno: '',
+                ptc_ptname: '',
+                pt_no: '',
+                dp_code: '',
+                doc_name: '',
+                vsd_date: '',
+                dtrop_vosit_time: ''
+            }
+        ]
+    )
     useEffect(() => {
         const getPatientList = async () => {
-            // console.log("rini")
-            // const id = 'P001'
-            const result = await axioslogin.get(`/op_indicator/${'P001'}`);
-            // console.log(result)
-            const { success, data } = result.data
-            // console.log(data)
+            const result1 = await axioslogin.get(`/op_indicator/${'P001'}`)
+            const { success, data } = result1.data
             if (success === 1) {
                 const frmdata = data.map((val) => {
                     const datasave = {
@@ -38,30 +46,111 @@ const Outpatientmast = () => {
 
                     }
                     return datasave
+                    //filtering the data from the data base and inserting dates and finding the new array to insert
                 })
-                // console.log(frmdata)
-                const result = await axioslogin.post(`/op_indicator`, frmdata)
-                const { success } = result.data
-                if (success === 1) {
-                    const result = await axioslogin.get(`/op_indicator/${'P001'}`);
-                    console.log(result)
-                    const { success, data } = result.data
-                    if (success === 1) {
 
-                        const frmData =
-                            data.map((val) => {
-                                const dataget = {
-                                    op_slno: val.op_slno,
-                                    ptc_ptname: val.ptc_ptname,
-                                    pt_no: val.pt_no,
-                                    dp_code: val.dp_code,
-                                    doc_name: val.doc_name,
-                                    vsd_date: moment(val.vsd_date).format('YYYY-MM-DD HH:mm:ss'),
-                                    dtrop_vosit_time: val.dtrop_vosit_time === null ? '0000-00-00 00:00:00' : moment(val.dtrop_vosit_time).format('YYYY-MM-DD HH:mm:ss')
-                                }
-                                return dataget
-                            })
-                        setPatientList(frmData)
+                const result = await axioslogin.get(`/op_indicator/getdetl/${'P001'}`);
+                // const { success, data } = result.data
+                if (result.data.success === 2) {
+                    const frmdataa = result.data.data.map((val) => {
+                        const datasaves = {
+                            consult_end_time: moment(val.consult_end_time).format('YYYY-MM-DD HH:mm:ss'),
+                            consult_start_time: moment(val.consult_start_time).format('YYYY-MM-DD HH:mm:ss'),
+                            doc_name: val.doc_name,
+                            dp_code: val.dp_code,
+                            dtrop_vosit_time: val.dtrop_vosit_time,
+                            op_slno: val.op_slno,
+                            opindicator_flag: val.opindicator_flag,
+                            patient_opreg_time: val.patient_opreg_time,
+                            pt_no: val.pt_no,
+                            ptc_slno: val.ptc_slno,
+                            remark: val.remark,
+                            time_gap: val.time_gap,
+                            user_slno: val.user_slno,
+                            vsd_date: moment(val.vsd_date).format('YYYY-MM-DD HH:mm:ss')
+                        }
+                        return datasaves
+                    })
+                    setopdata(frmdataa)
+                    const newdatasave = frmdata.filter((val) => {
+                        return frmdataa.filter((data1) => {
+
+                            return val.op_slno === data1.op_slno
+                        }).length === 0
+                    })
+                    if (newdatasave.length === 0) {
+
+                        const result = await axioslogin.get(`/op_indicator/${'P001'}`);
+
+                        const { success, data } = result.data
+                        if (success === 1) {
+                            const frmData =
+                                data.map((val) => {
+                                    const dataget = {
+                                        op_slno: val.op_slno,
+                                        ptc_ptname: val.ptc_ptname,
+                                        pt_no: val.pt_no,
+                                        dp_code: val.dp_code,
+                                        doc_name: val.doc_name,
+                                        vsd_date: moment(val.vsd_date).format('YYYY-MM-DD HH:mm:ss'),
+                                        dtrop_vosit_time: val.dtrop_vosit_time === null ? '0000-00-00 00:00:00' : moment(val.dtrop_vosit_time).format('YYYY-MM-DD HH:mm:ss')
+                                    }
+                                    return dataget
+                                })
+                            setPatientList(frmData)
+                        }
+                    }
+                    else {
+                        const result = await axioslogin.post(`/op_indicator`, newdatasave)
+                        const { success } = result.data
+                        if (success === 1) {
+                            const result = await axioslogin.get(`/op_indicator/${'P001'}`);
+
+                            const { success, data } = result.data
+                            if (success === 1) {
+
+                                const frmData =
+                                    data.map((val) => {
+                                        const dataget = {
+                                            op_slno: val.op_slno,
+                                            ptc_ptname: val.ptc_ptname,
+                                            pt_no: val.pt_no,
+                                            dp_code: val.dp_code,
+                                            doc_name: val.doc_name,
+                                            vsd_date: moment(val.vsd_date).format('YYYY-MM-DD HH:mm:ss'),
+                                            dtrop_vosit_time: val.dtrop_vosit_time === null ? '0000-00-00 00:00:00' : moment(val.dtrop_vosit_time).format('YYYY-MM-DD HH:mm:ss')
+                                        }
+                                        return dataget
+                                    })
+                                setPatientList(frmData)
+                            }
+                        }
+                    }
+
+                } else if (result.data.success === 0) {
+                    const result = await axioslogin.post(`/op_indicator`, frmdata)
+                    const { success } = result.data
+                    if (success === 1) {
+                        const result = await axioslogin.get(`/op_indicator/${'P001'}`);
+
+                        const { success, data } = result.data
+                        if (success === 1) {
+
+                            const frmData =
+                                data.map((val) => {
+                                    const dataget = {
+                                        op_slno: val.op_slno,
+                                        ptc_ptname: val.ptc_ptname,
+                                        pt_no: val.pt_no,
+                                        dp_code: val.dp_code,
+                                        doc_name: val.doc_name,
+                                        vsd_date: moment(val.vsd_date).format('YYYY-MM-DD HH:mm:ss'),
+                                        dtrop_vosit_time: val.dtrop_vosit_time === null ? '0000-00-00 00:00:00' : moment(val.dtrop_vosit_time).format('YYYY-MM-DD HH:mm:ss')
+                                    }
+                                    return dataget
+                                })
+                            setPatientList(frmData)
+                        }
                     }
                 }
             }
@@ -82,8 +171,8 @@ const Outpatientmast = () => {
                     <OutpatientTableNew />
                     {
                         patientLists.map((value, index) => {
-                            console.log(value)
-                            return <PatientDetails value={value} key={index} />
+
+                            return <PatientDetails id={value.op_slno} value={value} key={index} />
                         })
 
                     }

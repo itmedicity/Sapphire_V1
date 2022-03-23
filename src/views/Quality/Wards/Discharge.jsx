@@ -61,7 +61,6 @@ const Discharge = () => {
         user_code_save: userid.us_code,
     }
 
-    console.log(postData)
     const postDataEdit = {
         inpt_slno: value,
         dis_advicetime: dis_advice_time,
@@ -108,7 +107,6 @@ const Discharge = () => {
                 }
             }
             else {
-                console.log('minu')
                 const result = await axioslogin.patch('/Discharge', postDataEdit)
                 const { success, message } = result.data
                 if (success === 2) {
@@ -184,7 +182,7 @@ const Discharge = () => {
         <Fragment>
             <SessionCheck />
             <ToastContainer />
-            <Modelcommon open={open} handClose={handClose} submit={submitFormData} setuserid={setuserid} />
+            {open === true ? <Modelcommon open={open} handClose={handClose} submit={submitFormData} setuserid={setuserid} /> : null}
             <form onSubmit={handleClickOpen}>
                 <Card className="card-body">
                     <div className="col-md-12">

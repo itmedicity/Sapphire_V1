@@ -10,6 +10,9 @@ import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import Modelcommon from 'src/views/CommonCode/Modelcommon'
+import Accodation from '../Inpatient/Accodation'
+import NutritionalScrenTable from './Component/NutritionalScrenTable'
+import NutritionalScreeninsTable from './NutritionalScreeninsTable'
 
 const NutritionalScreening = () => {
     const { id } = useParams()
@@ -20,6 +23,23 @@ const NutritionalScreening = () => {
         us_code: ''
     })
 
+    const [nutriscreen, setnutriscreendatae] = useState(0)
+
+    // useSate for update
+
+    const [nutriscreenupdate, setnutriscreenupdate] = useState(0)
+
+    // tabkledata
+    const [tabledata, settableData] = useState(
+        [{
+            nutscreen_slno: '',
+            ns_currentdate: '',
+            ns_ysno: '',
+            ns_no: ''
+        }]
+    )
+
+
     const [nutritionalScreeningdata, setnutritionalScreeningdata] = useState(
         {
             nutritionalScreening: '',
@@ -29,16 +49,15 @@ const NutritionalScreening = () => {
             remarks: ''
         })
     //default state
-    // const defaultstate = {
-    //     nutritionalScreening: '',
-    //     errordesc: '',
-    //     personresponsible: '',
-    //     actiontaken: '',
-    //     remarks: ''
-    // }
+    const defaultstate = {
+        nutritionalScreening: '',
+        errordesc: '',
+        personresponsible: '',
+        actiontaken: '',
+        remarks: ''
+    }
     //destrutring object
     const {
-
         errordesc,
         personresponsible,
         actiontaken,
@@ -56,30 +75,36 @@ const NutritionalScreening = () => {
     const postData = {
         inpt_slno: id,
         user_slno: userslno(),
-        ns_ysno: toggle,
+        ns_ysno: toggle == 1 ? toggle : 0,
+        ns_no: toggle == 2 ? toggle : 0,
         ns_errordesc: errordesc,
         ns_personresponsible: personresponsible,
         ns_actntkn: actiontaken,
         ns_remark: remarks,
-        user_code_save: userid,
+        user_code_save: userid.us_code,
 
     }
 
+    const postData2 = {
+        inpt_slno: id,
+        nutrisceeen: toggle,
+    }
     const postDataEdit = {
-        inpt_slno: value,
+        inpt_slno: id,
         user_slno: userslno(),
-        ns_ysno: toggle,
+        ns_ysno: toggle == 1 ? toggle : 0,
+        ns_no: toggle == 2 ? toggle : 0,
         ns_errordesc: errordesc,
         ns_personresponsible: personresponsible,
         ns_actntkn: actiontaken,
         ns_remark: remarks,
-        user_code_save: userid,
+        user_code_save: userid.us_code,
 
     }
 
     const submitFormData = async (e) => {
         e.preventDefault()
-        const result = await axioslogin.get(`/common/user/${userid}`)
+        const result = await axioslogin.get(`/common/user/${userid.us_code}`)
         const { success, data, message } = result.data
         if (success === 1) {
             const { us_code } = data[0]
@@ -88,13 +113,30 @@ const NutritionalScreening = () => {
             }
             setuserid(frmdataa)
 
-            if (value === 0) {
+            if (nutriscreenupdate === 0) {
                 const result = await axioslogin.post('/nutritionalScreening', postData)
-                const { success, message } = result.data
+                const { success, messagee, data } = result.data
                 if (success === 1) {
-                    succesNofity(message)
-                    setdistrue(true)
+                    succesNofity(messagee)
+                    setnutritionalScreeningdata(defaultstate)
+                    setToggle(0)
+                    // setdistrue(true)
                     setOpen(false)
+                    const result2 = await axioslogin.patch('/nutritionalScreening/edit', postData2)
+                    const { success, message } = result2.data
+                    if (success === 2) {
+                        succesNofity(message)
+                        // setdistrue(true)
+                        setOpen(false);
+                        setnutritionalScreeningdata(defaultstate)
+                        setToggle(0)
+                    } else if (success === 0) {
+                        warningNofity(message)
+                    } else {
+                        errorNofity('Error Occured!!!Please Contact EDP')
+                    }
+                    setnutritionalScreeningdata(defaultstate)
+
                 } else if (success === 2) {
                     warningNofity(message)
                 } else {
@@ -103,13 +145,14 @@ const NutritionalScreening = () => {
             }
             else {
                 const result = await axioslogin.patch('/nutritionalScreening', postDataEdit)
-                const { success, message } = result.data
+                const { success, messagee } = result.data
                 if (success === 2) {
-                    succesNofity(message)
-                    setdistrue(true)
+                    succesNofity(messagee)
+                    // setdistrue(true)
                     setOpen(false)
+                    // setnutritionalScreeningdata(defaultstate)
                 } else if (success === 1) {
-                    warningNofity(message)
+                    warningNofity(messagee)
                 } else {
                     errorNofity('Error Occured!!!Please Contact EDP')
                 }
@@ -124,40 +167,50 @@ const NutritionalScreening = () => {
         }
     }
 
-
-
     useEffect(() => {
-        const nutriscreening = async () => {
-            const result = await axioslogin.get(`nutritionalScreening/${id}`)
-
+        const nutriscrening = async (nutriscreen) => {
+            const result = await axioslogin.get(`nutritionalScreening/getnutriscreen/${nutriscreen}`)
             const { success, data } = result.data
             if (success === 1) {
-                setdistrue(true)
-                const { inpt_slno, ns_ysno, ns_remark, ns_personresponsible, ns_errordesc, ns_actntkn } = data[0]
-                setToggle(ns_ysno)
-                const frmData = {
-                    nutritionalScreening: ns_ysno,
+                const { nutscreen_slno,
+                    ns_ysno,
+                    ns_remark,
+                    ns_errordesc,
+                    ns_personresponsible,
+                    ns_actntkn,
+                    ns_no } = data[0]
+                const d1 = {
+                    nutscreen_slno: nutscreen_slno,
+                    ns_ysno: toggle === 1 ? toggle : 0,
+                    ns_no: toggle === 2 ? toggle : 0,
+                    remarks: ns_remark,
                     errordesc: ns_errordesc,
                     personresponsible: ns_personresponsible,
-                    actiontaken: ns_actntkn,
-                    remarks: ns_remark
+                    actiontaken: ns_actntkn
                 }
-                setnutritionalScreeningdata(frmData)
-                setValue(inpt_slno)
+                setnutritionalScreeningdata(d1)
+                if (ns_ysno == 1) {
+                    setToggle(ns_ysno)
+                }
+                else if (ns_no == 2) {
+                    setToggle(ns_no)
+                }
+                else {
+                    setToggle(0)
+                }
+                setnutriscreenupdate(d1)
             }
-            else if (success === 0) {
-                setdistrue(false)
-                setValue(0)
-            }
-            else {
-                warningNofity("Error Occured!!!Please Contact EDP")
-            }
+
         }
-        nutriscreening()
-    }, [id])
+        if (nutriscreen !== 0) {
+            nutriscrening(nutriscreen)
+        }
+    }, [nutriscreen])
+
+
 
     const editnutritionalscreening = () => {
-        setdistrue(false)
+        // setdistrue(false)
     }
 
     const [open, setOpen] = useState(false);
@@ -173,7 +226,7 @@ const NutritionalScreening = () => {
     return (
         <Fragment>
             <SessionCheck />
-            <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
+            {open === true ? <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> : null}
             <ToastContainer />
             <form onSubmit={handleClickOpen}>
                 <Card className="card-body">
@@ -192,7 +245,7 @@ const NutritionalScreening = () => {
                                         size="small"
                                         id="demo-simple-select"
                                         onChange={(e) => { setToggle(e.target.value) }}
-                                        disabled={distrue}
+                                        // disabled={distrue}
                                         fullWidth
                                         variant="outlined"
                                         style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
@@ -205,19 +258,29 @@ const NutritionalScreening = () => {
                                 </FormControl>
                             </div>
                             <div className="col-md-10 pt-2">
-                                {toggle === '2' ? <Actiontaken setfunc={setnutritionalScreeningdata} handover={nutritionalScreeningdata} distrue={distrue} /> : <TextInput
+                                {toggle === '2' ? <Actiontaken setfunc={setnutritionalScreeningdata} handover={nutritionalScreeningdata} /> : <TextInput
                                     type="text"
                                     classname="form-control form-control-sm"
                                     Placeholder="Remarks"
                                     value={remarks}
                                     name="remarks"
                                     changeTextValue={(e) => updateFormData(e)}
-                                    disabled={distrue}
+                                // disabled={distrue}
                                 />
                                 }
-
                             </div>
                         </div>
+                    </div>
+
+                    <div className="col-md-12 pt-2 pl-0">
+                        <Accodation style={{
+                            background: '#EEF4F7',
+                            height: '10%',
+                        }}>
+                            <NutritionalScreeninsTable settableData={settableData} tabledata={tabledata} setnutriscreendatae={setnutriscreendatae} />
+                            {/* <NearmissesTable settableData={settableData} tabledata={tabledata} setnearmissesdata={setnearmissesdata} /> */}
+
+                        </Accodation>
                     </div>
                 </Card>
 

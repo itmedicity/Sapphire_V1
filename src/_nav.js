@@ -11,6 +11,8 @@ import InPatientList from './Menus/Inpatienlist';
 import OutPatientList from './Menus/OutPatientList';
 import CasualitypatientList from './Menus/CasualitypatientList';
 import Incharge from './Menus/Incharge';
+import ReportOp from './Menus/ReportOp';
+// i  mport OPBenchmark from './Menus/OpBenchmark';
 const _nav = [
   {
     slno: 1,
@@ -40,13 +42,27 @@ const _nav = [
     icon: <IoPeopleOutline className="text-light nav-icon" size={20} />,
     items: CasualitypatientList
   },
+  // {
+  //   slno: 4,
+  //   component: CNavGroup,
+  //   name: 'Verification',
+  //   icon: <IoPeopleOutline className="text-light nav-icon" size={20} />,
+  //   items: Incharge
+  // },
   {
-    slno: 4,
+    slno: 5,
     component: CNavGroup,
-    name: 'Verification',
+    name: 'Report OP',
     icon: <IoPeopleOutline className="text-light nav-icon" size={20} />,
-    items: Incharge
+    items: ReportOp
   },
+  // {
+  //   slno: 5,
+  //   component: CNavGroup,
+  //   name: 'OP Benchmark',
+  //   icon: <IoPeopleOutline className="text-light nav-icon" size={20} />,
+  //   items: OPBenchmark
+  // },
 
 ]
 

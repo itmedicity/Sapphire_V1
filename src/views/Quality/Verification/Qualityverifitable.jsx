@@ -21,20 +21,26 @@ const Qualityverifitable = ({ frdate, setacnoData, acnoData
             const result = await axioslogin.post(`/common/acnodetl`, postData3)
             console.log(result)
             const { success, data, message } = result.data;
-            if (success === 3) {
+            if (success === 1) {
                 const { intialassessment_nurse, intialassessment_doctor, dicharge,
                     bc_blood_wastage, bc_bloodtransreactn_ys,
                     carepln_ys, hndcomm_ys, incidence_ys,
                     ou_code
                 } = data[0]
+                var intialnurse = intialassessment_nurse / 5
+                var initaldoctor = intialassessment_doctor / 5
+                var carepln = 5 / 5 * 100
+                var incideys = 5 / 5 * 100
+                var hndcomm_ysrd = 5 / 5 * 100
+                console.log(hndcomm_ysrd)
                 const frmdata = {
-                    initialassNurse: intialassessment_nurse,
-                    initialassDoc: intialassessment_doctor,
+                    initialassNurse: intialnurse,
+                    initialassDoc: initaldoctor,
                     dicharge: dicharge,
                     bc_blood_wastage: bc_blood_wastage,
                     bc_bloodtransreactn_ys: bc_bloodtransreactn_ys,
-                    carepln_ys: carepln_ys,
-                    hndcomm_ys: hndcomm_ys,
+                    carepln_ys: carepln,
+                    hndcomm_ys: incideys,
                     incidence_ys: incidence_ys,
                     ou_code: ou_code
                 }
@@ -48,34 +54,24 @@ const Qualityverifitable = ({ frdate, setacnoData, acnoData
         }
         getmodeldetl();
     }, []);
-
-
-
-
-
-
-
-
-
-
-
-
     function createData(name, indicators, status) {
         return { name, indicators, status };
     }
-
-    const rows = [
-        createData('Initial Assessment Nurse', acnoData.initialassNurse === null ? "Pending" : acnoData.initialassNurse,),
-        createData('Initial Assessment Doctor ', acnoData.initialassDoc === null ? "Pending" : acnoData.initialassDoc),
-        createData('Care Plan Documented ', acnoData.carepln_ys === null ? "Pending" : acnoData.carepln_ys),
-        createData('Discharge Timetaken ', acnoData.dicharge === null ? "Pending" : acnoData.dicharge),
-        createData('Blood Component Wasted ', acnoData.bc_blood_wastage === null ? "Pending" : acnoData.bc_blood_wastage),
-        createData('Blood Transfusion reaction Ocuured ', acnoData.bc_bloodtransreactn_ys === null ? "Pending" : acnoData.bc_bloodtransreactn_ys),
-        createData('Hand Over Communication Error', acnoData.hndcomm_ys === null ? "Pending" : acnoData.hndcomm_ys),
-        createData('Incednce Fall', acnoData.incidence_ys === null ? "Pending" : acnoData.incidence_ys),
-
-
-    ];
+    var rows
+    if (acnoData.ou_code === 0) {
+        rows = []
+    } else {
+        rows = [
+            createData('Initial Assessment Nurse', acnoData.initialassNurse === null ? "Pending" : acnoData.initialassNurse,),
+            createData('Initial Assessment Doctor ', acnoData.initialassDoc === null ? "Pending" : acnoData.initialassDoc),
+            createData('Care Plan Documented ', acnoData.carepln_ys === null ? "Pending" : acnoData.carepln_ys),
+            createData('Discharge Timetaken ', acnoData.dicharge === null ? "Pending" : acnoData.dicharge),
+            createData('Blood Component Wasted ', acnoData.bc_blood_wastage === null ? "Pending" : acnoData.bc_blood_wastage),
+            createData('Blood Transfusion reaction Ocuured ', acnoData.bc_bloodtransreactn_ys === null ? "Pending" : acnoData.bc_bloodtransreactn_ys),
+            createData('Hand Over Communication Error', acnoData.hndcomm_ys === null ? "Pending" : acnoData.hndcomm_ys),
+            createData('Incednce Fall', acnoData.incidence_ys === null ? "Pending" : acnoData.incidence_ys),
+        ];
+    }
     return (
         <Fragment>
             <ToastContainer />

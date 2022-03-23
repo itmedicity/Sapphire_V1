@@ -69,7 +69,7 @@ const InitialassesmentDoctor = () => {
     inpt_slno: id,
     initalass_doctor_diff: iad_timediff,
   }
-  console.log(postData2)
+
   const postDataEdit = {
     pt_received_time: arrived_time,
     iad_start_time: intialassessment_start,
@@ -115,7 +115,6 @@ const InitialassesmentDoctor = () => {
       else {
         const result = await axioslogin.patch('/initalassessmentDoc', postDataEdit)
         const { success, message } = result.data
-        console.log(result)
         if (success === 2) {
           const result2 = await axioslogin.patch('/initalassessmentDoc/edit', postData2)
           const { success, message } = result2.data
@@ -183,7 +182,6 @@ const InitialassesmentDoctor = () => {
     <Fragment>
       <SessionCheck />
       <ToastContainer />
-      {/* <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> */}
       {open === true ? <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> : null}
       <form onSubmit={handleClickOpen}>
         <Card className="card-body">
