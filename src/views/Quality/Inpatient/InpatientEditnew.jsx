@@ -116,9 +116,6 @@ const InpatientEditnew = () => {
   }, [id])
 
 
-
-
-
   useEffect(() => {
     ///complete or Pending
     const flagdetail = async () => {
@@ -253,9 +250,6 @@ const InpatientEditnew = () => {
                       </Accodation>
                     })
                   }
-                  {/* <Accodation >
-                    <IntialassessmentNurse />
-                  </Accodation> */}
                 </Card>
               </div>
             </div>

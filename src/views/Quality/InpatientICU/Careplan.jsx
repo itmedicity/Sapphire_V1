@@ -10,6 +10,8 @@ import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import TextInput from 'src/views/Component/TextInput'
 import Modelcommon from 'src/views/CommonCode/Modelcommon'
+import Accodation from '../Inpatient/Accodation'
+import CareplanTable from './CareplanTable'
 
 const Careplan = () => {
     const { id } = useParams()
@@ -19,6 +21,18 @@ const Careplan = () => {
     const [toggle, setToggle] = useState(0)
     const [distrue, setdistrue] = useState(false)
     const [value, setValue] = useState(0)
+    //for table data append
+    const [careplndata, setCareplndata] = useState(0)
+
+    //useSate for upataion
+    const [careplanpdate, setCareplanpdate] = useState(0)
+    // tabledata
+    const [tabledata, settableData] = useState(
+        [{
+
+        }]
+    )
+
     const [careplandata, setcareplandata] = useState({
         careplan: '',
         errordesc: '',
@@ -68,7 +82,6 @@ const Careplan = () => {
         careplan_yn: toggle
     }
 
-    console.log(postData2)
     const postDataEdit = {
         inpt_slno: value,
         user_slno: userslno(),
@@ -90,7 +103,7 @@ const Careplan = () => {
                 us_code: us_code
             }
             setuserid(frmdataa)
-            if (value === 0) {
+            if (careplanpdate === 0) {
                 const result = await axioslogin.post('/careplan', postData)
                 const { success, message } = result.data
                 if (success === 1) {
@@ -117,14 +130,9 @@ const Careplan = () => {
             else {
                 const result = await axioslogin.patch('/careplan', postDataEdit)
                 const { success, message } = result.data
-                console.log("minu")
                 if (success === 2) {
-                    console.log('rini')
-                    console.log(postData2)
                     const result2 = await axioslogin.patch('/careplan/edit', postData2)
-                    console.log(result2)
                     const { success, message } = result2.data
-                    console.log(success)
                     if (success === 2) {
                         succesNofity(message)
                         setdistrue(true)
@@ -151,36 +159,48 @@ const Careplan = () => {
             errorNofity('Error Occured!!! Please Contact EDP')
         }
     }
+
+
     useEffect(() => {
-        const careplann = async () => {
-            const result = await axioslogin.get(`careplan/${id}`)
+        const careplanerror = async (careplndata) => {
+            const result = await axioslogin.get(`careplan/getcareplandetl/${careplndata}}`)
             const { success, data } = result.data
             if (success === 1) {
-                setdistrue(true)
-                const { inpt_slno, nc_ysno, nc_remark, nc_errordesc, nc_prsnresponsible, nc_actntkn } = data[0]
-                setToggle(nc_ysno)
-                const frmData = {
-                    careplan: nc_ysno,
+                const { nc_slno, nc_ysno, nc_remark, nc_errordesc,
+                    nc_prsnresponsible, nc_actntkn,
+                    nc_no } = data[0]
+                const d1 = {
+                    nc_slno: nc_slno,
+                    nc_ysno: toggle === 1 ? toggle : 0,
+                    nc_no: toggle === 2 ? toggle : 0,
+                    remarks: nc_remark,
                     errordesc: nc_errordesc,
                     personresponsible: nc_prsnresponsible,
-                    actiontaken: nc_actntkn,
-                    remarks: nc_remark
+                    actiontaken: nc_actntkn
                 }
-                setcareplandata(frmData)
-                setValue(inpt_slno)
+                setcareplandata(d1)
+                if (nc_ysno == 1) {
+                    setToggle(nc_ysno)
+                }
+                else if (nc_no == 2) {
+                    setToggle(nc_no)
+                }
+                else {
+                    setToggle(0)
+                }
+                setCareplanpdate(d1)
             }
-            else if (success === 0) {
-                setdistrue(false)
-                setValue(0)
-            }
-            else {
-                warningNofity("Error Occured!!!Please Contact EDP")
-            }
+
         }
-        careplann()
-    }, [id])
+        if (careplndata !== 0) {
+            careplanerror(careplndata)
+        }
+    }, [careplndata])
+
+
+
     const editcareplan = () => {
-        setdistrue(false)
+        // setdistrue(false)
     }
     // for model close and open 
     const [open, setOpen] = useState(false);
@@ -197,7 +217,6 @@ const Careplan = () => {
         <Fragment>
             <SessionCheck />
             {open === true ? <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> : null}
-            {/* <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> */}
             <ToastContainer />
             <form onSubmit={handleClickOpen}>
                 <Card className="card-body">
@@ -218,7 +237,7 @@ const Careplan = () => {
                                         onChange={(e) => { setToggle(e.target.value) }}
                                         fullWidth
                                         disabled={distrue}
-                                        variant="outlined"
+                                        // variant="outlined"
                                         style={{ minHeight: 10, maxHeight: 27, paddingTop: 0, paddingBottom: 4 }}
                                     >
                                         <MenuItem value='0'>Selected Option</MenuItem>
@@ -228,18 +247,27 @@ const Careplan = () => {
                                 </FormControl>
                             </div>
                             <div className="col-md-10 pt-2">
-                                {toggle === '2' ? <Actiontaken setfunc={setcareplandata} handover={careplandata} distrue={distrue} /> : <TextInput
+                                {toggle === '2' ? <Actiontaken setfunc={setcareplandata} handover={careplandata} /> : <TextInput
                                     type="text"
                                     classname="form-control form-control-sm"
                                     Placeholder="Remarks"
                                     value={remarks}
                                     name="remarks"
-                                    disabled={distrue}
+                                    // disabled={distrue}
                                     changeTextValue={(e) => updateFormData(e)}
                                 />
                                 }
                             </div>
                         </div>
+                    </div>
+                    <div className="col-md-12 pt-2 pl-0">
+                        <Accodation style={{
+                            background: '#EEF4F7',
+                            height: '10%',
+                        }}>
+                            <CareplanTable settableData={settableData} tabledata={tabledata} setCareplndata={setCareplndata} />
+
+                        </Accodation>
                     </div>
                 </Card>
                 <div className="card-footer"

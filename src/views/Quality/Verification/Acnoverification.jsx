@@ -10,8 +10,8 @@ import AcnopatientTable from './AcnopatientTable';
 import moment from 'moment'
 import { ToastContainer } from 'react-toastify'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc';
-import Pendingindictor from './Pendingindictor';
-
+import Mandatoryindicator from './Mandatoryindictor';
+import Pendingindictor from './Pendingindictor'
 
 const Acnoverification = () => {
     const [acnoData, setacnoData] = useState({
@@ -41,22 +41,43 @@ const Acnoverification = () => {
 
     const searchall = async () => {
         setSearch(true)
-
         const result = await axioslogin.get('/manadtory/ou_code', postData1)
         const { success, message } = result.data
         if (success === 2) {
-            setToaster(true)
-        } else if (success === 0) {
-            warningNofity(message)
-        } else {
-            errorNofity('Error Occured!!!Please Contact EDP')
+            const result = await axioslogin.get('/manadtory/', postData1)
+            const { success, message, data } = result.data
+            const d1 = data[0]
+            const { madatory_tranfusion,
+                mandator_flg,
+                mandatory_bldtime_flg,
+                mandatory_blood_watsge,
+                mandatorycomerr_flg,
+                mandatorycrpln_flg,
+                mandatorydis_flg,
+                mandatoryincdefall_flg,
+                mandatorypteror_flg,
+                mandtorydr_flg } = d1[0]
+            if (success === 1) {
+                if (madatory_tranfusion === 1 || mandator_flg === 1 || mandatory_bldtime_flg === 1 ||
+                    mandatory_blood_watsge === 1 || mandatorycomerr_flg === 1 || mandatorycrpln_flg === 1
+                    || mandatorydis_flg === 1 || mandatorydis_flg === 1 || mandatoryincdefall_flg === 1 ||
+                    mandatoryincdefall_flg === 1 || mandatorypteror_flg === 1 || mandatorypteror_flg === 1 || mandtorydr_flg === 1) {
+                    setToaster(true)
+                } else if (success === 0) {
+                    warningNofity(message)
+                } else {
+                    errorNofity('Error Occured!!!Please Contact EDP')
+                }
+                setToaster(true)
+            } else if (success === 0) {
+                warningNofity(message)
+            } else {
+                errorNofity('Error Occured!!!Please Contact EDP')
+            }
         }
     };
 
-
     const [toaster, setToaster] = useState(false)
-
-
     const postData2 = {
         ou_code: ou_code,
         initialassessment_nurse: initialassNurse,
@@ -80,22 +101,6 @@ const Acnoverification = () => {
     const postData1 = {
         ou_code: ou_code,
     }
-    // useEffect(() => {
-    //     const getdata = async () => {
-    //         const result = await axioslogin.get('/manadtory/ou_code', postData1)
-    //         const { success, message } = result.data
-    //         console.log(result)
-    //         if (success === 2) {
-    //             setToaster(true)
-    //         } else if (success === 0) {
-    //             warningNofity(message)
-    //         } else {
-    //             errorNofity('Error Occured!!!Please Contact EDP')
-    //         }
-
-    //     }
-    //     getdata()
-    // }, [])
 
     // insert value
     const submitdataacno = async (e) => {
@@ -107,6 +112,13 @@ const Acnoverification = () => {
             const { success, message } = result.data
             if (success === 2) {
                 succesNofity(message)
+                setacnoData({
+                    ou_code: 0,
+                    initialassNurse: '',
+                    initialassDoc: '',
+                    discharge: '',
+                    careplan_ys: ''
+                })
             } else if (success === 0) {
                 warningNofity(message)
             } else {
@@ -120,7 +132,6 @@ const Acnoverification = () => {
         <Fragment>
             <ToastContainer />
             <div className="card">
-
                 <div className="card-header bg-dark pb-0 border border-dark text-white">
                     <h5>ACNO Verification</h5>
                 </div>
@@ -168,6 +179,9 @@ const Acnoverification = () => {
                             </div>
                             <div className="col-md-5">
                                 {toaster === true ? <Pendingindictor /> : null}
+                                {toaster === true ? <Mandatoryindicator /> : null}
+                            </div>
+                            <div className="col-md-5">
                             </div>
                             <div>
                                 {search === true ? <AcnopatientTable frdate={moment(monthwise).format("MM")} setacnoData={setacnoData} acnoData={acnoData} /> : null}

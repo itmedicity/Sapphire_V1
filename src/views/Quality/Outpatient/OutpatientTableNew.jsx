@@ -68,6 +68,11 @@ const OutpatientTableNew = () => {
                                 Action
                             </Typography>
                         </div>
+                        {/* <div className="col-md-1">
+                            <Typography variant="body2" gutterBottom className="my-0 text-center" >
+                                Edit
+                            </Typography>
+                        </div> */}
 
 
                     </div>

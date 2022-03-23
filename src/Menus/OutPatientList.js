@@ -5,16 +5,21 @@ const OutPatientList = [
         name: 'Patient List',
         to: '/Home/Outpatient',
     },
-    // {
-    //     _tag: 'CSidebarNavItem',
-    //     name: 'Employee File',
-    //     to: '/Home/EmployeeFile',
-    // },
-    // {
-    //     _tag: 'CSidebarNavItem',
-    //     name: 'Allowance/Deduction',
-    //     to: '/home',
-    // },
+    {
+        component: CNavItem,
+        name: 'Incharge Verification',
+        to: '/Home/OP/InchargeVerification/:id',
+    },
+    {
+        component: CNavItem,
+        name: 'Acno Verification',
+        to: '/Home/OP/AcnoVerifications/',
+    },
+    {
+        component: CNavItem,
+        name: 'Quality Verification',
+        to: '/Home/OP/Qualityverifcation/',
+    },
     // {
     //     _tag: 'CSidebarNavItem',
     //     name: 'Bulk Updation',

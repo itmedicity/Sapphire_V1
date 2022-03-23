@@ -10,7 +10,8 @@ import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import Modelcommon from 'src/views/CommonCode/Modelcommon'
-
+import Accodation from '../Inpatient/Accodation'
+import NearmissesTable from './NearmissesTable'
 const Nearmissess = () => {
     const { id } = useParams()
     const [toggle, setToggle] = useState(0)
@@ -21,6 +22,24 @@ const Nearmissess = () => {
     const [userid, setuserid] = useState({
         us_code: ''
     })
+
+    //for table apppend
+
+    const [nearmisesdata, setnearmissesdata] = useState(0)
+
+    // useSate for update
+
+    const [nearmissupdate, setnearmissupdate] = useState(0)
+
+    // tabkledata
+    const [tabledata, settableData] = useState(
+        [{
+            nm_slno: '',
+            nm_currentdate: '',
+            nm_ysno: '',
+            nm_no: ''
+        }]
+    )
     const [nearmissdata, setnearmissdata] = useState({
         nearmisses: '',
         errordesc: '',
@@ -92,7 +111,7 @@ const Nearmissess = () => {
                 us_code: us_code
             }
             setuserid(frmdataa)
-            if (value === 0) {
+            if (nearmissupdate === 0) {
                 const result = await axioslogin.post('/nearMisses', postData)
                 const { success, message } = result.data
                 if (success === 1) {
@@ -145,37 +164,51 @@ const Nearmissess = () => {
         }
     }
 
-    // useEffect(() => {
-    //     const nearmisses = async () => {
-    //         const result = await axioslogin.get(`nearMisses/${id}`)
-    //         const { success, data } = result.data
-    //         if (success === 1) {
-    //             // setdistrue(true)
-    //             const { inpt_slno, nm_ysno, nm_remark, nm_personresponsible, nm_errordesc, nm_actntkn } = data[0]
-    //             setToggle(nm_ysno)
-    //             const frmData = {
-    //                 nearmisses: nm_ysno,
-    //                 errordesc: nm_errordesc,
-    //                 personresponsible: nm_personresponsible,
-    //                 actiontaken: nm_actntkn,
-    //                 remarks: nm_remark
-    //             }
-    //             setnearmissdata(frmData)
-    //             setValue(inpt_slno)
-    //         }
-    //         else if (success === 0) {
-    //             // setdistrue(false)
-    //             setValue(0)
-    //         }
-    //         else {
-    //             warningNofity("Error Occured!!!Please Contact EDP")
-    //         }
-    //     }
-    //     nearmisses()
-    // }, [id])
-    // const editnearmisses = () => {
-    //     setdistrue(false)
-    // }
+    useEffect(() => {
+        const nearmissessess = async (nearmisesdata) => {
+            const result = await axioslogin.get(`nearMisses/getnearmissdetl/${nearmisesdata}`)
+            const { success, data } = result.data
+            if (success === 1) {
+                const { nm_actntkn,
+                    nm_errordesc,
+                    nm_no,
+                    nm_personresponsible,
+                    nm_remark,
+                    nm_slno,
+                    nm_ysno } = data[0]
+                const d1 = {
+                    pie_slno: nm_slno,
+                    nm_ysno: toggle === 1 ? toggle : 0,
+                    nm_no: toggle === 2 ? toggle : 0,
+                    remarks: nm_remark,
+                    errordesc: nm_errordesc,
+                    personresponsible: nm_personresponsible,
+                    actiontaken: nm_actntkn
+                }
+
+                setnearmissdata(d1)
+                if (nm_ysno == 1) {
+                    setToggle(nm_ysno)
+                }
+                else if (nm_no == 2) {
+                    setToggle(nm_no)
+                }
+                else {
+                    setToggle(0)
+                }
+                setnearmissupdate(d1)
+            }
+
+        }
+        if (nearmisesdata !== 0) {
+            nearmissessess(nearmisesdata)
+        }
+    }, [nearmisesdata])
+
+
+    const editnearmisses = () => {
+        // setdistrue(false)
+    }
     // for model close and open
     const [open, setOpen] = useState(false)
     const handleClickOpen = (e) => {
@@ -242,6 +275,16 @@ const Nearmissess = () => {
                             </div>
                         </div>
                     </div>
+
+                    <div className="col-md-12 pt-2 pl-0">
+                        <Accodation style={{
+                            background: '#EEF4F7',
+                            height: '10%',
+                        }}>
+                            <NearmissesTable settableData={settableData} tabledata={tabledata} setnearmissesdata={setnearmissesdata} />
+
+                        </Accodation>
+                    </div>
                 </Card>
                 <div className="card-footer"
                 // style={{
@@ -250,7 +293,7 @@ const Nearmissess = () => {
                 >
                     <div className="col-md-12">
                         <FooterClosebtn
-                        // edit={editnearmisses} 
+                            edit={editnearmisses}
                         />
                     </div>
                 </div>

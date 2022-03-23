@@ -37,7 +37,7 @@ const InitialAssesmentNurseNew = () => {
               </label>
               <TextInput
                 id="test"
-                type="datetime-local"
+                type="year"
                 classname="form-control form-control-sm"
                 Placeholder="Initial Assessment End"
               />

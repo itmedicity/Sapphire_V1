@@ -32,6 +32,15 @@ const AcnoVerification = React.lazy(() => import('./views/Quality/Verification/A
 const Qualityverification = React.lazy(() => import('./views/Quality/Verification/Qualityverifcation'))
 // const InpatientEditnew = React.lazy(() => import('./views/Quality/Inpatient/InpatientEditnew'))
 const InitialAssesmentNursetnew = React.lazy(() => import('./views/Quality/InitialAssesment/InitialAssesmentNurseNew'))
+const InchargeVerification = React.lazy(() => import('./views/Quality/Opverification/InchargeVerification'))
+const AcnoVerifications = React.lazy(() => import('./views/Quality/Opverification/AcnoVerificationop'))
+// const Acnoverifytableop = React.lazy(() => import('./views/Quality/Opverification/Acnoverifytableop'))
+const Qualityverifcation = React.lazy(() => import('./views/Quality/Opverification/QualityVerification'))
+const Reportall = React.lazy(() => import('./views/Quality/ReportOP/Reportopoverall'))
+const Monthlyreport = React.lazy(() => import('./views/Quality/ReportOP/Monthlyreportdetl'))
+const Opbenchmark = React.lazy(() => import('./views/Quality/Opbenchmark/Opbenchmark'))
+// const Summaryreportdetl = React.lazy(() => import('./views/Quality/ReportOP/Summaryreport'))
+const SummaryOpreport = React.lazy(() => import('./views/Quality/ReportOP/SummaryOpreport'))
 const Settings = React.lazy(() => import('./Menus/Settings'))
 //const OutpatientNew = React.lazy(() => import('./views/Quality/Outpatient/OutpatientTableNew'))
 
@@ -67,12 +76,22 @@ const routes = [
   { path: '/Home/Bedoccupancy', exact: true, name: 'Bedoccupancy', component: Bedoccupancy },
   { path: '/Home/Nurseratiocard', exact: true, name: 'Nurseratiocard', component: Nurseratiocard },
   { path: '/Home/CasualitypatientList', exact: true, name: 'Casuality', component: Casuality },
+  // { path: '/Home/ReportOp', exact: true, name: 'Report Op', component: ReportOp },
   { path: '/Home/CasualityEdit/:id', exact: true, name: 'Casuality Edit ', component: CasualityEdit },
   { path: '/Home/Inchargeverification', exact: true, name: 'Incharge Verification', component: Inchargeverftn },
   { path: '/Home/AcnoVerification', exact: true, name: 'Acno Verification', component: AcnoVerification },
   { path: '/Home/Qualityverification', exact: true, name: 'Quality verification', component: Qualityverification },
   // { path: '/Home/InpatientEditnew', exact: true, name: 'InpatientEditnew', component: InpatientEditnew },
   { path: '/Home/InitialAssesmentNurseNew', exact: true, name: 'initial Assessment Nurse New', component: InitialAssesmentNursetnew },
+  { path: '/Home/OP/InchargeVerification/:id', exact: true, name: 'OpInchargeVerification', component: InchargeVerification },
+  { path: '/Home/OP/AcnoVerifications/', exact: true, name: 'AcnoVerifications', component: AcnoVerifications },
+  { path: '/Home/OP/Qualityverifcation/', exact: true, name: 'Qualityverifcation', component: Qualityverifcation },
+  { path: '/Home/Reportall/', exact: true, name: 'Report all', component: Reportall },
+  // { path: '/Home/Acnoverifytableop/', exact: true, name: 'Acnoverifytableop', component: Acnoverifytableop },
+  { path: '/Home/Reportall/Month/', exact: true, name: 'Monthlyreport', component: Monthlyreport },
+  { path: '/Home/Opbenchmark/year/', exact: true, name: 'Opbenchmark', component: Opbenchmark },
+  // { path: '/Home/Summaryreportdetl/year/', exact: true, name: 'Summaryreportdetl', component: Summaryreportdetl },
+  { path: '/Home/SummaryOpreport/year/', exact: true, name: 'SummaryOpreport', component: SummaryOpreport },
   { path: '/Home/Settings', name: 'Settings', component: Settings },
   //{ path: '/Home/OutpatientNew', exact: true, name: 'Outpatient New', component: OutpatientNew },
 ]

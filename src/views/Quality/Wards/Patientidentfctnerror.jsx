@@ -11,7 +11,13 @@ import { userslno } from 'src/views/Constant/Constant'
 import { axioslogin } from 'src/views/Axios/Axios'
 import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/Commonfunc'
 import Modelcommon from 'src/views/CommonCode/Modelcommon'
+import PatientidentifactionTable from './PatientidentifactionTable'
+import Accodation from '../Inpatient/Accodation'
 // import { useStyles } from 'src/views/CommonCode/MaterialStyle'
+
+//a table is here for updation 
+//
+
 
 const Patientidentfctnerror = () => {
   const { id } = useParams()
@@ -25,6 +31,26 @@ const Patientidentfctnerror = () => {
   //for model
   const [open, setOpen] = useState(false);
 
+  // for table data append
+  const [patentidenterroeData, setpatenterrorData] = useState(0)
+
+  // useState for updation
+
+  const [patientupdation, setpatientupdation] = useState(0)
+
+
+  // tabledata
+  const [tabledata, settableData] = useState(
+    [{
+      pie_slno: '',
+      pie_currentdate: '',
+      pie_ysno: '',
+      pie_no: ''
+    }]
+  )
+
+
+  // initial state
   const [patientidentdata, setpatientidentdata] = useState({
     patientidentification: '',
     errordesc: '',
@@ -32,7 +58,7 @@ const Patientidentfctnerror = () => {
     actiontaken: '',
     remarks: ''
   })
-
+  //default state
 
   const defaultstate = {
     patientidentification: '',
@@ -85,8 +111,8 @@ const Patientidentfctnerror = () => {
     pie_actntkn: actiontaken,
     pie_remark: remarks,
     user_code_save: userid.us_code
-
   }
+
   const submitFormData = async (e) => {
     e.preventDefault()
     const result = await axioslogin.get(`/common/user/${userid.us_code}`)
@@ -97,7 +123,7 @@ const Patientidentfctnerror = () => {
         us_code: user_slno
       }
       setuserid(frmdataa)
-      if (value === 0) {
+      if (patientupdation === 0) {
         const result = await axioslogin.post('/patientIdenticationError', postData)
         const { success, message } = result.data
         if (success === 1) {
@@ -117,7 +143,6 @@ const Patientidentfctnerror = () => {
           errorNofity('Error Occured!!!Please Contact EDP')
         }
       }
-
       else {
         const result = await axioslogin.patch('/patientIdenticationError', postDataEdit)
         const { success, message } = result.data
@@ -125,7 +150,6 @@ const Patientidentfctnerror = () => {
           succesNofity(message)
           setOpen(false)
           setpatientidentdata(defaultstate)
-
         } else if (success === 1) {
           warningNofity(message)
         } else {
@@ -138,36 +162,41 @@ const Patientidentfctnerror = () => {
     } else {
       errorNofity('Error Occured!!! Plaese contact Edp')
     }
-
   }
+  useEffect(() => {
+    const patientidentierror = async (patentidenterroeData) => {
+      const result = await axioslogin.get(`patientIdenticationError/getpatienterror/${patentidenterroeData}}`)
+      const { success, data } = result.data
+      if (success === 1) {
+        const { pie_slno, pie_ysno, pie_remark, pie_errordesc,
+          pie_prsnresponsible, pie_actntkn, pie_no } = data[0]
+        const d1 = {
+          pie_slno: pie_slno,
+          pie_ysno: toggle === 1 ? toggle : 0,
+          pie_no: toggle === 2 ? toggle : 0,
+          remarks: pie_remark,
+          errordesc: pie_errordesc,
+          personresponsible: pie_prsnresponsible,
+          actiontaken: pie_actntkn,
+        }
+        setpatientidentdata(d1)
+        if (pie_ysno == 1) {
+          setToggle(pie_ysno)
+        }
+        else if (pie_no == 2) {
+          setToggle(pie_no)
+        }
+        else {
+          setToggle(0)
+        }
+        setpatientupdation(d1)
+      }
 
-  // useEffect(() => {
-  //   const patientidentierror = async () => {
-  //     const result = await axioslogin.get(`patientIdenticationError/${id}`)
-  //     const { success, data } = result.data
-  //     if (success === 1) {
-  //       const { inpt_slno, pie_ysno, pie_remark, pie_errordesc, pie_prsnresponsible, pie_actntkn } = data[0]
-  //       setToggle(pie_ysno)
-  //       const frmData = {
-  //         patientidentification: pie_ysno,
-  //         errordesc: pie_errordesc,
-  //         personresponsible: pie_prsnresponsible,
-  //         actiontaken: pie_actntkn,
-  //         remarks: pie_remark
-  //       }
-  //       setpatientidentdata(frmData)
-  //       setValue(inpt_slno)
-  //     }
-  //     else if (success === 0) {
-  //       // setdistrue(false)
-  //       setValue(0)
-  //     }
-  //     else {
-  //       warningNofity("Error Occured!!!Please Contact EDP")
-  //     }
-  //   }
-  //   patientidentierror()
-  // }, [id])
+    }
+    if (patentidenterroeData !== 0) {
+      patientidentierror(patentidenterroeData)
+    }
+  }, [patentidenterroeData])
 
   const editpatientidentification = () => {
     // setdistrue(false)
@@ -185,7 +214,8 @@ const Patientidentfctnerror = () => {
     <Fragment>
       <SessionCheck />
       <ToastContainer />
-      <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
+      {open === true ? <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> : null}
+
       <form
         onSubmit={handleClickOpen}
       >
@@ -217,7 +247,6 @@ const Patientidentfctnerror = () => {
               <div className="col-md-10 pt-2">
                 {toggle === '2' ? (
                   <Actiontaken setfunc={setpatientidentdata} handover={patientidentdata}
-                  // distrue={distrue} 
                   />
                 ) : (
                   <TextInput
@@ -232,6 +261,15 @@ const Patientidentfctnerror = () => {
                 )}
               </div>
             </div>
+          </div>
+          <div className="col-md-12 pt-2 pl-0">
+            <Accodation style={{
+              background: '#EEF4F7',
+              height: '10%',
+            }}>
+              <PatientidentifactionTable settableData={settableData} tabledata={tabledata} setpatenterrorData={setpatenterrorData} />
+
+            </Accodation>
           </div>
         </Card>
         <div className="card-footer"

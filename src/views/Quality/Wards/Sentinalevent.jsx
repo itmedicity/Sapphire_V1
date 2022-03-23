@@ -180,7 +180,7 @@ const Sentinalevent = () => {
         <Fragment>
             <SessionCheck />
             <ToastContainer />
-            <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} />
+            {open === true ? <Modelcommon open={open} handleClose={handleClose} submit={submitFormData} setuserid={setuserid} /> : null}
             <form onSubmit={handleClickOpen}>
                 <Card className="card-body">
                     <div className="col-md-12">

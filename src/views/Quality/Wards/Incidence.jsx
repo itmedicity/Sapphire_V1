@@ -10,6 +10,9 @@ import { errorNofity, succesNofity, warningNofity } from 'src/views/CommonCode/C
 import SessionCheck from 'src/views/Axios/SessionCheck'
 import { ToastContainer } from 'react-toastify'
 import Modelcommon from 'src/views/CommonCode/Modelcommon'
+import IncidencefallTable from './IncidencefallTable'
+import Accodation from '../Inpatient/Accodation'
+
 
 const Incidence = () => {
     const { id } = useParams()
@@ -20,6 +23,27 @@ const Incidence = () => {
     const [userid, setuserid] = useState({
         us_code: ''
     })
+
+    // for table data append
+    const [incedecedata, setincedecedata] = useState(0)
+
+    // usestate for updation
+
+    const [incedeceupdate, setincedeceupdate] = useState(0)
+
+    //tabledata
+    const [tabledata, settableData] = useState([
+        {
+            if_slno: '',
+            if_currentdate: '',
+            if_ysno: '',
+            if_no: ''
+        }
+    ])
+
+
+
+
     //for model
     const [open, setOpen] = useState(false);
     const [incidencedata, setincidencedata] = useState({
@@ -85,7 +109,7 @@ const Incidence = () => {
                 us_code: user_slno
             }
             setuserid(frmdataa)
-            if (value === 0) {
+            if (incedeceupdate === 0) {
                 const result = await axioslogin.post('/incidencefall', postData)
                 const { success, message } = result.data
                 if (success === 1) {
@@ -108,18 +132,19 @@ const Incidence = () => {
                     errorNofity('Error Occured!!!Please Contact EDP')
                 }
             }
-            // else {
-            //     const result = await axioslogin.patch('/incidencefall', postDataEdit)
-            //     const { success, message } = result.data
-            //     if (success === 2) {
-            //         succesNofity(message)
-            //         setdistrue(true)
-            //     } else if (success === 1) {
-            //         warningNofity(message)
-            //     } else {
-            //         errorNofity('Error Occured!!!Please Contact EDP')
-            //     }
-            // }
+            else {
+                const result = await axioslogin.patch('/incidencefall', postDataEdit)
+                const { success, message } = result.data
+                if (success === 2) {
+                    succesNofity(message)
+                    setOpen(false)
+                    setincidencedata(defaultstate)
+                } else if (success === 1) {
+                    warningNofity(message)
+                } else {
+                    errorNofity('Error Occured!!!Please Contact EDP')
+                }
+            }
         }
         else if (success === 0) {
             warningNofity(message)
@@ -128,34 +153,41 @@ const Incidence = () => {
             errorNofity('Error occured!!! Plaese Contact Edp')
         }
     }
-
     useEffect(() => {
-        const incidence = async () => {
-            const result = await axioslogin.get(`incidencefall/${id}`)
+        const incidence = async (incedecedata) => {
+            const result = await axioslogin.get(`incidencefall/getincidencedetl/${incedecedata}}`)
             const { success, data } = result.data
             if (success === 1) {
-                // setdistrue(true)
-                const { inpt_slno, if_ysno, if_errordesc, if_personresponsible, if_actntkn, if_remark } = data[0]
-                const frmData = {
+                const { if_slno, if_ysno, if_remark,
+                    if_errordesc,
+                    if_personresponsible,
+                    if_actntkn,
+                    if_no } = data[0]
+                const d1 = {
+                    if_slno: if_slno,
+                    if_ysno: toggle === 1 ? toggle : 0,
+                    if_no: toggle === 2 ? toggle : 0,
+                    remarks: if_remark,
                     errordesc: if_errordesc,
                     personresponsible: if_personresponsible,
                     actiontaken: if_actntkn,
-                    remarks: if_remark
                 }
-                setincidencedata(frmData)
-                setValue(inpt_slno)
-                setToggle(if_ysno)
-            }
-            else if (success === 0) {
-                // setdistrue(false)
-                setValue(0)
-            }
-            else {
-                warningNofity("Error Occured!!!Please Contact EDP")
+
+                setincidencedata(d1)
+                if (if_ysno == 1) {
+                    setToggle(if_ysno)
+                } else if (if_no == 2) {
+                    setToggle(if_no)
+                } else {
+                    setToggle(0)
+                }
+                setincedeceupdate(d1)
             }
         }
-        incidence()
-    }, [id])
+        if (incedecedata !== 0) {
+            incidence(incedecedata)
+        }
+    }, [incedecedata])
 
     const editincidence = () => {
         // setdistrue(false)
@@ -219,6 +251,15 @@ const Incidence = () => {
                                 }
                             </div>
                         </div>
+                    </div>
+                    <div className="col-md-12 pt-2 pl-0">
+                        <Accodation style={{
+                            background: '#EEF4F7',
+                            height: '10%',
+                        }}>
+                            <IncidencefallTable settableData={settableData} tabledata={tabledata} setincedecedata={setincedecedata} />
+
+                        </Accodation>
                     </div>
                 </Card>
                 <div className="card-footer" >
